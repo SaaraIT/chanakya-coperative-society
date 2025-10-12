@@ -1,0 +1,2 @@
+module DemandPromissoryNotesHelper
+end

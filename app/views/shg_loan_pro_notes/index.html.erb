@@ -1,0 +1,45 @@
+<h5> Pro Notes </h5>
+<br />
+<%= search_form_for @q do |f| %>
+
+ <table class='table table-bordered search-table' >
+   <tr>
+      <th> <%= f.label :member_name_cont %>:
+       <%= f.search_field :member_name_cont %> </th>
+      <th> <%= f.label :member_mobile_number_cont %>:
+       <%= f.search_field :member_mobile_number_cont %> </th>
+      <th> <%= f.label :member_aadhaar_number_cont %>:
+       <%= f.search_field :member_aadhaar_number_cont %> </th>
+      <th rowspan="2">  <%= f.submit "Search", class: 'btn btn-secondary btn-sm' %> </th>
+   </tr>
+ 
+<% end %>
+<table class="table list-table table-bordered">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Member</th>
+      <th>Amount</th>
+      <th>Place</th>
+      <th>Date</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @pro_notes.each do |pro_note| %>
+      <tr>
+        <td><%= pro_note.id %></td>
+        <td><%= pro_note.member.name %></td>
+        <td>Rs. <%= pro_note.amount %></td>
+        <td><%= pro_note.place %></td>
+        <td><%= pro_note.date %></td>
+        <td>
+          <%= link_to 'Print', member_loan_application_pro_note_path(pro_note.member, pro_note.loan_application, pro_note, format: :pdf), class: 'btn btn-info  btn-sm ' %> 
+          <%= link_to 'Edit', edit_member_loan_application_pro_note_path(pro_note.member, pro_note.loan_application, pro_note), class: 'btn btn-sm btn-warning' %>
+           <%= link_to "Loan App",  member_loan_application_path(pro_note.member, pro_note.loan_application), class: "btn btn-secondary  btn-sm" %>
+           <%= link_to "Member",   pro_note.member, class: "btn btn-secondary  btn-sm" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

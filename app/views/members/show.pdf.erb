@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    
+    <style>
+        @font-face {
+            font-family: 'Baloo';
+            src: url('https://fonts.gstatic.com/s/balootamma2/v2/vEFK2_hCAgcR46PaajtrYlBbd7wf8tK1W77HtMo.ttf') format('truetype');
+        }
+
+        /* Set page size to A4, portrait */
+        @page {
+            size: A4 portrait;
+            margin: 12mm;
+        }
+
+        body {
+            font-family: 'Baloo', sans-serif;
+            font-size: 20px;
+            text-align: justify;
+            margin: 0;
+            /*width: 210mm;*/
+            width: 300mm;
+            height: 297mm;
+            
+        }
+
+        .container {
+            width: 100%;
+            padding: 20px;
+        }
+
+        /* Header Section */
+        .header-table {
+            width: 100%;
+            border: 0;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .header-table td {
+            vertical-align: top;
+            padding: 5px;
+        }
+
+        .logo {
+            width: 160px;
+            height: 160px;
+        }
+
+        .header-text {
+            text-align: center;
+        }
+
+        .header-text h1, .header-text h2, .header-text p, .header-text h3 {
+            margin: 0;
+        }
+
+        .header-text h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-text h2 {
+            font-size: 24px;
+            margin: 5px 0;
+        }
+
+        .header-text p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .header-text h3 {
+            font-size: 22px;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        .photo-box {
+            width: 160px;
+            height: 180px;
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .photo-box p {
+            font-size: 10px;
+            margin-top: 40px;
+        }
+
+        .form-section {
+            margin-top: 30px;
+        }
+
+        .signature {
+            border-top: 1px solid black;
+            width: 200px;
+            margin-top: 10px;
+        }
+
+        .footer {
+            text-align: center;
+ 
+            margin-top: 40px;
+        }
+
+        /* Styling for lines above and below the content */
+        .line-section {
+            border-top: 1px solid black;
+            border-bottom: 1px solid black;
+            padding: 10px 0;
+            margin: 0px 0;
+        }
+
+        .line-section p {
+            margin: 0;
+            font-size: 20px;
+        }
+        
+        .separator {
+          border-bottom: 1px solid black; /* Creates a horizontal line */
+          margin: 10px 0; /* Adjust spacing */
+        }
+        
+        .table-bordered th, .table-bordered td {
+           border-left: 0px;
+           border-top: 0px;
+           border-bottom: 0px;
+           border-right: 1px solid black !important;
+           border-collapse: collapse !important;
+           font-weight: normal;
+        }
+
+        .table-bordered{width: 100%}
+        .table-bordered   th:first-child, .table-bordered   td:first-child, .table-bordered   td.left-align, .table-bordered.left-align td, .table.left-align td{text-align: left; padding-left: 0px}
+        .table-bordered   th:last-child{border-right: 0px !important}
+        .table-bordered   td:last-child{border-right: 0px !important}
+        .table-bordered td.with-border{border-bottom: 1px solid black !important;}
+        .table.without-border td{border-bottom: 0px !important;}
+        
+        .table.zero-margin{margin-bottom: 0px; border-bottom: 0px}
+        .small-padding th, .small-padding td {padding: 5px 10px}
+        div.no-margin{margin: 0px}
+        
+        
+        th, td {
+          padding: 6px;
+          text-align: center;
+        }
+        
+         .box {
+            border: 2px solid black;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .signatures {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+        }
+        .office-note {
+            text-align: center;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .footer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+   .left {
+      float: left;
+      text-align: left;
+    }
+
+.right {
+    float: right;
+    width: 50%;
+}
+
+ .clearfix {
+      clear:both;
+    }
+        .right-align {
+            text-align: right;
+            font-weight: bold;
+        }
+        
+        .align-center {
+          text-align: center;
+        }
+        
+       .labels {
+      display: flex;
+      display: -webkit-flex;
+      flex-direction: column;
+      white-space: nowrap; /* Prevents label text wrapping */
+      
+    }
+
+    .value {
+       
+      padding: 5px;
+      margin-left: 20px;
+      min-width: 200px; /* Ensures space for name */
+    }
+
+    
+    .wrapper {
+      display: grid;
+      grid-template-columns: auto 1fr; /* Left column auto-size, right column flexible */
+      gap: 10px; /* Space between columns */
+      align-items: center; /* Centers "Vijendra Rao" vertically */
+      margin-bottom: 10px;
+    }
+
+    .table-layout {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-row {
+  display: table-row;
+  border-bottom: 1px solid #000;
+}
+
+.table-row.no-border{
+    border-bottom: none;
+}
+
+.table-cell {
+  display: table-cell;
+  padding: 5px 10px;
+  vertical-align: top; /* Ensures text aligns properly */
+}
+
+.table-row .table-cell:first-child{
+  padding: 5px 0px; 
+}
+
+.number {
+  width: 1%; /* Adjust width as needed */
+  text-align: left; /* Aligns numbers to the right */
+  font-weight: bold;
+}
+
+.labels {
+  width: 30%; /* Adjust width as needed */
+}
+
+.labels .label-text {
+  display: block; /* Each label appears on a new line */
+}
+
+.value {
+  width: 35%;
+  padding-left: 20px; /* Adds space between labels and value */
+  white-space: nowrap; /* Ensures the value doesn’t wrap */
+  vertical-align: middle;
+}
+
+ .page, .page-break { clear: both; page-break-after: always; }
+ 
+
+       .table-bordered th.number{border-right: 0px !important; vertical-align: top}
+       .table-bordered thead th.left-align{text-align: left}
+       .table-bordered tr td.no-border{border-right: 0 !important; border-left: 0 !important; }
+    </style>
+
+ 
+</head>
+<body>
+
+<div class="container">
+    <!-- Header Section as a Table -->
+    <table class="header-table">
+        <tr>
+            <!-- Left-aligned Logo -->
+            <td style="width: 120px;">
+                <%= wicked_pdf_image_tag asset_url('logo.png'), class: "logo", alt: "Logo" %>
+            </td>
+
+            <!-- Centered Header Text -->
+            <td class="header-text" style="text-align: center; flex-grow: 1;">
+                <h1>Shri Guru Chanakya Souharda Sahakari Sangha Ltd. </h1>
+                <h2>ಶ್ರೀ ಗುರು ಚಾಣಕ್ಯ ಸೌಹಾರ್ದ ಸಹಕಾರಿ ಸಂಘ ನಿಯಮಿತ</h2>
+                <p><%= Current.branch.english_address %></p>
+                <p>Phone: <%= Current.branch.phone_no %></p>
+                <p>(R. NO. <%= Current.branch.r_no %>)</p>
+                <h3>APPLICATION FOR "A"/ "B" CLASS MEMBERSHIP</h3>
+                <p>"ಎ" "ಬಿ" ತರಗತಿಯ ಸದಸ್ಯತ್ವಕ್ಕಾಗಿ ಅರ್ಜಿ</p>
+            </td>
+
+            <!-- Right-aligned Photo Box -->
+            <td style="width: 100px; text-align: center;">
+                <div class="photo-box">
+                    <% if @member.profile_picture.attached? %>
+                        <%
+                          image_data = @member.profile_picture.download
+                          base64_image = Base64.strict_encode64(image_data)
+                          content_type = @member.profile_picture.content_type
+                        %>
+                        <img src="data:<%= content_type %>;base64,<%= base64_image %>" style="max-width: 150px; max-height: 170px; object-fit: cover;" />
+                    <% else %>
+                        <p>Paste Photo</p>
+                    <% end %>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="separator"></div>
+ 
+    <div class="table-layout">
+      <div class="table-row">
+        <div class="table-cell number">1.</div>
+        <div class="table-cell labels">
+          <span class="label-text">ಅರ್ಜಿದಾರನ ಹೆಸರು:</span>
+          <span class="label-text">Name of the Applicant:</span>
+          <span class="label-text">(IN CAPITAL LETTER)</span>
+        </div>
+        <div class="table-cell value"><%= @member.name.camelize %></div>
+      </div>
+      <div class="table-row">
+        <div class="table-cell number">2.</div>
+        <div class="table-cell labels">
+          <span class="label-text"><%= @member.father_or_husband == "Father" ?  "ತಂದೆಯ" : "ಗಂಡನ" %> ಹೆಸರು:</span>
+          <span class="label-text"><%= @member.father_or_husband %>'s Name:</span>
+        </div>
+        <div class="table-cell value"><%= @member.father_or_husband_name.camelize %></div>
+      </div>
+      <div class="table-row">
+        <div class="table-cell number">3.</div>
+        <div class="table-cell labels">
+          <span class="label-text">ಮೊಬೈಲ್ ಸಂಖ್ಯೆ:</span>
+          <span class="label-text">Mobile No.:</span>
+        </div>
+        <div class="table-cell value"><%= @member.mobile_number %></div>
+      </div>
+    </div>
+ 
+    
+    <table class="table table-bordered zero-margin" style="width:100%;">
+  <thead>
+    <tr>
+      <th class="number">4.</th>
+      <th class="left-align">ಆಧಾರ್ ಸಂಖ್ಯೆ <br> Aadhaar No. <br> <div style="margin-top: 15px;"> <%= @member.aadhaar_number %></div> </th>
+      <th>ಗುರುತು ಚೀಟಿ ಸಂಖ್ಯೆ <br> Voter ID No <br><div style="margin-top: 15px; "><%= @member.voter_id %></div> </th>
+      <th>ಪಾನ್ ಕಾರ್ಡ್ ಸಂಖ್ಯೆ <br> Pan card No <br><div style="margin-top: 15px;  "><%= @member.pan_card %></div> </th>
+      <th>ಡ್ರೈವಿಂಗ್ ಲೈಸೆನ್ಸ್ ನಂ <br> D.L.No <br><div style="margin-top: 15px;  "><%= @member.driving_license %></div> </th>
+    </tr>
+  </thead>
+</table>
+    <div class="separator no-margin"></div>
+    <table class="table table-bordered zero-margin">
+    <tr>
+        <th rowspan="2" class="number">5.</th>
+        <td rowspan="2" style="width: 10%; vertical-align: top" class="left-align">
+                        ವಯಸ್ಸು <br>Age: <br /><div style="margin-top: 15px; font-weight: bold;"> <%= @member.age %></div>
+        </td>
+        <td style="width: 85%; padding-left: 10px"  class="with-border left-align">
+             <div class="table-row no-border">
+                <div class="table-cell number">6.</div>
+                  <div class="table-cell labels">
+                     <span class="label-text">  ವಿದ್ಯಾರ್ಹತೆ <br /> Educational qualification</span>
+         
+                  </div>
+                  <div class="table-cell value"><%=@member.education.camelize %></div>
+             </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 50%; padding-left: 10px"  class="left-align">
+             <div class="table-row no-border">
+                <div class="table-cell number">7.</div>
+                  <div class="table-cell labels">
+                     <span class="label-text">  ಉದ್ಯೋಗ <br /> Occupation</span>
+         
+                  </div>
+                  <div class="table-cell value"><%=@member.occupation.camelize %></div>
+             </div>
+        </td>
+    </tr>
+</table>
+     <div class="separator no-margin"></div>
+    
+    
+    <table class="table table-bordered zero-margin left-align small-padding">
+    <tr>
+        <th rowspan="5" class="number">8. </th>
+        <td colspan="2"> ಖಾಯಂ ವಿಳಾಸ <br> Permanent Address </td>
+        <td colspan="2" style="padding-left: 10px"> ಪ್ರಸಕ್ತ ವಿಳಾಸ <br> Present Address: </td>
+    </tr>
+    <tr>
+        <td class='no-border'>H. NO/Building Name:</td>
+        <td> <%= @member.address_a_building %></td>
+        <td class='no-border' style="padding-left: 10px">H. NO/Building Name:</td>
+        <td>  <%= @member.address_b_building %> </td>
+    </tr>
+    <tr>
+        
+        <td class='no-border'>Place, Village & Post:</td>
+        <td>  <%= @member.address_a_village %> </td>
+        <td class='no-border' style="padding-left: 10px">Place, Village & Post:</td>
+        <td>  <%= @member.address_b_village %> </td>
+    </tr>
+    <tr>
+        <td class='no-border'>Taluk/District:</td>
+        <td>  <%= @member.address_a_district %> </td>
+        <td class='no-border' style="padding-left: 10px">Taluk/District:</td>
+        <td>  <%= @member.address_b_district %> </td>
+    </tr>
+    <tr>
+        <td class='no-border'>Pincode:</td>
+        <td>  <%= @member.address_a_pincode %> </td>
+        <td class='no-border' style="padding-left: 10px">Pincode:</td>
+        <td>  <%= @member.address_b_pincode %> </td>
+    </tr>
+</table>
+    <div class="separator no-margin"></div>
+
+<table class="table table-bordered text-center">
+    <tr>
+        <td> 9. ಧರ್ಮ / Religion: </td>
+        <td> 9ಎ. &nbsp; ಪ. ಜಾತಿ/ಪ. ಪಂಗಡ <br /> SC/ST </td>
+        <td> 9ಬಿ. ಇತರ </td>
+    </tr>
+    <tr>
+        <td> <%=@member.religion.camelize %></td>
+        <td> <%=@member.caste_category == "1"  ? "Yes": "No" %> </td>
+        <td><%=@member.religion_other == "1" ? "Yes": "No" %></td>
+    </tr>
+</table>
+<div class="separator no-margin"></div>
+<table class="table table-bordered  left-align">
+    <tr>
+        <td  style="width: 392px"> 10. ಪಾಲುಗಳ ಸಂಖ್ಯೆ <div style="padding-left: 25px">Number of shares Required </div> </td>
+        <td style="width:100px; padding-left: 10px"><%=@membership.number_of_shares %></td>
+        <td style="width: 374px; padding-left: 10px"  class="left-align"> 10ಎ. ಮೊಬಲಗು  <div style="padding-left: 50px">Amount: </div> </td>
+        <td style="min-width:100px; padding-left: 10px"><%=@membership.amount %></td>
+    </tr>
+</table>
+<div class="separator no-margin"></div>
+<table class="table table-bordered">
+    <tr>
+        <th rowspan="5" class="number">11. </th>
+        <td class="left-align" colspan=2>
+            ವಾರಿಸುದಾರನ ಹೆಸರು ಮತ್ತು ವಿಳಾಸ ಹಾಗೂ ಅರ್ಜಿದಾರರೊಂದಿಗಿನ ಸಂಬಂಧ
+        </td>
+     </tr>
+     <tr>
+         <td class="left-align no-border">
+            Name of the Nominee & Address:
+         </td>
+         <td><%=@membership.nominee_name.camelize %> <%=@membership.nominee_address %></td>
+     </tr>
+      <tr>
+        <td class="left-align no-border">
+            And Relationship with Applicant:<br> 
+            with Mobile No:
+        </td>
+        <td><%=@membership.nominee_relationship.camelize %> <br /> <%=@membership.nominee_phone.camelize %></td>
+    </tr>
+</table>
+
+    
+    <div class="page-break"></div>
+    <p>ಮೇಲೆ ತಿಳಿಸಿದ ಎಲ್ಲಾ ವಿಷಯಗಳು ಸತ್ಯ ಎಂದು ದೃಢೀಕರಿಸುತ್ತೇನೆ. ನಾನು ಸಹಕಾರಿಯ ಈಗ ಇರುವ ಮತ್ತು  ಇನ್ನು ಮುಂದಕ್ಕೆ ಆಗಿಂದಾಗ್ಗೆ ಜಾರಿಗೆ ತರುವ ಎಲ್ಲಾ ಕಾನೂನು ಕಾಯ್ದೆ ಹಾಗೂ ಉಪನಿಬಂಧನೆಗಳಿಗೆ ಬದ್ಧನಾಗಿರುತ್ತೇನೆ.</p>                                
+      <p>I certify that the above information are correct to the best of my knowldge. I will abide by the existing rules of the sahakari and also rules which may come into force in future from time to time. </p>                     
+                    
+    <div class="footer">
+    
+    <div class="left" style="width: 400px;">
+        <p>ಸ್ಥಳ: <br /> Place:   <%= @membership.place %></p>
+        <p>ದಿನಾಂಕ : <br /> Date: <%= format_date(@membership.signed_date) %></p>
+    </div>
+    <div class="right" style="width: 230px;">
+        <br />
+        <br />
+        <p class="align-center"> ಅರ್ಜಿದಾರನ ಸಹಿ <br> Signature of the Applicant</p>
+    </div>
+</div>
+ <div class="clearfix"></div>        
+                                
+ <div class="box">
+        <p>ಅರ್ಜಿದಾರನ ಮಾದರಿ ಸಹಿ<br>Specimen Signature of the Applicant:</p>
+        <div class="signatures">
+            <table class="table" style="width: 100%; margin-bottom: 30px">
+              <tr>
+                <td> 1 </td>
+                <td> 2 </td>
+                <td> 3 </td>
+              </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Office Note Section -->
+    <br />
+    <div class="office-note">
+        <p>ಕೇಂದ್ರ ಕಛೇರಿಯ ಟಿಪ್ಪಣಿ</p>
+        <p style="font-size: 130%">OFFICE NOTE</p>
+    </div>
+
+    <!-- Information Table -->
+    <table class="table" style="width: 100%;">
+        <tr>
+            <td style="text-align: left; width: 390px;">ಸದಸ್ಯತ್ವ ಅಂಗೀಕರಿಸಿದ ನಿರ್ಣಯ ನಂಬ್ರ<br>Approved Resolution No: <br />  <%=@membership.resolution_no %></td>
+            <td>ದಿನಾಂಕ :<br>Date : <br />  
+                <span style="display: inline-block; border: 1px solid #000; padding: 5px; min-width: 140px;">
+                  &nbsp; &nbsp;&nbsp; &nbsp; <%= format_date(@membership.resolution_date) %> &nbsp; &nbsp;&nbsp; &nbsp;
+                </span>  </td>
+            <td style="text-align: right">ಸದಸ್ಯ ನಂಬ್ರ<br>Member No. <br />  <%=@member.member_no %></td>
+        </tr>
+    </table>
+    <br />
+    <div class="separator no-margin"></div>
+ 
+<div class="footer">
+    <div class="left" style="width: 400px;">
+        <p>ಸ್ಥಳ: <br /> Place:  <%= @membership.md_sign_place %></p>
+        <p>ದಿನಾಂಕ : <br /> Date:  <%= format_date(@membership.md_signed_date) %></p>
+    </div>
+    <div class="right" style="width: 400px;  text-align: right;">
+        <br />
+        <br />
+        <p>ಮುಖ್ಯ ಕಾರ್ಯನಿರ್ವಾಹಕ ಅಧಿಕಾರಿ<br> Chief Executive Officer/MD</p>
+    </div>
+</div>
+<div class="clearfix"></div>       
+   <div>
+   <br />
+   <br />
+   ವಿಳಾಸ ದೃಢೀಕರಣಕ್ಕೆ ಪಡೆದುಕೊಂಡ ದಾಖಲೆಗಳು :   
+     <ul>
+     <li>1  ಮತದಾನದ ಗುರುತು ಚೀಟಿ</li>
+     <li>2  ಪಡಿತರ ಚೀಟಿ</li>
+     <li>3  ಡ್ರೈವಿಂಗ್ ಲೈಸನ್ಸ್</li>
+     <li>4  ಪಾಸ್ ಪೋರ್ಟ್</li>
+     <li>5  ಆಧಾರ್ ಕಾರ್ಡ್</li>
+</div>
+
+
+</div>
+
+ 
+</body>
+</html>

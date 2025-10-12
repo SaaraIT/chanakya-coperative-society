@@ -1,0 +1,106 @@
+<ul id="sidebarMenu" class="sidenav sidenav-fixed white" style="width: 250px; padding-top: 64px;">
+  <li style="padding-top: 10px;">
+    <a href="<%= members_path %>" class="waves-effect <%= 'active' if current_page?(members_path) %>">
+      <i class="material-icons">people</i>A Class Memberships
+    </a>
+  </li>
+
+  <li style="display: none;">
+    <a href="<%= additional_shares_applications_path %>" class="waves-effect <%= 'active' if request.path.match?(additional_shares_applications_path) %>">
+      <i class="material-icons">note_add</i>Additional Shares
+    </a>
+  </li>
+
+  <li style="display: none;">
+    <a href="<%= self_help_groups_path %>" class="waves-effect <%= 'active' if request.path.match?(self_help_groups_path) %>">
+      <i class="material-icons">groups</i>Self Help Groups
+    </a>
+  </li>
+
+  <li style="display: none;"><div class="divider"></div></li>
+  <li style="display: none;"><a class="subheader grey-text">Loan Forms</a></li>
+
+  <li style="display: none;">
+    <a href="<%= loan_applications_path %>" class="waves-effect <%= 'active' if request.path.match?(loan_applications_path) %>">
+      <i class="material-icons">description</i>Loan Applications
+    </a>
+  </li>
+
+  <li style="display: none;">
+    <a href="/jewel_loans" class="waves-effect <%= 'active' if request.path.match?('/jewel_loans') %>">
+      <i class="material-icons">diamond</i>Jewel Loans
+    </a>
+  </li>
+
+  <li style="display: none;">
+    <a href="/shg_loan_applications" class="waves-effect <%= 'active' if request.path.match?('/shg_loan_applications') %>">
+      <i class="material-icons">credit_card</i>SHG Loans
+    </a>
+  </li>
+
+  <li style="display: none;"><div class="divider"></div></li>
+  <li style="display: none;"><a class="subheader grey-text">Other Forms</a></li>
+
+  <li style="display: none;">
+    <a href="<%= term_loan_agreements_path %>" class="waves-effect <%= 'active' if request.path.match?(term_loan_agreements_path) %>">
+      <i class="material-icons">article</i>Term Loan Agreements
+    </a>
+  </li>
+
+  <li style="display: none;">
+    <a href="<%= guarantor_undertakings_path %>" class="waves-effect <%= 'active' if request.path.match?(guarantor_undertakings_path) %>">
+      <i class="material-icons">verified_user</i>Letter Of Undertaking
+    </a>
+  </li>
+
+  <li style="display: none;">
+    <a href="<%= hypothecation_deeds_path %>" class="waves-effect <%= 'active' if request.path.match?(hypothecation_deeds_path) %>">
+      <i class="material-icons">gavel</i>Hypothecation Deeds
+    </a>
+  </li>
+
+  <li style="display: none;">
+    <a href="<%= income_declarations_path %>" class="waves-effect <%= 'active' if request.path.match?(income_declarations_path) %>">
+      <i class="material-icons">attach_money</i>Income Declaration
+    </a>
+  </li>
+
+  <li style="display: none;">
+    <a href="<%= demand_promissory_notes_path %>" class="waves-effect <%= 'active' if request.path.match?(demand_promissory_notes_path) %>">
+      <i class="material-icons">receipt</i>Demand Pro Note
+    </a>
+  </li>
+
+  <li style="margin-bottom: 30px; display: none;">
+    <a href="<%= pro_notes_path %>" class="waves-effect <%= 'active' if request.path.match?(pro_notes_path) %>">
+      <i class="material-icons">note</i>Pro Notes
+    </a>
+  </li>
+</ul>
+
+<!-- Mobile Sidebar -->
+<ul id="mobile-sidebar" class="sidenav">
+  <li><a href="<%= members_path %>" class="waves-effect"><i class="material-icons">people</i>A Class Memberships</a></li>
+  <li style="display: none;"><a href="<%= additional_shares_applications_path %>" class="waves-effect"><i class="material-icons">note_add</i>Additional Shares</a></li>
+  <li style="display: none;"><a href="<%= self_help_groups_path %>" class="waves-effect"><i class="material-icons">groups</i>Self Help Groups</a></li>
+  <li style="display: none;"><div class="divider"></div></li>
+  <li style="display: none;"><a class="subheader">Loan Forms</a></li>
+  <li style="display: none;"><a href="<%= loan_applications_path %>" class="waves-effect"><i class="material-icons">description</i>Loan Applications</a></li>
+  <li style="display: none;"><a href="/jewel_loans" class="waves-effect"><i class="material-icons">diamond</i>Jewel Loans</a></li>
+  <li style="display: none;"><a href="/shg_loan_applications" class="waves-effect"><i class="material-icons">credit_card</i>SHG Loans</a></li>
+  <li style="display: none;"><div class="divider"></div></li>
+  <li style="display: none;"><a class="subheader">Other Forms</a></li>
+  <li style="display: none;"><a href="<%= term_loan_agreements_path %>" class="waves-effect"><i class="material-icons">article</i>Term Loan Agreements</a></li>
+  <li style="display: none;"><a href="<%= guarantor_undertakings_path %>" class="waves-effect"><i class="material-icons">verified_user</i>Letter Of Undertaking</a></li>
+  <li style="display: none;"><a href="<%= hypothecation_deeds_path %>" class="waves-effect"><i class="material-icons">gavel</i>Hypothecation Deeds</a></li>
+  <li style="display: none;"><a href="<%= income_declarations_path %>" class="waves-effect"><i class="material-icons">attach_money</i>Income Declaration</a></li>
+  <li style="display: none;"><a href="<%= demand_promissory_notes_path %>" class="waves-effect"><i class="material-icons">receipt</i>Demand Pro Note</a></li>
+  <li style="display: none;"><a href="<%= pro_notes_path %>" class="waves-effect"><i class="material-icons">note</i>Pro Notes</a></li>
+</ul>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.sidenav');
+    M.Sidenav.init(elems);
+  });
+</script>

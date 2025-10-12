@@ -1,0 +1,31 @@
+<div class="d-flex justify-content-between align-items-center mt-3">
+  <h5 class="mb-0"><%= @self_help_group.name %></h5>
+  
+</div>
+<br />
+
+ 
+<p><strong>Address:</strong> <%= @self_help_group.address %></p>
+ 
+
+<h5>Members:</h5>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Mobile</th>
+      <th>Aadhar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @self_help_group.shg_members.each do |member| %>
+      <tr>
+        <td><%= member.name %></td>
+        <td><%= member.age %></td>
+        <td><%= member.mobile %></td>
+        <td><%= member.aadhar_number %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

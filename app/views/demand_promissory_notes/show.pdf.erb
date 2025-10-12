@@ -1,0 +1,186 @@
+ 
+  <style>
+     @font-face {
+            font-family: 'Baloo';
+            src: url('https://fonts.gstatic.com/s/balootamma2/v2/vEFK2_hCAgcR46PaajtrYlBbd7wf8tK1W77HtMo.ttf') format('truetype');
+      }
+
+    body {
+      font-family: Arial, sans-serif;
+      
+      text-align: justify;
+    }
+    
+    .container {
+      width: 100%;
+      margin: auto;
+    }
+
+    h1, h2, h3{
+      text-align: center;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .signature-box {
+      
+      margin-top: 20px;
+    }
+
+ 
+    .underline {
+      border-bottom: 1px dotted #aaa;
+      padding-left: 8px;
+      padding-right: 8px;
+      padding-bottom: 2px;
+      margin-bottom: 12px;
+      min-width: 900px;
+    }
+
+    .signature-box div {
+      border: 1px solid black;
+      width: 100px;
+      height: 100px;
+      text-align: center;
+      line-height: 50px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    td {
+      padding: 8px;
+    }
+
+    .right-align {
+      text-align: right;
+    }
+
+    .header-text {
+            text-align: center;
+        }
+
+        .header-text h1, .header-text h2, .header-text p, .header-text h3 {
+            margin: 0;
+        }
+
+        .header-text h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-text h2 {
+            font-size: 24px;
+            margin: 5px 0;
+        }
+
+        .header-text p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .header-text h3 {
+            font-size: 22px;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        .header-table {
+            width: 100%;
+            border: 0;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+  </style>
+
+  <div class="container">
+     <table class="header-table">
+        <tr>
+            <!-- Left-aligned Logo -->
+            <td style="width: 120px;">
+                <%= wicked_pdf_image_tag asset_url('logo.png'), class: "logo", alt: "Logo" %>
+            </td>
+
+            <!-- Centered Header Text -->
+            <td class="header-text" style="text-align: center; flex-grow: 1; font-family: 'Baloo', sans-serif;">
+                <h1><%= Current.branch.name %></h1>
+                <h2><%= Current.branch.kannada_address %></h2>
+                <p><%= Current.branch.english_address %></p>
+                <!-- Removed duplicate address line -->
+                <p>Phone: <%= Current.branch.phone_no %></p>
+                <p>(R. NO. <%= Current.branch.r_no %>)</p>
+            </td>
+
+            
+        </tr>
+    </table>
+    
+    <table>
+      <tr>
+        <td><strong>Branch:</strong> <%= Current.branch.try(:name)%></td>
+        <td>  <h3><u>DEMAND PROMISSORY NOTE</u></h3> </td>
+        <td class="right-align"><strong>Loan No.:</strong> <%= @demand_promissory_note.loan_no %></td>
+      </tr>
+    </table>
+
+   
+
+    <table style="margin-top: 5px">
+      <tr>
+        <td><strong>Rs.</strong> <%= number_to_indian_currency(@demand_promissory_note.amount) %></td>
+        <td class="right-align"><strong>Date:</strong> <%= format_date(@demand_promissory_note.date) %></td>
+      </tr>
+    </table>
+
+    <p><span style="font-size: 24px; font-weight: bold"> On Demand I/We </span> &nbsp; &nbsp; <strong>1) Borrower's Name and Address in Full:</strong></p>
+    <div class="underline"><%= @loan_application.applicant_names_and_addresses  %></div>
+
+    <div class="witness-section">
+        <% @loan_application.co_obligants.each_with_index do |co_obligant, index| %>
+            <div style="padding: 8px 0px" > <strong><%= index + 2 %>) Surety's Name and Address in Full:</strong> </div>
+            <div class="underline">
+              <%= "#{co_obligant.member.name_and_address(false)}" %>
+            </div>
+
+        
+        <% end %>
+    </div>
+
+    <p>Jointly and severally promise to pay MATHRUBHOOMI SOUHARDHA SAHAKARI LTD. Branch or order the sum of Rs. <span class="underline"> <%=  @demand_promissory_note.sum %></span> (Rupees <span class="underline"><%=  number_to_currency_words(@demand_promissory_note.sum) %></span> only) with interest at <span class="underline"><%= @demand_promissory_note.interest_rate %>%</span> and penal at <span class="underline"><%= @demand_promissory_note.penal_rate %>%</span> per annum from this day till date of payment for valuable consideration received in full by way of Loan advanced on the Security of standing to my credit in the books of the said society.</p>
+
+    <hr>
+    <table style="width: 100%" class="signature-box">
+       <tr>  <td colspan=5> Specimen Signature </td> </tr>
+        <tr>
+            <td style="padding-left: 45px"> (1)</td>
+            <% @loan_application.co_obligants.each_with_index do |co_obligant, index| %>
+              <td style="padding-left: 45px"> (<%= index + 2 %>)</td>
+            <%end%>
+          </tr>
+          <tr>
+            <td style="width: <%= 100/(@loan_application.co_obligants.count.to_i + 1)%>%"> <div> &nbsp; </div></td>
+            <% @loan_application.co_obligants.each_with_index do |co_obligant, index| %>
+              <td> <div> &nbsp; </div></td>
+            <%end%>
+          </tr>
+       
+       <tr>
+           <td>Signature:</td>
+           <td colspan=5> Signature on Thumb Impressions of the Borrower's and Guarantor's </td>
+       </tr>
+    </table>
+
+    <hr />
+
+    <table>
+       <% @loan_application.co_obligants.each_with_index do |co_obligant, index| %>
+          <tr>
+            <td> Witness (<%= index + 1 %>):  <%=  co_obligant.member.name %></td>
+          </tr>
+       <%end%>
+    </table>
+ 

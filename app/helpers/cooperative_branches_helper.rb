@@ -1,0 +1,2 @@
+module CooperativeBranchesHelper
+end

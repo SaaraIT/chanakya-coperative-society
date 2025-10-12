@@ -1,0 +1,158 @@
+  <style>
+     
+    table.table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 10px 0;
+    }
+
+    table.header-table{width: 100%}
+    .table td, .table th {
+      border: 1px solid #aaa;
+      padding: 8px;
+      vertical-align: top;
+    }
+    
+    .table.header th{width: 250px}
+    .center {
+      text-align: center;
+    }
+
+    .no-border tr th, .no-border tr td {
+      border: none;
+    }
+
+    .signature-space {
+      margin-top: 40px;
+    }
+
+    hr.page-break {
+      page-break-after: always;
+      border: none;
+      margin: 50px 0;
+    }
+    
+    .indent {
+      margin-left: 20px;
+    }
+    
+    .signature-line {
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+    .underline {
+      text-decoration: underline;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .center {
+      text-align: center;
+    }
+    .bold {
+      font-weight: bold;
+    }
+  </style>
+<%= form_with model: [@member, @jewel_loan, @jewel_appraisers_report], local: true do |form| %>
+  <table class="table header">
+    <tr><th>Branch</th><td><%= @jewel_loan.cooperative_branch.name %></td></tr>
+    <tr><th>Member No</th><td><%= @jewel_loan.member.member_no %></td></tr>
+    <tr><th>Gold Loan No.</th><td><%= form.text_field :loan_number %></td></tr>
+    <tr>
+      <th>Name & Address Of Borrower</th>
+      <td style="height: 60px;">
+        <%= @jewel_loan.member.name %><br>
+        <%= @jewel_loan.member.address %>
+      </td>
+    </tr>
+  </table>
+
+  <div class="center">
+    <h3>Jewel Appraiser’s Report</h3>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Description of Jewels</th>
+        <th>Gross Weight</th>
+        <th>Net Weight</th>
+        <th>Rate Per Gram</th>
+        <th>Approximate Market Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= form.fields_for :jewel_item_reports do |item_form| %>
+        <tr>
+          <td>
+            <%= item_form.hidden_field :jewel_item_id %>
+            <%= text_field_tag :description, item_form.object.jewel_item&.description, readonly: true, class: "form-control" %>
+
+          </td>
+          <td><%= item_form.number_field :gross_weight, value: item_form.object.jewel_item.gross_weight, step: 0.01, class: "form-control" %></td>
+          <td><%= item_form.number_field :net_weight, value: item_form.object.jewel_item.net_weight, step: 0.01, class: "form-control" %></td>
+          <td><%= item_form.number_field :rate_per_gram, step: 0.01, class: "form-control" %></td>
+          <td>  <%= item_form.number_field :approx_market_value, step: 0.01, class: "form-control market-value-field", data: { action: "input->calc#updateTotal" } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <p>
+    I hereby declare that I have thoroughly examined the above jewels and I have found that they are genuine with no defects. 
+    The approximate total value of the jewels is ₹ 
+    <%= text_field_tag :total_value, '', readonly: true, id: "total_value_field", class: "form-control", style: "width: 150px; display: inline;" %>
+  </p>
+
+  <br />
+
+  <table class="no-border table">
+    <tr>
+      <td style="width: 70%">.........................................<br>Signature Of the Borrower</td>
+      <td>.........................................<br>Signature Of the Appraiser</td>
+    </tr>
+  </table>
+
+  <br>
+
+  <table class="no-border table">
+    <tr>
+      <td style="width: 70%">.............................................<br>Signature of the staff in whose<br>Presence jewels are examined</td>
+      <td>.........................................<br>Signature of the Manager</td>
+    </tr>
+  </table>
+  <br />
+  <hr />
+
+  <div>
+    <%= form.submit "Save Report", class: "btn btn-primary" %>
+  </div>
+  <br />
+<% end %>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const valueFields = document.querySelectorAll(".market-value-field");
+    const totalField = document.getElementById("total_value_field");
+
+    function calculateTotal() {
+      let total = 0;
+      valueFields.forEach(field => {
+        const value = parseFloat(field.value);
+        if (!isNaN(value)) {
+          total += value;
+        }
+      });
+      totalField.value = total.toFixed(2);
+    }
+
+    valueFields.forEach(field => {
+      field.addEventListener("input", calculateTotal);
+    });
+
+    // Call on load in case values are pre-filled
+    calculateTotal();
+  });
+</script>

@@ -1,0 +1,45 @@
+<div class="d-flex justify-content-between align-items-center mt-3">
+  <h5 class="mb-0">SHG Loan Applications</h5>
+   
+
+</div>
+<br />
+<%= search_form_for @q do |f| %>
+
+ <table class='table table-bordered search-table' >
+   <tr>
+      <th> <%= f.label :self_help_group_name_cont %>:
+       <%= f.search_field :self_help_group_name_cont %> </th>
+      
+      <th rowspan="2">  <%= f.submit "Search", class: 'btn btn-secondary btn-sm' %> </th>
+   </tr>
+ 
+<% end %>
+
+<table class='table table-bordered list-table'>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>SHG Name</th>
+      <th>Loan Applicants</th>
+       <th>Created At</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @shg_loan_applications.each_with_index do |loan, index| %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td><%= loan.self_help_group.name %></td>
+        <td><%= loan.shg_loan_applicants.size %></td>
+        <td><%= loan.cooperative_branch.try(:name) %></td>
+        <td>
+          <%= link_to 'Print', self_help_group_shg_loan_application_path(loan.self_help_group, loan, format: :pdf), class: 'btn btn-info  btn-sm ' %> 
+          <%= link_to 'Show', self_help_group_shg_loan_application_path(loan.self_help_group, loan), class: "btn btn-secondary  btn-sm" %>
+          <%= link_to 'Edit', edit_self_help_group_shg_loan_application_path(loan.self_help_group, loan), class: "btn btn-warning  btn-sm" %>
+          
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

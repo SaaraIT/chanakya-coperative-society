@@ -1,0 +1,117 @@
+<% unique_index ||= Time.now.to_i + rand(1000) %>
+
+<h6><strong>Details Of Co-Applicant <%= "#{member.name}" %></strong></h6>
+<div data-coapplicant-id="<%= member.id %>" class="mb-4">
+  
+
+  <%= hidden_field_tag "loan_application[loan_application_co_applicants_attributes][#{unique_index}][member_id]", member.id %>
+
+  <%= hidden_field_tag "loan_application[loan_application_co_applicants_attributes][#{unique_index}][id]", coapp.id if coapp.persisted?  %>
+
+
+  <table class="table table-bordered">
+    <tr>
+      <td>Membership No</td>
+      <td><%= member.member_no %></td>
+      <td rowspan="4" style="text-align:center; vertical-align:top;">Photo</td>
+    </tr>
+    <tr>
+      <td>Name</td>
+      <td><%= member.name %></td>
+    </tr>
+    <tr>
+      <td>Age</td>
+      <td><%= member.age %></td>
+    </tr>
+    <tr>
+      <td>Address</td>
+      <td><%= member.address %></td>
+    </tr>
+    <tr>
+      <td>Phone /Mobile No</td>
+      <td colspan="2"><%= member.mobile_number %></td>
+    </tr>
+    <tr>
+      <td>Aadhar No</td>
+      <td colspan="2"><%= member.aadhaar_number %></td>
+    </tr>
+    <tr>
+      <td>PAN No</td>
+      <td colspan="2"><%= member.pan_card %></td>
+    </tr>
+    <tr>
+      <td>Details Of Business/Profession</td>
+      <td colspan="2">
+        <%= text_area_tag "loan_application[loan_application_co_applicants_attributes][#{unique_index}][business_details]",  coapp.try(:business_details), class: "form-control" %>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3"><strong>Particulars Of Income & Expenditure</strong></td>
+    </tr>
+    <tr>
+      <th>Sources Of Income</th>
+      <th>Income</th>
+      <th>Expenditure</th>
+    </tr>
+
+   <% income_sources = ["Salary", "Profession", "Business", "Other Sources(If any)"] %>
+    <% saved_data = member.income_and_expenditures.index_by(&:source) %>
+
+    <% income_sources.each do |src| %>
+      <% row_data = saved_data[src] || IncomeAndExpenditure.new(source: src) %>
+      <tr>
+        <%= hidden_field_tag "loan_application[loan_application_co_applicants_attributes][#{unique_index}][member_attributes][income_and_expenditures_attributes][][source]", src %>
+        <%= hidden_field_tag "loan_application[loan_application_co_applicants_attributes][#{unique_index}][member_attributes][income_and_expenditures_attributes][][id]", row_data.id if row_data.id.present? %>
+        <td><%= src %></td>
+        <td>
+          ₹ <%= text_field_tag "loan_application[loan_application_co_applicants_attributes][#{unique_index}][member_attributes][income_and_expenditures_attributes][][income]", row_data.income %>
+        </td>
+        <td>
+          ₹ <%= text_field_tag "loan_application[loan_application_co_applicants_attributes][#{unique_index}][member_attributes][income_and_expenditures_attributes][][expenditure]", row_data.expenditure  %>
+        </td>
+      </tr>
+    <% end %>
+
+    <tr>
+      <td>Total</td>
+      <td colspan="2"><!-- Optional calculation or left blank --></td>
+    </tr>
+    <tr>
+      <td>Details Of Loan with Sahakari</td>
+      <td colspan="2">
+        <%= text_area_tag "loan_application[loan_application_co_applicants_attributes][#{unique_index}][deatils_of_sahakari_loan]", coapp.try(:deatils_of_sahakari_loan), class: "form-control"  %>
+      </td>
+    </tr>
+    <tr>
+      <td>Details Of Immovable Property (Owned)</td>
+      <td colspan="2">
+        <%= text_area_tag "loan_application[loan_application_co_applicants_attributes][#{unique_index}][details_of_immovable_property]", coapp.try(:details_of_immovable_property), class: "form-control" %>
+      </td>
+    </tr>
+    <tr>
+      <td>Other Movable Property</td>
+      <td colspan="2">
+        <%= text_area_tag "loan_application[loan_application_co_applicants_attributes][#{unique_index}][details_of_movable_property]", coapp.try(:details_of_movable_property), class: "form-control"  %>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3" class="text-center">
+        <strong><u>Declaration By The Co-Applicant</u></strong><br><br>
+        Above Information is true and correct to the best of my knowledge and belief
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Date:
+        <%= date_field_tag "loan_application[loan_application_co_applicants_attributes][#{unique_index}][date_signed]", coapp.date_signed || Date.today  %>
+      </td>
+      <td>
+        Place:
+        <%= text_field_tag "loan_application[loan_application_co_applicants_attributes][#{unique_index}][place_signed]", coapp.place_signed || Current.branch.try(:name)  %>
+      </td>
+      <td class="text-end">
+        <strong>Sign. of Co-Applicant</strong>
+      </td>
+    </tr>
+  </table>
+</div>

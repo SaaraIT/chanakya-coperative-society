@@ -1,0 +1,39 @@
+ <h5>Income Declarations</h5>
+  <br />
+ <%= search_form_for @q do |f| %>
+
+ <table class='table table-bordered search-table' >
+   <tr>
+      <th> <%= f.label :member_name_cont %>:
+       <%= f.search_field :member_name_cont %> </th>
+      <th> <%= f.label :member_mobile_number_cont %>:
+       <%= f.search_field :member_mobile_number_cont %> </th>
+      <th> <%= f.label :member_aadhaar_number_cont %>:
+       <%= f.search_field :member_aadhaar_number_cont %> </th>
+      <th rowspan="2">  <%= f.submit "Search", class: 'btn btn-secondary btn-sm' %> </th>
+   </tr>
+ 
+<% end %>
+
+ <table class="table list-table table-bordered ">
+    <thead>
+      <tr>
+        <th>Occupation</th>
+        <th>Income</th>
+ 
+        <th>Print</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+       <% @income_declarations.each do |income_declaration| %>
+          <tr>
+            <td><%= income_declaration.occupation %></td>
+            <td><%= income_declaration.income %></td>
+            <td> <%= link_to "Print", member_income_declaration_path(income_declaration.member, income_declaration, format: :pdf), class: "btn btn-info  btn-sm" %>
+            	<%= link_to "Member",   income_declaration.member, class: "btn btn-secondary  btn-sm" %></td>
+            </td>
+        </tr>
+       <%end%>
+    </tbody>
+  </table>

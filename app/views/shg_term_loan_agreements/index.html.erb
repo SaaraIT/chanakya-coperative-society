@@ -1,0 +1,49 @@
+<h5>Term Loan Agreements</h5>
+<br />
+<%= search_form_for @q do |f| %>
+
+ <table class='table table-bordered search-table' >
+   <tr>
+      <th> <%= f.label :member_name_cont %>:
+       <%= f.search_field :member_name_cont %> </th>
+      <th> <%= f.label :member_mobile_number_cont %>:
+       <%= f.search_field :member_mobile_number_cont %> </th>
+      <th> <%= f.label :member_aadhaar_number_cont %>:
+       <%= f.search_field :member_aadhaar_number_cont %> </th>
+      <th rowspan="2">  <%= f.submit "Search", class: 'btn btn-secondary btn-sm' %> </th>
+   </tr>
+ 
+<% end %>
+
+<table class="table list-table table-bordered">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Applicant</th>
+     
+      <th>Loan Amount</th>
+      <th>Sanctioned Interest</th>
+      <th>Application Date</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @term_loan_agreements.each do |agreement| %>
+      <tr>
+        <td><%= agreement.id %></td>
+        <td><%= agreement.member.name %></td>
+ 
+        <td><%= agreement.loan_application.sanction_amount %></td>
+        <td><%= agreement.loan_application.int_rate %> %</td>
+        <td><%= agreement.application_date %></td>
+        <td>
+           <%= link_to "Print", member_loan_application_term_loan_agreement_path(agreement.member, agreement.loan_application, agreement, format: :pdf), class: "btn btn-info  btn-sm" %>
+           <%= link_to "Edit", edit_member_loan_application_term_loan_agreement_path(agreement.member, agreement.loan_application, agreement), class: "btn btn-warning  btn-sm" %>
+           <%= link_to "Loan App",  member_loan_application_path(agreement.member, agreement.loan_application), class: "btn btn-secondary  btn-sm" %>
+           <%= link_to "Member",   agreement.member, class: "btn btn-secondary  btn-sm" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+ 

@@ -1,0 +1,2 @@
+module AdditionalSharesApplicationsHelper
+end

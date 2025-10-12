@@ -1,0 +1,301 @@
+<style>
+  .ss-search input {
+    background-color: white !important;
+    color: black !important;
+    pointer-events: auto !important;
+  }
+
+  .ss-content .ss-search {
+    z-index: 99999 !important; /* higher than modal backdrop */
+  }
+
+</style>
+
+<h4 class="mt-3">Details Of Member: <%= @member.name %></h4>
+<%= link_to "Print Member", member_path(@member, format: :pdf), target: "_blank" , class: 'btn btn-info ' %>
+&nbsp;
+<%= link_to "Edit", edit_member_path(@member), class: 'btn btn-warning' %>
+&nbsp;
+<% if @member.aadhar_card.attached? %>
+  <%= link_to "Download Aadhar", rails_blob_path(@member.aadhar_card, disposition: "attachment"), class: "btn btn-primary" %>
+  &nbsp;
+<% end %>
+<%= button_tag "Create Main Loan Application", class: "btn btn-secondary", data: { bs_toggle: "modal", bs_target: "#guarantorModal" }, style: "display: none;" %>
+&nbsp;
+<%= link_to 'Create Income Declaration', new_member_income_declaration_path(@member), class: "btn btn-secondary ", style: "display: none;" %>
+&nbsp;
+<%= link_to 'Create Jewel Loan', new_member_jewel_loan_path(@member), class: "btn btn-secondary", style: "display: none;" %>
+
+<br />
+<br />
+
+<% if @member.profile_picture.attached? %>
+  <div class="card p-3 mb-3" style="max-width: 300px;">
+    <h5>Profile Picture</h5>
+    <%= image_tag @member.profile_picture, style: "max-width: 250px; max-height: 300px; object-fit: cover;", class: "img-thumbnail" %>
+  </div>
+<% end %>
+
+<div class="card  p-3">
+  
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Father/Husband Name:</th>
+        <th>Mobile</th>
+        <th>Aadhaar Number</th>
+        <th>Voter ID</th>
+        <th>PAN Card</th>
+        <th>Driving License</th>
+        <th>Age</th>
+        <th>Education</th>
+        <th>Occupation</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+     
+        <tr>
+          <td><%= @member.father_or_husband_name %></td>
+          <td><%= @member.mobile_number %></td>
+          <td><%= @member.aadhaar_number %></td>
+          <td><%= @member.voter_id %></td>
+          <td><%= @member.pan_card %></td>
+          <td><%= @member.driving_license %></td>
+          <td><%= @member.age %></td>
+          <td><%= @member.education %></td>
+          <td><%= @member.occupation %></td>
+ 
+        </tr>
+    
+    </tbody>
+  </table>
+ 
+  <p><strong>Present Address:</strong>  <%= "#{@member.address_a_building}, #{@member.address_a_village}, #{@member.address_a_district}, #{@member.address_a_pincode}" %> </p>
+
+  <p><strong>Permanent Address</strong>  <%= "#{@member.address_b_building}, #{@member.address_b_village}, #{@member.address_b_district}, #{@member.address_b_pincode}" %> </p>
+
+</div>
+
+
+<h4 class="mt-3">Membership Details</h4>
+
+ 
+
+<% if @member.memberships.any? %>
+  <% membership = @member.memberships.last %>
+  <div class="card  p-3 mt-3">
+    <table class="table">
+    <thead>
+      <tr>
+        <th>Number of shares</th>
+        <th>Amount</th>
+        <th>Nominee name</th>
+        <th>Nominee relationship</th>
+        <th>Nominee phone</th>
+        <th>Resolution no</th>
+        <th>Resolution date</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><%= membership.number_of_shares %></td>
+          <td><%= membership.amount %></td>
+          <td><%= membership.nominee_name %></td>
+          <td><%= membership.nominee_relationship %></td>
+          <td><%= membership.nominee_phone %></td>
+          <td><%= membership.resolution_no %></td>
+          <td><%= membership.resolution_date %></td>
+        </tr>
+    </tbody>
+  </table>
+
+   </div>
+<% end %>
+<br />
+
+<h4 class="mt-3" style="display: none;">Loan Applications</h4>
+
+<% unless @member.loan_applications.blank? %>
+  <div class="card  p-3 mt-3" style="display: none;">
+    <table class="table loan-table table-bordered list-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Applicant Name</th>
+          <th>Account No</th>
+          <th>Loan Amount</th>
+          <th>Term</th>
+          <th>Rate of Interest</th>
+
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @member.loan_applications.each_with_index do |loan, index| %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= loan.member.name %></td>
+            <td><%= loan.account_no %></td>
+            <td>₹ <%= loan.loan_amount %></td>
+            <td><%= loan.loan_term %></td>
+            <td><%= loan.rate_of_interest %>%</td>
+
+            <td>
+              <%= link_to "Print Loan", member_loan_application_path(loan.member, loan, format: :pdf), class: "btn btn-info btn-sm" %>
+              <%= link_to "Edit", edit_member_loan_application_path(loan.member, loan), class: "btn btn-warning btn-sm" %>
+              <%= link_to "Show", member_loan_application_path(loan.member, loan), class: "btn btn-sm btn-secondary " %>
+            </td>
+          </tr>
+        <% end %>
+
+        <% if @member.loan_applications.empty? %>
+          <tr>
+            <td colspan="8" class="text-center">No loan applications yet</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+<br style="display: none;" />
+
+<h4 class="mt-3" style="display: none;">Income Declaration</h4>
+
+<% unless @member.income_declaration.blank? %>
+
+  <div class="card  p-3 mt-3" style="display: none;">
+    <table class="table">
+    <thead>
+      <tr>
+        <th>Occupation</th>
+        <th>Income</th>
+
+        <th>Print</th>
+
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><%= @member.income_declaration.occupation %></td>
+          <td><%= @member.income_declaration.income %></td>
+          <td> <%= link_to "Print Declaration", member_income_declaration_path(@member, @member.income_declaration, format: :pdf), class: "btn btn-info  btn-sm" %></td>
+        </tr>
+    </tbody>
+  </table>
+
+   </div>
+<%else%>
+  <p style="display: none;"> No Income Declaration Yet </p>
+<% end %>
+
+<hr />
+
+
+<br />
+<br />
+
+<div class="modal fade" id="guarantorModal" tabindex="-1" aria-labelledby="guarantorModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="guarantorModalLabel">Select Guarantors</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <%= form_with url: loan_applications_path, method: :post, local: true do |f| %>
+          
+          <%= label_tag "loan_application_guarantor_ids", "Guarantors" %>
+          <%= select_tag "loan_application[guarantor_ids][]",
+            options_for_select(
+              Member.where.not(id: @member.id).map { |m| ["#{m.name} (S/o #{m.father_or_husband_name})", m.id] }
+            ),
+            multiple: true,
+            class: "form-select slim-select",
+            id: "guarantor-select" %>
+          <strong>Selected: <span id="selected-count">0</span>/5</strong>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-success" id="continue-loan">Continue</button>
+          </div>
+
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<script>
+  document.addEventListener("turbo:load", function () {
+    // Get the select element
+    const selectElement = document.querySelector('#guarantor-select');
+    if (!selectElement) {
+      console.error("Could not find #guarantor-select");
+      return;
+    }
+
+    // Initialize SlimSelect only once on this element
+    if (!selectElement.dataset.slimInitialized) {
+      new SlimSelect({
+        select: selectElement,
+          searchText: 'No results found', // Optional customization
+          placeholder: 'Select up to 5 guarantors',
+          closeOnSelect: false,
+          allowDeselect: true,
+          showSearch: true, // Ensures search input is visible
+          maxSelected: 5,
+           settings: {
+            contentLocation: document.querySelector('#guarantorModal .modal-body'),
+            contentPosition: 'relative',
+          }
+      });
+      selectElement.dataset.slimInitialized = "true";
+    }
+
+    // Ensure other necessary elements exist
+    const selectedCount = document.getElementById("selected-count");
+    const continueButton = document.getElementById("continue-loan");
+    if (!selectedCount) {
+      console.error("Could not find #selected-count");
+      return;
+    }
+    if (!continueButton) {
+      console.error("Could not find #continue-loan");
+      return;
+    }
+
+    // Function to update the selected count and control button state
+    function updateSelection() {
+      const selectedOptions = Array.from(selectElement.selectedOptions);
+      selectedCount.innerText = selectedOptions.length;
+      // Enable the continue button only if at least 1 guarantor is selected
+      continueButton.disabled = selectedOptions.length === 0;
+      console.log("updateSelection:", selectedOptions.length, "options selected");
+    }
+
+    // Event listener for selection changes
+    selectElement.addEventListener("change", updateSelection);
+    updateSelection();
+
+    // Debug: Log button click to verify event is captured
+    continueButton.addEventListener("click", function () {
+      console.log("Continue button clicked");
+      const selectedGuarantors = Array.from(selectElement.selectedOptions).map(opt => opt.value);
+      console.log("Selected guarantors:", selectedGuarantors);
+      if (selectedGuarantors.length === 0) {
+        console.warn("No guarantors selected, aborting redirect.");
+        return;
+      }
+      // Use ERB to inject the correct member ID; ensure your view has proper ERB context.
+      const memberId = <%= @member.id %>;  
+      const url = `/members/${memberId}/loan_applications/new?g=${selectedGuarantors.join(",")}`;
+      console.log("Redirecting to:", url);
+      window.location.href = url;
+    });
+  });
+</script>
+
+

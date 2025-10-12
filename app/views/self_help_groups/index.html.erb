@@ -1,0 +1,35 @@
+<div class="d-flex justify-content-between align-items-center mt-3">
+  <h5 class="mb-0">Self Help Groups</h5>
+  <%= link_to "New Membership", new_self_help_group_path, class: "btn btn-primary" %>
+</div>
+<br />
+
+ 
+
+<table class='table table-bordered list-table'>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @self_help_groups.each do |shg| %>
+      <tr>
+        <td><%= shg.id %></td>
+        <td><%= shg.name %></td>
+         
+ 
+        <td>
+       
+          <%= link_to "Edit", edit_self_help_group_path(shg), class: 'btn btn-sm btn-warning' %>
+       
+          <%= link_to "Show", self_help_group_path(shg), class: 'btn btn-sm btn-secondary' %>
+          <%= link_to "Create Loan Application", new_self_help_group_shg_loan_application_path(shg), class: 'btn btn-sm btn-secondary' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

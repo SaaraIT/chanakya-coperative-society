@@ -1,0 +1,397 @@
+
+@import url(https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap);
+
+/* Material Design Customizations */
+body {
+    font-family: Inter, 'Roboto', sans-serif;
+    overflow-x: hidden!important;
+    font-size: .9375rem;
+    color: #37474f;
+    background-color: #f8f9fa !important;
+}
+
+main {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Floating Action Button Enhancements */
+.fixed-action-btn {
+    bottom: 45px;
+    right: 45px;
+}
+
+.btn-floating.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(25, 118, 210, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 20px rgba(25, 118, 210, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(25, 118, 210, 0);
+    }
+}
+
+/* Material Design Table Styles */
+.list-table, .table {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.list-table tr th, .table thead th {
+    background: #fafbfc;
+    color: #546e7a;
+    padding: 12px 16px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.list-table tbody tr, .table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s ease;
+}
+
+.list-table tbody tr:hover, .table tbody tr:hover {
+    background-color: #f5f8fa;
+}
+
+.table tbody tr td {
+    background: none;
+    padding: 14px 16px;
+}
+
+/* Material Design Striped Tables */
+table.striped thead tr {
+    background: #fafbfc;
+    color: #546e7a;
+}
+
+table.striped thead tr th {
+    padding: 14px 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.8125rem;
+    letter-spacing: 0.5px;
+}
+
+table.striped tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+table.striped tbody tr:hover {
+    background-color: #f5f8fa !important;
+}
+
+.member-row td {
+    vertical-align: middle;
+}
+
+/* Action Buttons Group */
+.center-align .btn-floating {
+    margin: 0 4px;
+}
+
+/* Material Design Form Styles */
+.fixed-label .input-field label {
+    display: inline-block;
+    padding-right: 10px;
+    min-width: 300px;
+}
+
+input:not([type]), input[type=text]:not(.browser-default),
+input[type=password]:not(.browser-default),
+input[type=email]:not(.browser-default),
+input[type=url]:not(.browser-default),
+input[type=time]:not(.browser-default),
+input[type=date]:not(.browser-default),
+input[type=datetime]:not(.browser-default),
+input[type=datetime-local]:not(.browser-default),
+input[type=tel]:not(.browser-default),
+input[type=number]:not(.browser-default),
+input[type=search]:not(.browser-default),
+textarea.materialize-textarea {
+    border: 1px solid #e0e0e0;
+    padding: 8px 12px;
+    border-radius: 6px;
+    height: 40px;
+    margin-bottom: 0;
+    transition: border-color 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #42a5f5 !important;
+    box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.1) !important;
+    outline: none;
+}
+
+select {
+    display: block;
+    border: 1px solid #e0e0e0;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+/* Material Design Buttons */
+.btn, .btn-large, .btn-small {
+    text-transform: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    transition: all 0.2s ease;
+}
+
+.btn-secondary {
+    background: #78909c;
+}
+
+.btn:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+    transform: translateY(-1px);
+}
+
+/* Material Design Cards */
+.card {
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    transition: box-shadow 0.2s ease;
+    overflow: hidden;
+    border: 1px solid #f0f0f0;
+}
+
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.card-panel {
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    border: 1px solid #f0f0f0;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #546e7a;
+    margin-bottom: 15px;
+}
+
+/* Material Design Chips */
+.chip {
+    font-weight: 500;
+    border-radius: 16px;
+    padding: 6px 12px;
+    font-size: 0.8125rem;
+    background-color: #e8f4f8 !important;
+    color: #546e7a !important;
+}
+
+/* Page Headers */
+h4, h5 {
+    font-weight: 500;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    color: #37474f;
+}
+
+/* Material Icons */
+.material-icons {
+  vertical-align: middle;
+}
+
+/* Search Table */
+.search-table.table tbody tr td,
+.search-table.table tbody tr th {
+  background: none;
+}
+
+/* Material Design Alerts */
+.alert {
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.alert-success {
+  background-color: #c8e6c9;
+  color: #2e7d32;
+}
+
+.alert-danger {
+  background-color: #ffcdd2;
+  color: #c62828;
+}
+
+/* Fixed sidebar */
+.sidenav-fixed {
+  position: fixed;
+  left: 0;
+  top: 0;
+  box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+}
+
+/* Utility classes for Material Design spacing */
+.mt-3 {
+  margin-top: 1.5rem !important;
+}
+
+.mb-3 {
+  margin-bottom: 1.5rem !important;
+}
+
+.p-3 {
+  padding: 1rem !important;
+}
+
+/* Loading Animation */
+.progress {
+    background-color: #e3f2fd;
+}
+
+.progress .indeterminate {
+    background-color: #1565c0;
+}
+
+/* Material Icon Sizes */
+.material-icons.tiny {
+    font-size: 16px;
+    vertical-align: text-bottom;
+}
+
+.material-icons.small {
+    font-size: 20px;
+}
+
+.material-icons.medium {
+    font-size: 36px;
+}
+
+.material-icons.large {
+    font-size: 48px;
+}
+
+/* Enhanced Sidebar Styles */
+.sidenav li > a {
+    font-weight: 400;
+    transition: background-color 0.2s ease;
+    color: #546e7a !important;
+}
+
+.sidenav li > a:hover {
+    background-color: #f5f8fa !important;
+}
+
+.sidenav li > a.active {
+    font-weight: 400;
+    background-color: transparent !important;
+    border-left: none;
+    color: #546e7a !important;
+}
+
+/* Smooth scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* Responsive improvements */
+@media only screen and (max-width: 992px) {
+    main {
+        padding-left: 0 !important;
+    }
+
+    .fixed-action-btn {
+        bottom: 23px;
+        right: 23px;
+    }
+}
+
+/* Button background improvements */
+.btn-floating {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+}
+
+.btn-floating:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+.btn-floating.btn-small {
+    --btn-small-height: 36px !important;
+    --btn-height: 48px !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
+    line-height: 36px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 50% !important;
+}
+
+.btn-floating.btn-small i {
+    line-height: 1 !important;
+    font-size: 18px !important;
+    display: block !important;
+    width: 18px !important;
+    height: 18px !important;
+    margin: 0 !important;
+}
+
+.btn-floating.blue {
+    background-color: #42a5f5 !important;
+}
+
+.btn-floating.blue:hover {
+    background-color: #1e88e5 !important;
+}
+
+.btn-floating.orange {
+    background-color: #ffa726 !important;
+}
+
+.btn-floating.orange:hover {
+    background-color: #fb8c00 !important;
+}
+
+.btn-floating.teal {
+    background-color: #26a69a !important;
+}
+
+.btn-floating.teal:hover {
+    background-color: #00897b !important;
+}
+
+/* Remove any background issues */
+.btn, .btn-small, .btn-large, .btn-floating {
+    background-image: none !important;
+    border: none;
+}
+
+/* Better button text */
+.btn i, .btn-floating i {
+    color: white;
+    line-height: inherit;
+}

@@ -1,0 +1,185 @@
+<meta charset="UTF-8">
+<style>
+
+  @font-face {
+            font-family: 'Baloo';
+            src: url('https://fonts.gstatic.com/s/balootamma2/v2/vEFK2_hCAgcR46PaajtrYlBbd7wf8tK1W77HtMo.ttf') format('truetype');
+        }
+
+        /* Set page size to A4, portrait */
+        @page {
+            size: A4 portrait;
+            margin: 12mm;
+        }
+
+        body {
+            font-family: 'Baloo', sans-serif;
+            
+            text-align: justify;
+            margin: 0;
+            /*width: 210mm;*/
+            width: 300mm;
+            height: 297mm;
+            
+        }
+
+  .wrapper {
+    font-family: "Baloo", "Arial", sans-serif;
+    font-size: 20px;
+    
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .right {
+    text-align: right;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+
+  .section {
+    margin-top: 20px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+        font-size: 20px;
+
+  }
+
+  td {
+    vertical-align: cente;
+    padding: 15px 0px;
+  }
+
+  table.section tr td {
+    border-bottom: 1px dotted black;
+  }
+
+  .field {
+    border-bottom: 1px dotted black;
+    display: inline-block;
+    width: 100%;
+  }
+
+  .signature-line {
+    margin-top: 40px;
+  }
+
+  .office-note {
+    margin-top: 30px;
+    padding-top: 10px;
+  }
+
+  .small {
+    font-size: 12px;
+  }
+ 
+</style>
+
+<div class="wrapper">
+  <div class="right">Form No. MB-2</div>
+  <div class="center bold kan"><%= Current.branch.kannada_address %></div>
+  <div class="center small">R. NO. <%= Current.branch.r_no %> <%= Current.branch.kannada_address %></div>
+
+  <div class="section">To Managing Director</div>
+  <div class="center bold"><%= Current.branch.name.upcase %></div>
+  <div class="center small">R. NO. <%= Current.branch.r_no %> <%= Current.branch.english_address %></div>
+  <div class="center bold">APPLICATION FOR ADDITIONAL SHARES</div>
+
+  <table class="section">
+    <tr>
+      <td style="width: 300px">1. <span class="kan">ಅರ್ಜಿದಾರರ ಹೆಸರು:</span><br>Name of the Applicant:</td>
+      <td><%= @member.name %></td>
+      <td style="width: 300px">ಸದಸ್ಯ ಸಂಖ್ಯೆ:<br>Member No.:</td>
+      <td><%= @member.member_no %></td>
+    </tr>
+    <tr>
+      <td>2. <span class="kan">ತಂದೆ/ ಗಂಡನ ಹೆಸರು:</span><br>Father’s/Husband Name:</td>
+      <td><%= @member.father_or_husband_name %></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>3. <span class="kan">ತಂಗುದಾಣ ವಿಳಾಸ ಮತ್ತು ದೂರವಾಣಿ ಸಂಖ್ಯೆ:</span><br>Permanent Address & Phone No:</td>
+      <td colspan="3">
+        <%= @member.address %><br>
+        <%= @member.mobile_number %>
+      </td>
+    </tr>
+    <tr>
+      <td style="width: 300px">4. <span class="kan">ಹೊಂದಿರುವ ಹಂಚಿಕೆಗಳ ಸಂಖ್ಯೆ:</span><br>No. of Shares already held</td>
+      
+      <td> <%= @member.memberships.last.try(:number_of_shares) %></td>
+      <td >ಹಂಚಿಕೆದ ಹೂಡಿಕೆ ಮೊತ್ತ ರೂ.<br>Share Capital paid Rs.</td>
+      
+      <td><%= number_to_indian_currency(@member.memberships.last.try(:amount)) %></td>
+    </tr>
+    <tr>
+      <td>5. <span class="kan">ಇನ್ನಷ್ಟು ಬೇಡಿದ ಹಂಚಿಕೆಗಳ ಸಂಖ್ಯೆ:</span><br>No. of Additional Shares required</td>
+      <td><%= @application.additional_shares_required %></td>
+      <td >ಹಂಚಿಕೆದ ಹೂಡಿಕೆ ಮೊತ್ತ ರೂ.<br>Share Capital to be paid Rs.</td>
+      <td><%= @application.additional_share_capital_to_be_paid %></td>
+    </tr>
+  </table>
+
+  <div class="section">
+    <span class="kan">ಸಂಸ್ಥೆಯ ನಿಯಮ ಹಾಗೂ ಮುಂದಿನ ಮುಖ್ಯವಾರ್ಷಿಕ ಸಭೆಯಲ್ಲಿ ತೀರ್ಮಾನವಾದ ತಿದ್ದುಪಡಿ ನಿಯಮಾನುಸಾರ ಈ ಹೆಚ್ಚಿನ ಹಂಚಿಕೆಗಳನ್ನು ಮಂಜೂರು ಮಾಡಬೇಕಾಗಿ ಕೋರುತ್ತೇನೆ.</span><br>
+    I request you to sanction me the additional Shares mentioned above, subject to the <b>Rules of the Society</b> and rules which may come into force in future time to time.
+  </div>
+  <br>
+  <table class="section">
+    <tr>
+      <td style="width: 70%">ಸ್ಥಳ: Place: <%= @application.place %><br> ದಿನಾಂಕ: Date: <%= format_date(@application.application_date) %></td>
+      <td>ಅರ್ಜಿದಾರರ ಸಹಿ<br>Signature of the Applicant</td>
+    </tr>
+  </table>
+
+  <div class="office-note">
+    <div class="center bold">ಕಚೇರಿ ಟಿಪ್ಪಣಿ : OFFICE NOTE</div>
+    <br>
+
+    <table>
+      <tr>
+        <td style="width: 40%">ರಸೀದಿ ಸಂ:<br>Receipt No.</td>
+        <td style="width: 40%">ತಾರೀಕು:<br>Date</td>
+        <td>ಹೂಡಿಕೆಯ ಮೊತ್ತ:<br>L.F.</td>
+      </tr>
+      <tr>
+        <td><div class="field"><%= @application.receipt_no %></div></td>
+        <td><div class="field"><%= format_date(@application.office_date) %></div></td>
+        <td><div class="field"><%= @application.office_share_capital %></div></td>
+      </tr>
+    </table>
+
+    <table>
+      <tr>
+        <td style="width: 80%">ಗುಮಾಸ್ತೆ Clerk:</td>
+        <td>ವ್ಯವಸ್ಥಾಪಕ/MD:</td>
+      </tr>
+      <tr>
+        <td><div class="field"></div></td>
+        <td><div class="field"></div></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <span class="kan">ಅರ್ಜಿದಾರರ ಸಹಿ ಮಾದರಿ</span><br>
+    Specimen Signature of the Candidate:
+    <br>
+    <br />
+
+    <table>
+      <tr>
+        <td style="width: 80%">1 ____________________</td>
+        <td>2 ____________________</td>
+      </tr>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,2 @@
+module ProNotesHelper
+end

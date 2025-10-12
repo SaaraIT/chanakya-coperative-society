@@ -1,0 +1,111 @@
+<style>
+
+    @page {
+      size: A4 portrait;
+      margin: 12mm;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+    .italic {
+      font-style: italic;
+    }
+
+    .underline {
+       text-decoration: underline;
+       text-decoration-style: dotted;
+       text-underline-offset: 0.2em;
+    }
+
+    .right-align {
+      text-align: right;
+    }
+
+    .center-align {
+      text-align: center;
+    }
+
+    .signature {
+      margin-top: 50px;
+    }
+
+    input, textarea {
+      border: none;
+      border-bottom: 1px dotted #000;
+      width: auto;
+      display: inline;
+      font-family: inherit;
+      font-size: inherit;
+    }
+</style>
+
+<%= form_with(model: [@member, @income_declaration], local: true) do |f| %>
+  <% if @income_declaration.errors.any? %>
+    <div class="error-messages">
+      <h2><%= pluralize(@income_declaration.errors.count, "error") %> prohibited this record from being saved:</h2>
+      <ul>
+        <% @income_declaration.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+   <% end %>
+
+  <p class="right-align italic">Form NO. MB-41</p>
+  <h3 style="margin-bottom: 30px"><center>INCOME DECLARATION </center></h3>
+
+  <p class="right-align bold">Date: <%= Date.today.strftime("%d-%m-%Y") %></p>
+
+  <p class="bold">From</p>
+  <p>
+    <span class="underline"> <%= @income_declaration.member.name_and_address(true).html_safe %> </span>
+  </p>
+
+  <p class="bold">To</p>
+  <p>
+    <span class="italic bold">The Managing Director / Branch Manager</span><br>
+    <span class="italic">Mathrubhoomi Souharda Sahakari Sangha Ltd.</span>
+  </p>
+
+  <p class="underline bold center-align">Subject: Income Declaration</p>
+
+  <p class="italic bold">Dear Sir,</p>
+
+  <p>
+    Here with I am Declaring that presently I am engaging / working for / as <span class="text-danger bold">*</span>
+    <%= f.text_field :occupation, placeholder: "Occupation", value: @member.occupation %>
+    with M/s
+    <%= f.text_field :company_name, placeholder: "Company Name" %>
+   
+    <span class="italic">Since</span>
+    <%= f.number_field :years_of_experience, placeholder: "Years", min: 0 %> years.
+  </p>
+
+  <p>
+    <span class="bold">My present salary income/ professional income/ business income is <span class="text-danger">*</span>Rs.</span>
+    <%= f.number_field :income, step: 0.01, placeholder: "Amount (Rs.)" %>
+  
+    <span class="italic">per month/ year.</span>
+    <%= f.text_field :income_period, placeholder: "Income Period" %>
+  </p>
+
+  <p class="italic">
+    And also state that all the information given above is
+    <span class="bold">true to the best of my knowledge and ability.</span>
+  </p>
+
+   <p>Thanking you</p>
+    <p class="signature right-align" style="margin-right: 10px">Yours faithfully</p>
+    <p class="signature right-align" style="margin-right: 10px">( <span class="center-align"><%= @income_declaration.member.name %> </span>)</p>
+    <p class="signature right-align italic">Name of the declarant</p>
+ 
+  </p>
+
+   <hr />
+   <div class="form-group">
+      <%= f.submit "Submit", class: "btn btn-primary" %>
+   </div>
+   <br />
+<% end %>

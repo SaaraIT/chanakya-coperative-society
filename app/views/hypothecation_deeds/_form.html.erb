@@ -1,0 +1,250 @@
+ 
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            
+            line-height: 1.6;
+        }
+         @page {
+            size: A4 portrait;
+            margin: 12mm;
+        }
+
+         
+        
+        .header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .section {
+            margin-bottom: 15px;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .center {
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        table.schedule {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table.schedule th, table.schedule td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        table.schedule th {
+            background-color: #f2f2f2;
+        }
+        .underline {
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            text-underline-offset: 0.2em;
+            padding: 0px 10px;
+        }
+</style>
+ 
+<%= form_with(model: [@member, @loan_application, @hypothecation_deed], local: true) do |f| %>
+   
+    <% if @hypothecation_deed.errors.any? %>
+      <div class="error-messages">
+        <h2><%= pluralize(@hypothecation_deed.errors.count, "error") %> prohibited this loan application from being saved:</h2>
+        <ul>
+          <% @hypothecation_deed.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+
+    <div class="header">HYPOTHECATION DEED</div>
+    
+    <div class="section">
+        <span class="bold">Re :</span> Term loan / composite loan for Rs <%= f.number_field :loan_amount, step: "0.01", value: @loan_application.sanction_amount %> 
+    </div>
+    <div class="section">
+        This deed of Agreement made this on this <%= f.text_field :day, placeholder: "Day", value: Date.today.day.ordinalize
+ %> day of <%= f.text_field :month, placeholder: "Month", value: Date.today.strftime("%B") %> two thousand <%= f.text_field :year, placeholder: "Year",value: Date.today.strftime("%Y").to_s[-2..-1].to_i %>
+    </div>
+    <div class="section">
+        Between <span  class="underline" style="width: 1000px;"> <%= @loan_application.applicant_names_and_addresses %> </span> hereinafter called the Borrower which expression wherever the context so requires or admits shall also include his attorneys, successors - in - title, legal heirs, executors, administrators and assigns on the one part and MSS Ltd <span  class="underline"> <%= Current.branch.try(:name) %> </span> Branch / <span  class="underline"> <%= Current.branch.try(:manager_name) %> </span> dt <span  class="underline"><%= @loan_application.sanction_order_date %> </span> with its registered office at <span  class="underline"> <%= Current.branch.try(:address) %> </span> hereinafter called the Sahakari / Co-operative which term shall wherever the context so requires or admits shall also include its attorneys; Successor - in- title, administrators and assigns on the other part.
+    </div>
+    <div class="section">
+        Whereas the Sahakari / Co-operative has been implementing the scheme to finance non-form activities through the provision of a package of financial assistance; and whereas the borrower has approached the Sahakari / Co-operative to provide financial assistance up to a limit of Rs <span  class="underline" > <%= @loan_application.loan_amount %></span>(Rupees <span  class="underline" > number_to_currency_words(<%= @loan_application.loan_amount %>) </span> only) for the purpose of <%= @loan_application.loan_purpose %>
+    </div>
+    <div class="section">
+        Whereas the Sahakari / Co-operative has agreed to advance up to a maximum of loan of aforesaid subject to its absolute discretion; and
+    </div>
+    <div class="section">
+        Whereas in the event of the Sahakari / Co-operative advancing amounts as aforesaid, the Borrower has agreed to repay the liabilities arising there under on the security of the assets acquired / to be acquired by availing the loan limit and the assets created from time out of the Sahakari / Co-operative finance and any other securities / as may be required by the Sahakari / Co-operative to be furnished to the Sahakari / Co-operative from time to time.
+    </div>
+    <div class="section">
+        <span class="bold">1. The Borrower's proposal</span> dated <%= f.date_field :agreement_date, value: @loan_application.application_date %> and such other proposal to be given hereafter shall be deemed to have constituted the basis of this agreement and of the finances advanced and to be advanced by the Sahakari / Co-operative in terms of agreement and the borrower hereby Warrants the correctness of each and every one of the statements and particulars therein contained and undertakes to carry out the statements set forth therein.
+    </div>
+    <div class="section">
+        <span class="bold">2. The Sahakari / Co-operative</span> in its absolute discretion and in consideration of the understanding arrived at and in consideration of these presents agrees to grant to the borrower accommodation up to the extent of Rs <%= f.number_field :term_loan_amount, step: "0.01", value: @loan_application.sanction_amount %> by way of term loan and up to the extent of Rs <%= f.number_field :working_capital_amount, step: "0.01", value: @loan_application.sanction_amount %> by way of working capital to enable the Borrower to undertake self-employment ventures in industry / handicrafts. The term loan being for purchase of acquiring machinery items, goods accessories and any other fixed assets and the working capital limits are considered necessary and the Sahakari / Co-operative considers the request of the borrower in its absolute discretion for granting of enhanced limits, agrees to grant such enhanced limits subject however to the maximum limits for Rs <%= f.number_field :maximum_limit, step: "0.01" %> by Sahakari / Co-operative ..............................as mutually agreed to by the Sahakari / Co-operative and the borrower subject to the Sahakari / Co-operative usual rules of the business and the borrower hereby hypothecates in favour of the Sahakari / Co-operative and borrower subject to the machinery plants, accessories, tools, instruments, raw materials, goods-in-process, finished goods, and other assets as are and / or may be belonging to the borrower described in general terms in the schedule here to now held and other place and / or brought to or stored in the above said premises of the borrower all such goods machinery items etc. are hereinafter called the "hypothecated goods" as security for the due repayment to the Sahakari / Co-operative of the sums advanced / to be advanced from time to time and costs, miscellaneous expenses charged to the accounts from time to time including interest at the rate of <%= f.number_field :interest_rate, step: "0.01" %>% per annum. The Sahakari / Co-operative shall not be required to make or continue any of the loans otherwise than at the Sahakari / Co-operative discretion.
+    </div>
+    
+       <div class="section">The borrower shall not, without the previous consent in writing of the Sahakari/Co-operative, be at liberty to sell or part with the hypothecated goods or any of them. If upon such consent the hypothecated goods or any of them are sold/parted with by the borrower, full value thereof shall be paid into said accounts, or goods of a similar nature shall be substituted.</div>
+        <div class="section">The borrower shall insure in the joint names of the borrower and the Sahakari/Co-operative and keep insured the hypothecated goods for their full market value against fire and other risks. On failure by the borrower to insure the goods or keep the insurance in force, the Sahakari/Co-operative shall be at liberty to effect or keep in force the insurance at the expense of the borrower.</div>
+        <div class="section">The hypothecated goods, all sale proceeds of the hypothecated goods, and all the benefits of the policies of insurance shall be exclusively appropriated to the liability created by this deed. The borrower undertakes not to create any mortgage, charge, or lienor encumbrance affecting the hypothecated goods or do anything to diminish the security.</div>
+        <div class="section">The borrower expressly agrees and undertakes that the said advance shall be utilized exclusively for the purposes set forth in the Borrower proposal and for no other purpose.</div>
+        <div class="section">The borrower undertakes to notify the Sahakari/Co-operative in writing of any circumstances affecting the correctness of any of the particulars set forth in the Borrower’s proposal statement within ten days after the occurrence of any such circumstances.</div>
+        <div class="section">
+        <p><span class="bold">8.</span> The Borrower hereby agrees to repay the liability as per the stipulations prescribed by the Sahakari / Co-operative at the end of sanction of the composite loan with interest at ....................................... per annum, as prescribed by NABARD or any other rate of interest stipulated from time by the Sahakari / Co-operative and such interest shall be payable by the borrower as per the stipulated schedule or repayment and if the Borrower fails to repay the interest shall be payable by the borrower as the stipulated schedule or repayment and if the Borrower fails to pay Principal and interest on the composite loan the Sahakari / Co-operative is entitled to realise the amount by selling the machineries, plants, accessories, tools, instruments, raw materials, goods in process, finished goods and other assets which have been hypothecated or acquired out of the finances given by the Sahakari / Co-operative.</p>
+    </div>
+ 
+    <div class="section">
+       <p><strong>9.</strong> The borrower is entitled to a moratorium of <%= f.number_field :moratorium_period, step: "0.01" %> months from the date of first granting of the financial assistance under the loan limit and it shall be repaid by the Borrower to the Sahakari / Co-operative in yearly / half yearly / quarterly / monthly installments each of Rs.  <%= f.number_field :installment_amount, step: "0.01" %> and the first of such installment shall be paid on <%= f.date_field :first_installment_date %> and the subsequent installment on <%= f.date_field :subsequent_installment_date %></p>
+    </div>
+    <div class="section">
+      <p><strong>10.</strong> The Sahakari / Co-operative may, if it is of the opinion that any default has occurred due to genuine reasons grant further time or extend the period of loan and / or reschedule the installment due which event the borrower shall be liable to adhere to the extension so granted or reschedule prescribed by the Sahakari / Co-operative.</p>
+    </div>
+    
+    <div class="section">
+        <p><span class="bold">11.</span> Not with standing anything contained or in the security documents the <span class="bold">Sahakari/ Co-operative</span> shall in its absolute discretion have the right to treat the whole advance as fallen due and to <span class="bold">demand repayment</span> of the same at any time and the borrower shall be liable to repay the same with <span class="bold">interest and other charges</span>, etc. to the Sahakari / Co-operative shall be entitled to enforce the <span class="bold">security / lies</span> upon the happening of any of the following events namely:</p>
+        <ul>
+            <li>(a) any installments or portion of the Principal money being unpaid upon the due date for payment thereof;</li>
+            <li>(b) any interest of portion remaining unpaid and in arrears for a period of three months after the same shall have become due whether demanded or not;</li>
+            <li>(c) the borrower committing any breach or default in the performance of observance of these presents and or the borrower's proposal and / or the security documents or any other terms or condition relating to the advance.</li>
+            <li>(d) the borrower into any agreement of composition with its creditors or committing any act of insolvency;</li>
+
+            <li>(e) execution or distress being enforced or leveled against the whole or any part of the Borrower's property;</li>
+
+            <li>(f) the borrower becoming an insolvent;</li>
+
+            <li>(g) any of the partners of the Borrower (if a firm) being adjudicated insolvent or taking advantage of any law for the relief of insolvent debtors;</li>
+
+            <li>(h) a receiver being appointed in respect of whole or any part of the property of the borrower;</li>
+
+            <li>(i) the borrower ceasing or threatening to cease to carry on business</li>
+
+            <li>(j) the occurrence of any circumstance which is prejudicial to or imperils or depreciates or is likely to prejudice, impair, imperil or depreciate the security given to the Sahakari/ Co-operative and</li>
+
+            <li>(k) the occurrence of any events or circumstances which would or is likely to prejudicially or adversely affect in any manner the capacity of the Borrower to repay the loan.</li>
+        </ul>
+    </div>
+    <div class="section">
+       <p><span class="bold">12.</span> The Borrower shall pay all charge and taxes, statutory or otherwise in respect of security; the Co-operative may also without being bound to do so pay all such charges and taxes at the cost of the borrower and if necessary by debit to the borrower's account.</p>
+    </div>
+    
+    <div class="section">
+      <p><span class="bold">13.</span> The borrower shall upon every reasonable request to the Sahakari / Co-operative allow the Sahakari / Co-operative and any nominee servant or agent of the co-operative to inspect the borrower's premises and plant and the Borrower’s book of account for ensuring that the Borrower has duly complied with the terms of the advance.</p>
+    </div>
+       
+    <div class="section">
+      <p><span class="bold">14.</span> The Borrower will furnish the Sahakari / Co-operative with all such information as the Sahakari / Co-operative may reasonably require, to the Sahakari / Co-operative satisfaction as to due compliance with terms of the advance and all such periodical reports and information at such times, in such forms and containing such particulars, as the Sahakari / Co-operative may call for or for the purpose of ascertaining the result of the utilization of the said advance.</p>
+     </div>
+     
+     
+        <div class="section">
+          <p><span class="bold">15.</span> The Sahakari / Co-operative shall have right to take possession of all or any of the hypothecated goods and to sell and dispose of the same whether by public auction or by private treaty or otherwise either in the local market or by shipping or by railing or otherwise conveying them to other place or place at the risk and cost of borrower and to do everything necessary or incidental to such taking possession, transporting or selling. All charges and expenses of such sale shall be debited to the Borrower's account, covered by this agreement. The borrower will also accept correct the statement of account of such sale as per the books of the Sahakari / Co-operative signed by obtained or as regards any other Circumstances.</p>
+        </div>
+
+        <div class="section">
+           <p><span class="bold">16.</span> The net proceeds of such sale shall be credited to the account in payment of or in reduction to extent possible of the balance in account then due to the Sahakari / Co-operative inclusive of all interest charges and expenses upto that date. The proceeds of the insurance policies taken out in terms of clause 4 above received upon the happening of the contingencies or risks thereby provided against shall similarly applied.</p>
+        </div>
+
+        <div class="section">
+          <p><span class="bold">17.</span> If the sale proceeds and / or the proceeds of the insurance as the case may be are insufficient to cover the balance in the account with the Sahakari / Co-operative shall be at liberty to apply any money / s in the hands of the Sahakari / Co-operative standing to the credit of or belonging to the Borrower in or towards the Balance the account due to the Sahakari / Co-operative and thereafter in any further balance in the account be due the borrower shall forth with pay to Sahakari / Co-operative the ultimate balance thus remaining due.</p>
+        </div>
+
+        <div class="section">
+          <p><span class="bold">18.</span> In the event of there being a surplus out of the sale proceeds of the insurance after full payment of the ultimate balance in the account due to the Sahakari / Co-operative it shall be lawful the Sahakari / Co-operative retain and apply the said surplus together with any other money or moneys of the borrower in any accounts whatever in payment of or reduction of any debt or liability or obligation which is due May become enforceable by the Sahakari / Co-operative against the Borrower whether solely or jointly with any other person, firm company.</p>
+        </div>
+
+        <div class="section">
+           <p><span class="bold">19.</span> So long as the account remain in force or uncleared the parties to this agreement shall be entitled to treat this agreement as continuing and the agreement shall not be deemed to create a new or distinct contract until it is treated or declared as come to an end by the Sahakari / Co-operative and the security / ies provided to be provided as per this deed as well as every other security / ies as continuing security / ies shall be available for being proceeded against for the repayment of all amount of all amounts due from time to time by Borrower to the Sahakari / Co-operative withstanding:
+
+             <ul>
+               <li>(a) the existence of credit balance or Nil" balance in loan accounts at any time or any partial payment or fluctuation in the accounts. </li>
+
+               <li>(b) any loans or any part there of have repaid either after demand has been made by the Sahakari / Co-operative or otherwise or has not been repaid. </li>
+             </ul>   
+          </p>
+       </div>
+       
+       <div class="section">
+           <p><span class="bold">20.</span> Nothing here in contained shall affect diminish limit negative or take away the right of the Sahakari / Co-operative to recover personally from the Borrower other properties the balance for the time being due in the accounts not withstanding that all or any hypothecated goods may not have been sold or realised, And nothing herein contained shall prejudice or affect the right and reedies of the Sahakari / Co-operative a part from the irrespective of this deed in respect of any other debits, liabilities or obligation by Borrower to the Sahakari / Co-operative.</p>
+       </div>
+
+       <div class="section">
+           <p><span class="bold">21.</span> If the Borrower be more than one individual each one or any them is / are authorised and empowered by the other (s) of them to admit and acknowledge his their liability to the Co-operative / Society by any payment in to the account (s) or by way of express writing in any manner or otherwise any such admission and acknowledgment of the liabilities by one or more of them shall be construed to have been made on behalf of each them.</p>
+       </div>
+       
+        <h2 class="center">SCHEDULE I</h2>
+    <p class="center">(Here below describe the tools / equipments / fixtures / machines etc.)</p>
+    <table class="schedule">
+        <tr>
+            <th style="width: 1px">Sl.No</th>
+            <th>Description of Item</th>
+            <th>D.O.P</th>
+            <th>Insurance No</th>
+            <th>Surrender Value</th>
+        </tr>
+        <tr><td>1.</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>2.</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>3.</td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>4.</td><td></td><td></td><td></td><td></td></tr>
+    </table>
+    
+    <h2 class="center">SCHEDULE II</h2>
+    <p class="center">(Here below describe brief particulars of all raw - materials)</p>
+    <table class="schedule">
+        <tr>
+            <th style="width: 1px">Sl.No</th>
+            <th>Description</th>
+        </tr>
+        <tr><td>1.</td><td></td></tr>
+        <tr><td>2.</td><td></td></tr>
+        <tr><td>3.</td><td></td></tr>
+        <tr><td>4.</td><td></td></tr>
+    </table>
+     
+    <p><strong>IN WITNESS WHEREOF THE SAHAKARI/ CO-OPERATIVE AND BORROWER HAVE SIGNED THIS AGREEMENT</strong></p>
+    <p>OF THE <%= f.text_field :signed_day, placeholder: "Day", value: Date.today.day.ordinalize
+ %> DAY OF <%= f.text_field :signed_month, placeholder: "Month", value: Date.today.strftime("%B") %> 20 <%= f.text_field :signed_year, placeholder: "Year",value: Date.today.strftime("%Y").to_s[-2..-1].to_i %></p>
+    
+     <table style="width: 100%">
+        <tr>
+           <td class="left">
+                <p class="bold">SURETY/IES</p>
+                <table>
+                   <% @loan_application.co_obligants.each_with_index do |co_obligant, index| %>
+                      <tr>
+                        <td> <%= index + 1 %>):  <%=  co_obligant.member.name %></td>
+                      </tr>
+                   <%end%>
+                </table>
+                
+            </td>
+            <td class="middle">
+                <p>For The Mathrubhoomi S.S.S Ltd.</p>
+            </td>
+            <td class="right">
+                <p class="bold">BORROWER/S</p>
+            </td>
+        </tr>
+
+        <tr> 
+            <td class="middle" colspan="3" style="text-align: center;">
+                <p><%= Current.branch.try(:name) %>
+         BRANCH MANAGER</p>
+            </td>
+             
+        </tr>
+    </table>
+
+ 
+   <hr />
+   <div class="form-group">
+      <%= f.submit "Submit", class: "btn btn-primary" %>
+   </div>
+   <br />
+<% end %>

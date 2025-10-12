@@ -1,0 +1,66 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="h2">Super Admin Dashboard</h1>
+      <p class="text-muted">Manage cooperative branches and users</p>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Total Branches</h5>
+          <h2 class="card-text text-primary"><%= @total_branches %></h2>
+          <%= link_to "Manage Branches", admin_branches_path, class: "btn btn-primary" %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Total Users</h5>
+          <h2 class="card-text text-success"><%= @total_users %></h2>
+          <%= link_to "Manage Users", admin_users_path, class: "btn btn-success" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5>Quick Branch Overview</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Branch Name</th>
+                  <th>Phone</th>
+                  <th>Users Count</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @branches.each do |branch| %>
+                  <tr>
+                    <td><%= branch.name %></td>
+                    <td><%= branch.phone_no %></td>
+                    <td><span class="badge bg-info"><%= branch.users.count %></span></td>
+                    <td>
+                      <%= link_to "View", admin_show_branch_path(branch), class: "btn btn-sm btn-outline-primary" %>
+                      <%= link_to "Edit", admin_edit_branch_path(branch), class: "btn btn-sm btn-outline-secondary" %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

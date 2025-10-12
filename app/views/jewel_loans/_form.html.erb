@@ -1,0 +1,128 @@
+ 
+<style>
+     
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      
+    }
+
+    table.bordered{margin-bottom: 20px}
+
+    .bordered tr td, .bordered tr  th {
+      border: 1px solid black;
+      padding: 8px;
+      vertical-align: top;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .no-border {
+      border: none;
+    }
+
+    .signature-space {
+      margin-top: 40px;
+    }
+
+    hr.page-break {
+      page-break-after: always;
+      border: none;
+      margin: 50px 0;
+    }
+    
+    .indent {
+      margin-left: 20px;
+    }
+    
+    .signature-line {
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+    .underline {
+      text-decoration: underline;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .center {
+      text-align: center;
+    }
+    .bold {
+      font-weight: bold;
+    }
+</style>
+
+<%= form_with(model: [@member, @jewel_loan], local: true) do |form| %>
+  <!-- Page 1: Application -->
+  <div class="center">
+ 
+    <p>To The Manager <span class="underline" ><%= Current.branch.try(:name) %></span>  Branch</p>
+    <h5> Application for loan by pledge Of Gold Jewels </h5>
+  </div>
+
+  <table  class="bordered">
+    <tr>
+      <td style="width: 200px">1. Member No</td>
+      <td><%= @member.member_no %></td>
+    </tr>
+    <tr>
+      <td>Name & Address<br>Of the Borrower</td>
+      <td style="height: 100px;"><%= @member.name %> <br /> <%= @member.address %></td>
+    </tr>
+  </table>
+
+  <h5>2. Description of Jewels Offered</h5>
+  <table class="bordered">
+    <tr>
+      <th>Description of Jewels</th>
+      <th>Gross Weight</th>
+      <th>Net Weight</th>
+    </tr>
+    <%= form.fields_for :jewel_items do |j| %>
+       <tr>
+          <td><%= j.text_field :description, class: "form-control" %></td>
+          <td><%= j.number_field :gross_weight, step: 0.01, class: "form-control" %></td>
+          <td><%= j.number_field :net_weight, step: 0.01, class: "form-control" %></td>
+       </tr>
+    <% end %>
+    <tr>
+      <td><strong>Total</strong></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+
+  <p>3. Loan amount Required : ₹ <%= form.number_field :loan_amount, step: 0.01 %> (Rupees ................................... )</p>
+  <p>4. Loan Duration : <%= form.number_field :loan_duration %> months</p>
+  <p>
+    5. I hereby authorise and nominate <%= form.text_field :nominee_name %> Relation : <%= form.text_field :nominee_relation %>  
+    Aged about  <%= form.number_field :nominee_age %> Aadhar No. <%= form.text_field :nominee_aadhaar %> to receive the pledged jewels after my death
+  </p>
+
+  <p class="indented">
+    I hereby declare that the aforesaid jewels belong to me absolutely and I agree to abide the rules of the Sahakari presently in force or that may be modified/amended in future from time to time. This is a computerized application and I read and understood all terms and conditions of this loan.
+  </p>
+
+  <div class="signature-space">
+    <p>_________________________<br>(Signature of the applicant)</p>
+    <p>Loan Sanctioned ₹<%= form.text_field :sanction_amount  %> (Rupees ............................)</p>
+    <br><br>
+    <p>Date:  <%= form.date_field :loan_date, value: Date.today %></p>
+    <p>Place: <%= form.text_field :loan_place, value: Current.branch.name %></p>
+    <p style="text-align: right;">_____________________<br>(Manager’s Signature)</p>
+  </div>
+
+ 
+  
+  <hr />
+  <div class="form-group">
+      <%= form.submit "Submit", class: "btn btn-primary" %>
+  </div>
+  <br />
+<% end %>

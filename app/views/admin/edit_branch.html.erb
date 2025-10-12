@@ -1,0 +1,73 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="h2">Edit Branch: <%= @branch.name %></h1>
+      <%= link_to "Back to Branch", admin_show_branch_path(@branch), class: "btn btn-outline-secondary mb-3" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <%= form_with model: @branch, url: admin_update_branch_path(@branch), method: :patch, local: true do |form| %>
+            <% if @branch.errors.any? %>
+              <div class="alert alert-danger">
+                <h6>Please fix the following errors:</h6>
+                <ul class="mb-0">
+                  <% @branch.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <%= form.label :name, class: "form-label" %>
+                  <%= form.text_field :name, class: "form-control" %>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <%= form.label :cooperative_bank_id, class: "form-label" %>
+                  <%= form.number_field :cooperative_bank_id, class: "form-control" %>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :english_address, class: "form-label" %>
+              <%= form.text_area :english_address, rows: 3, class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= form.label :kannada_address, class: "form-label" %>
+              <%= form.text_area :kannada_address, rows: 3, class: "form-control" %>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <%= form.label :r_no, "R.No", class: "form-label" %>
+                  <%= form.text_field :r_no, class: "form-control" %>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <%= form.label :phone_no, class: "form-label" %>
+                  <%= form.text_field :phone_no, class: "form-control" %>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-grid">
+              <%= form.submit "Update Branch", class: "btn btn-success" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

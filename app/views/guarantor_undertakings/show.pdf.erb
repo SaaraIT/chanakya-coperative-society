@@ -1,0 +1,83 @@
+<style>
+        @page {
+            size: A4 portrait;
+            margin: 12mm;
+
+        }
+
+        body{ font-size: 16px; line-height: 32px}
+        p{line-height: 32px}
+        .bold {
+            font-weight: bold;
+        }
+        .italic {
+            font-style: italic;
+        }
+        .right-align {
+            text-align: right;
+        }
+ 
+        .signature {
+            margin-top: 20px;
+        }
+        .suggestion {
+          padding: 4px 8px;
+          cursor: pointer;
+        }
+        .suggestion:hover {
+          background-color: #eee;
+        }
+
+        .underline {
+            border-bottom: 1px dotted black; margin-bottom: 10px; padding: 0px 6px;
+            
+        }
+
+</style>
+
+    <h2 class="bold" style="text-align: center;">LETTER OF UNDERTAKING FROM GUARANTOR</h2>
+    <p class="right-align">Form No. MB-40</p>
+    <br />
+    <table style="width: 100%; margin-bottom: 10px;">
+      <tr>
+        <td style="width: 75%; vertical-align: top;">
+          <p class="bold">From:</p>
+          <p>
+            <div style="display: inline-block; border-bottom: 1px dotted #000; width: 550px; margin-bottom: 15px"><%= @guarantor_undertaking.guarantor.name %></div>
+            <div style="display: inline-block; border-bottom: 1px dotted #000; width: 550px;"><%= @guarantor_undertaking.guarantor.address %></div>
+          </p>
+        </td>
+        <td style="width: 25%; text-align: right; vertical-align: top;">
+          <p class="bold">Date:</p>
+          <p><%= format_date(@guarantor_undertaking.guarantee_date) %></p>
+        </td>
+      </tr>
+    </table>
+    <br />
+
+    <p class="bold">To:</p>
+    <p><span class="italic">The Branch Manager</span><br>
+       Mathrubhoomi Souharda Sahakari Sangha Ltd.</p>
+    <br />
+    
+
+    <p class="bold italic">Subject: Letter of undertaking to repay the Loan amount</p>
+    <br />
+
+    <p><span class="italic">Dear Sir,</span></p>
+    <p>Mr / Mrs / Ms <span class="underline" style="width: 300px;" id="guarantor_name"><%= @guarantor_undertaking.guarantor.name %></span> <%= @guarantor_undertaking.member.father_or_husband == "Husband" ? "W/O" : "S/O" %> <span class="underline" style="width: 300px;" id="guarantor_father"><%= @guarantor_undertaking.guarantor.father_or_husband_name %></span> Aged about <span class="underline" style="width: 50px;" id="guarantor_age"><%= @guarantor_undertaking.guarantor.age %></span>
+       Residing at <span class="underline" style="width: 400px;" id="guarantor_address"><%= @guarantor_undertaking.guarantor.address %></span> is working with M/S <span class="underline" style="width: 200px;"><%= @guarantor_undertaking.guarantor.employer %> &nbsp;</span> As <span class="underline" style="width:200px;"><%= @guarantor_undertaking.guarantor.profession %> &nbsp;</span> Since/from <span class="underline" style="width: 100px;" id="guarantor_experience"><%= @guarantor_undertaking.guarantor.work_experience %> &nbsp;</span></p>
+    <p><span class="bold">Here with I</span> offer myself as the guarantor to the borrower</p>
+    <p>Mr./Ms./Mrs <span class="underline" style="width: 300px;" ><%= @loan_application.applicant_names %></span> one who is availing a loan of Rs <span class="underline" style="width: 100px;"><%= number_to_indian_currency(@guarantor_undertaking.loan_application.sanction_amount) %></span>
+       (Rupees <span class="underline" style="width: 650px;"><%= number_to_currency_words(@guarantor_undertaking.loan_application.sanction_amount) %></span>) For the purpose of <span class="underline" style="width:400px;" ><%= @guarantor_undertaking.loan_application.loan_purpose %>&nbsp;</span> on <span class="underline" style="width: 300px;" ><%= format_date(@guarantor_undertaking.purpose_date) %>&nbsp;</span></p>
+    <p><span class="bold">Further,</span> I hereby agree to undertake the loan liability of Mr./Mrs./Ms.
+       <span class="underline" style="width: 300px;" ><%= @loan_application.applicant_names %>&nbsp;</span> To repay the loan amount of Rs. <span class="underline" style="width: 100px;"><%= number_to_indian_currency(@guarantor_undertaking.loan_application.sanction_amount) %>&nbsp;</span> (Rupees <span class="underline"><%=  number_to_currency_words(@guarantor_undertaking.loan_application.sanction_amount) %></span> only) along with interest payable for the same on
+       installments specified by you for the period of <span class="underline" style="width: 100px;"><%= @guarantor_undertaking.loan_application.term_bm %>&nbsp;</span> months without fail.</p>
+    <p><span class="italic">I also declare that in case if I fail to do so you have rights on me to recover the same by legally or through any other ways.</span></p>
+    <p>Thanking you</p>
+    <p class="signature right-align" style="margin-right: 30px">Yours faithfully</p>
+    <p class="signature right-align">( <span class="underline" style="min-width: 300px; margin-right: 10px; text-align: center;" id="guarantor_name"><%= @guarantor_undertaking.guarantor.name %></span> )</p>
+    <p class="signature right-align italic"  style="margin-right: 10px">Name of the Undertaker</p>
+ 
+    
+ 

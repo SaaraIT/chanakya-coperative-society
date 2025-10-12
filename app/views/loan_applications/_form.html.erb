@@ -1,0 +1,1223 @@
+    <style>
+        @page {
+            size: A4 portrait;
+            margin: 12mm;
+        }
+
+        
+
+        .container {
+            width: 100%;
+            /*border: 1px solid #000;
+            padding: 15px;*/
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .header img {
+            width: 80px;
+            height: 80px;
+            position: absolute;
+            left: 20px;
+            top: 10px;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .header h2 {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .loan-types {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .loan-types th, .loan-types td {
+            border: 1px solid #aaa;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .section {
+            margin-top: 10px;
+            border: 1px solid #aaa;
+            padding: 10px;
+        }
+        
+        .section.no-border{border: 0px; padding: 0px}
+
+        input{padding-left: 5px}
+
+        .input-field {
+             
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .input-field label {
+            /*flex: 1;*/
+            padding-right: 10px;
+        }
+        
+        .fixed-label .input-field label {
+            flex: 1;
+            
+        }
+
+        .input-field input {
+             
+            border: none;
+            border-bottom: 1px solid #000;
+            outline: none;
+            max-width: 200px;
+             
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+        }
+
+        .table th, .table td {
+            border: 1px solid #aaa;
+            padding: 10px 5px;
+            text-align: left;
+        }
+        
+        h3{margin-top: 25px; margin-bottom: 5px}
+
+        .declaration-box {
+          border: 1px solid #aaa;
+          padding: 10px;
+          margin-top: 20px;
+          font-family: Arial, sans-serif;
+        }
+
+        .declaration-box p {
+          text-align: center;
+           
+        }
+
+        table {
+          width: 100%;
+          margin-top: 10px;
+        }
+
+        td {
+          padding: 5px;
+        }
+
+        .signature-label {
+          text-align: right;
+          font-weight: bold;
+          padding-right: 15px;
+        }
+
+        .signature-placeholder {
+          text-align: right;
+          font-weight: bold;
+        }
+
+        h5.section-header-top{margin-top: 15px; }
+
+        .table tr.no-border td{border-bottom: 0; border-top: 0}
+        .table tr.no-top-border td{ border-top: 0}
+        .table tr td.left-pad-5{padding-left: 20px}
+        .section-wrapper {
+            position: relative; /* This makes the box position relative to this div */
+            
+        }
+
+        .absolute-box {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;  /* Adjust width as needed */
+            height: 150px;  /* Adjust height as needed */
+            border: 1px solid black;
+            background: white;
+        }
+        span.text-danger{font-size: 130%; font-weight: bold}
+        .report_table h4, .declaration-box h5, .declaration-box h4, .section h4{text-decoration: underline;}
+</style>
+
+<%= form_with model: [@member, @loan_application], local: true do |form| %>
+  <% if @loan_application.errors.any? %>
+    <div class="error-messages">
+      <h2><%= pluralize(@loan_application.errors.count, "error") %> prohibited this loan application from being saved:</h2>
+      <ul>
+        <% @loan_application.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+   <% end %>
+   <div class="container">
+       <table class="header-table">
+        <tr>
+            <!-- Left-aligned Logo -->
+            <td style="width: 120px;">
+                <%= image_tag "logo.png" %>
+                
+            </td>
+
+            <!-- Centered Header Text -->
+            <td class="header-text" style="text-align: center; flex-grow: 1;">
+                <h2>Shri Guru Chanakya Souharda Sahakari Sangha Ltd</h2>
+                <h4>(R. NO. <%= Current.branch.r_no %>)</h4>
+                <h4>Mathrudhama, Gurupura Kaikamba, Kinnikambla Post, Mangalore, D.K-574 151</h4>
+                <h2>Loan Application</h2>
+            </td>
+
+             
+        </tr>
+      </table>
+    
+     <table class="loan-types">
+      <tr><th>Loan Type </th> <td><%= form.select :loan_application_type, options_for_select([
+        ["MORTGAGE LOAN", "ML" ],
+        ["SECUTRITY LOAN", "SE"],
+        ["VEHICLE LOAN", "VL"],
+        ["LIC/NSC", "LICNSC"],
+        ["SURITY LOAN", "SL"],
+        ["EDUCATION LOAN", "EL"],
+        ["BUSINESS LOAN", "BL"],
+        ["OTHER", "OTHER"],
+        ["HOUSING LOAN", "HOUSING LOAN"],
+        ["DAILY REPAYMENT LOAN", "DRPL"],
+        ["STAFF LOAN", "STL"]
+      ], selected: form.object.loan_application_type),
+      { prompt: "Select Loan Type" },
+      class: "form-select" %>
+    </td></tr>
+      
+       
+    </table>
+   <br />
+   <%= label_tag "co_applicant_select", "Select Co-Applicants if Any" %>
+   
+   <% excludes = [@loan_application.member_id] %>
+   <% excludes = excludes + params[:g].split(',') if params.has_key?(:g)  %>
+   <% excludes = excludes + @loan_application.co_obligants.map{|co| co.member_id}  %>
+
+   <%= select_tag "loan_application[co_applicant_ids][]",
+      options_from_collection_for_select(Current.branch.members.where.not(id: excludes ), :id, :name, selected: @loan_application.co_applicant_ids),
+      multiple: true,
+      class: "form-select slim-select",
+      id: "co_applicant_select" %>  
+
+   <div class="section no-border" style="margin-bottom: 30px">
+   <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px">
+
+     
+      <div style="width: 50%;">
+        <p>To,</p>
+        <p>The Manager</p>
+        <p><%= Current.branch.try(:name)%> Branch</p>
+
+        <!-- Bordered Section -->
+        <div style="border: 1px solid #aaa; padding: 10px; margin-top: 10px;">
+            <div class="input-field">
+                <label>R. No.<span class="text-danger">*</span></label>
+                <%= form.text_field :r_no %>
+            </div>
+
+            <div class="input-field">
+                <label>Date:</label>
+               <%= form.date_field :application_date, value: Date.today %>
+            </div>
+
+            <!-- Right-aligned text -->
+            <p style="text-align: right;"><i>Section Incharge/Clerk</i></p>
+        </div>
+      </div>
+
+      <!-- Right Section (Photo Box with Label) -->
+      <div style="display: flex; flex-direction: column; align-items: center; padding-top: 40px">
+        <div style="width: 150px; height: 180px; border: 1px solid black; display: flex; align-items: center; justify-content: center;">
+            <p>Paste Photo Here</p>
+        </div>
+        <label style="margin-top: 5px; font-weight: bold;">Applicant</label>
+      </div>
+
+     </div>
+             
+     <div class="input-field" >
+       Member No <span class="text-danger">*</span>
+       <input type="text" value="<%= @member.member_no %>">
+     </div>
+       <p>I/We submit a loan application for Rs. <%= form.number_field :loan_amount, step: "0.01"  %> for the purpose/s mentioned below with following details.</p>
+   </div>
+
+        <h5>01. Name & Address of the Applicant Member</h5>
+        <%= form.fields_for :member, @member do |member_form| %> 
+          <%= member_form.hidden_field :id, value: @member.id %>
+
+          <table class="table">
+            <tr>
+                <th>Full Name</th>
+                <th>Father/Husband Name</th>
+                <th>Age</th>
+            </tr>
+            <tr>
+                <td><%= member_form.text_field :name, disabled: true %></td>
+                <td><%= member_form.text_field :father_or_husband_name, disabled: true %></td>
+                <td><%= member_form.number_field :age, disabled: true %></td>
+            </tr>
+          </table>
+
+          
+          <div class="section fixed-label">
+            <h5>Address:</h5>
+            <div class="input-field">
+                <label>H. No/Building Name:</label>
+                : <%= member_form.text_field :address_a_building, id: "member_address_building", disabled: true %>
+            </div>
+            <div class="input-field">
+                <label>Place, Village & Post:</label>
+                :<%= member_form.text_field :address_a_village, id: "member_address_village", disabled: true %>
+            </div>
+            <div class="input-field">
+                <label>Taluk/District:</label>
+                :<%= member_form.text_field :address_a_district, id: "member_address_district", disabled: true %>
+            </div>
+            <div class="input-field">
+                <label>Pincode:</label>
+                :<%= member_form.text_field :address_a_pincode, id: "member_address_pincode", disabled: true %>
+            </div>
+            <div class="input-field">
+                <label>Contact No:</label>
+                :<%= member_form.text_field :mobile_number, id: "member_mobile", disabled: true %>
+            </div>
+            <div class="input-field">
+                <label>Aadhar No:</label>
+                :<%= member_form.text_field :aadhaar_number, id: "member_aadhaar", disabled: true %>
+            </div>
+            <div class="input-field">
+                <label>PAN No:</label>
+                :<%= member_form.text_field :pan_card, id: "member_pan", disabled: true %>
+            </div>
+          </div>
+        
+         
+        <h5 class="section-header-top">02. Loan Purpose & Requested Amount</h5>
+        <table class="table">
+            <tr>
+                <th>Purpose of Loan</th>
+                <th>Estimated Cost</th>
+                <th>Requested Loan</th>
+            </tr>
+            <tr>
+                <td><%= form.select :loan_purpose, 
+                    [
+                      ["EDUCATION PURPOSE", "EDUCATION PURPOSE"],
+                      ["BUSINESS WORKING CAPITAL/INVESTMENT", "BUSINESS WORKING CAPITAL/INVESTMENT"],
+                      ["HOUSE RENOVATION", "HOUSE RENOVATION"],
+                      ["VEHICLE PURCHASE", "VEHICLE PURCHASE"],
+                      ["WEDDING EXPENSES", "WEDDING EXPENSES"],
+                      ["MEDICAL EXPENSES", "MEDICAL EXPENSES"],
+                      ["PROPERTY PURCHASE", "PROPERTY PURCHASE"],
+                      ["RESIDENTIAL HOUSE CONSTRUCTION", "RESIDENTIAL HOUSE CONSTRUCTION"],
+                      ["RESIDENTIAL FLAT PURCHASE", "RESIDENTIAL FLAT PURCHASE"],
+                      ["RESIDENTIAL SITE PURCHASE", "RESIDENTIAL SITE PURCHASE"],
+                      ["COMMERCIAL SITE PURCHASE", "COMMERCIAL SITE PURCHASE"],
+                      ["RESIDENTIAL HOUSE RENOVATION", "RESIDENTIAL HOUSE RENOVATION"],
+                      ["EXPANSION OF RESIDENTIAL BUILDING", "EXPANSION OF RESIDENTIAL BUILDING"],
+                      ["EXPANSION OF COMMERCIAL BUILDING", "EXPANSION OF COMMERCIAL BUILDING"],
+                      ["CONSUMABLE/HOUSEHOLD PURPOSE", "CONSUMABLE/HOUSEHOLD PURPOSE"],
+                      ["SOLAR PURCHASE", "SOLAR PURCHASE"],
+                      ["GOLD PURCHASE", "GOLD PURCHASE"]
+                    ], 
+                    { prompt: "Select Loan Purpose" }  %>
+                </td>
+                <td><%= form.text_field :estimated_cost %></td>
+                <td><%= form.text_field :loan_amount %></td>
+            </tr>
+        </table>
+
+     <div class="page-break"> </div>
+     <h5 class="section-header-top">03. Details of Deposits & Share Capital with Sahakari</h5>
+     <table  class="table">
+        <thead>
+           <tr>
+             <th>S. No.</th>
+             <th>Particulars</th>
+             <th>Account No.</th>
+             <th>Balance on Date</th>
+           </tr>
+       </thead>
+       <tbody>
+             
+               <% @member.deposits_and_shares.each_with_index do |deposit, index| %>
+                 <%= member_form.fields_for :deposits_and_shares, deposit do |deposit_form| %>
+                    <tr>
+                      <td><%= index + 1 %></td>
+                      <td>
+                        <%= deposit_form.text_field :particular, readonly: true %>
+                      </td>
+                      <td>
+                        <%= deposit_form.text_field :account_no %>
+                      </td>
+                      <td>
+                        ₹ <%= deposit_form.text_field :balance_on_date %>
+                      </td>
+                    </tr>
+                  <% end %>
+               <% end %>
+            
+        </tbody>
+    </table>
+  
+
+    <h5 class="section-header-top">04. Family Details</h5>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Relationship</th>
+            <th>Annual Income</th>
+            <th>Sources of Income</th>
+        </tr>
+        <%= member_form.fields_for :family_members do |family_form| %>
+          <tr>
+            <td><%= family_form.text_field :name %></td>
+            <td><%= family_form.select :relationship, 
+                [
+                  ["Aunty", "Aunty"],
+                  ["Brother", "Brother"],
+                  ["Brother in law", "Brother in law"],
+                  ["Cousin", "Cousin"],
+                  ["Daughter", "Daughter"],
+                  ["Daughter in law", "Daughter in law"],
+                  ["Father", "Father"],
+                  ["Father in law", "Father in law"],
+                  ["Friend", "Friend"],
+                  ["Grand child", "Grand child"],
+                  ["Grand daughter", "Grand daughter"],
+                  ["Grand father", "Grand father"],
+                  ["Grand mother", "Grand mother"],
+                  ["Husband", "Husband"],
+                  ["Mother", "Mother"],
+                  ["Mother in law", "Mother in law"],
+                  ["Nephew", "Nephew"],
+                  ["Niece", "Niece"],
+                  ["Other", "Other"],
+                  ["Sister", "Sister"],
+                  ["Sister in law", "Sister in law"],
+                  ["Son", "Son"],
+                  ["Son in law", "Son in law"],
+                  ["Uncle", "Uncle"],
+                  ["Wife", "Wife"]
+                ], 
+                { prompt: "Select Relationship" } %>
+            </td>
+            <td>₹ <%= family_form.text_field :annual_income  %></td>
+            <td>₹ <%= family_form.select :income_source, 
+                  ['Salary', 'House wife', 'Student', 'Profession', 'Business', 'Others'],
+                  { include_blank: 'Select Income Source' }
+                  %></td>
+          </tr>
+        <%end%>
+    </table>
+
+    <h5  class="section-header-top">05. Particulars of Income & Expenditure (Family)</h5>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Income</th>
+          <th>Expenditure</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @member.income_and_expenditures.each do |income_exp| %>
+          <%= member_form.fields_for :income_and_expenditures, income_exp do |income_form| %>
+            <tr>
+              <td><%= income_form.text_field :source, readonly: true %></td>
+              <td>₹ <%= income_form.text_field :income %></td>
+              <td>₹ <%= income_form.text_field :expenditure %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+
+   <h5 class="section-header-top">06. Details of Present Loans/Liabilities</h5>
+   <table class='table'>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Date of Loan</th>
+          <th>Purpose</th>
+          <th>Loan Amount</th>
+          <th>Balance Outstanding</th>
+          <th>Overdue (if any)</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <% @member.existing_loan_liabilities.each do |loan| %>
+          <%= member_form.fields_for :existing_loan_liabilities, loan do |loan_form| %>
+            <tr>
+              <td>
+                <%= loan_form.text_field :category, readonly: true %>
+              </td>
+              <td>
+                <%= loan_form.date_field :date_of_loan %>
+              </td>
+              <td>
+                 <%= loan_form.select :purpose, 
+                    [
+                      ["EDUCATION PURPOSE", "EDUCATION PURPOSE"],
+                      ["BUSINESS WORKING CAPITAL/INVESTMENT", "BUSINESS WORKING CAPITAL/INVESTMENT"],
+                      ["HOUSE RENOVATION", "HOUSE RENOVATION"],
+                      ["VEHICLE PURCHASE", "VEHICLE PURCHASE"],
+                      ["WEDDING EXPENSES", "WEDDING EXPENSES"],
+                      ["MEDICAL EXPENSES", "MEDICAL EXPENSES"],
+                      ["PROPERTY PURCHASE", "PROPERTY PURCHASE"],
+                      ["RESIDENTIAL HOUSE CONSTRUCTION", "RESIDENTIAL HOUSE CONSTRUCTION"],
+                      ["RESIDENTIAL FLAT PURCHASE", "RESIDENTIAL FLAT PURCHASE"],
+                      ["RESIDENTIAL SITE PURCHASE", "RESIDENTIAL SITE PURCHASE"],
+                      ["COMMERCIAL SITE PURCHASE", "COMMERCIAL SITE PURCHASE"],
+                      ["RESIDENTIAL HOUSE RENOVATION", "RESIDENTIAL HOUSE RENOVATION"],
+                      ["EXPANSION OF RESIDENTIAL BUILDING", "EXPANSION OF RESIDENTIAL BUILDING"],
+                      ["EXPANSION OF COMMERCIAL BUILDING", "EXPANSION OF COMMERCIAL BUILDING"],
+                      ["CONSUMABLE/HOUSEHOLD PURPOSE", "CONSUMABLE/HOUSEHOLD PURPOSE"],
+                      ["SOLAR PURCHASE", "SOLAR PURCHASE"],
+                      ["GOLD PURCHASE", "GOLD PURCHASE"]
+                    ], 
+                    { prompt: "Select Loan Purpose" }  %>
+              </td>
+              <td style="width: 1px; white-space:nowrap;">
+                ₹ <%= loan_form.number_field :loan_amount, step: "0.01", style: "max-width: 120px;" %>
+              </td>
+              <td style="width: 1px; white-space:nowrap;">
+                ₹ <%= loan_form.number_field :balance_outstanding, step: "0.01", style: "max-width: 120px;" %>
+              </td>
+              <td style="width: 1px; white-space:nowrap;">
+                ₹ <%= loan_form.number_field :overdue_amount, step: "0.01", style: "max-width: 120px;" %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+   </table>
+   
+          
+   <div class="page-break"> </div>
+ 
+  <h5 class="section-header-top">07. Particulars of Business</h5>
+  <%= member_form.fields_for :business_detail do |business_form| %>
+    <table class="table">
+      <tr>
+        <td>a) Name of Business/Address:</td>
+        <td><%= business_form.text_area :business_name, style: "width: 420px;" %></td>
+      </tr>
+      <tr>
+        <td>b) Constitution:</td>
+        <td><%= business_form.text_field :constitution %></td>
+      </tr>
+      <tr>
+        <td>c) Relation with Firm:</td>
+        <td><%= business_form.select :relation_with_firm, 
+            [['Proprietor', 'proprietor'], 
+             ['Partnership', 'partnership'], 
+             ['Company', 'company'], 
+             ['Society', 'society'], 
+             ['Club', 'club']], 
+            { prompt: 'Select Relation' }
+          %>
+            
+        </td>
+      </tr>
+      <tr>
+        <td>d) Capital Employed:</td>
+        <td><%= business_form.number_field :capital_employed, step: "0.01" %></td>
+      </tr>
+      <tr>
+        <td>e) Bankers to Business (Rs.):</td>
+        <td><%= business_form.number_field :bankers_to_business, step: "0.01" %></td>
+      </tr>
+      <tr>
+        <td>f) Liability to Banks (Rs.):</td>
+        <td><%= business_form.number_field :liability_to_banks, step: "0.01" %></td>
+      </tr>
+      <tr>
+        <td>g) Annual Income (Rs.):</td>
+        <td><%= business_form.number_field :annual_income, step: "0.01" %></td>
+      </tr>
+      <tr>
+        <td>h) Other Bank Dealings:</td>
+        <td><%= business_form.text_area :other_bank_dealings %></td>
+      </tr>
+    </table>
+  <% end %>
+
+  <h5 class="section-header-top">08. Details of the Securities</h5>
+  
+  <h6>I. Life/Postal Insurance Policy</h6>
+  <%= member_form.fields_for :insurance_policy do |insurance_form| %>
+    <table class="table">
+      <tr>
+        <td>a) Amount Assured:</td>
+        <td><%= insurance_form.number_field :amount_assured, step: "0.01" %></td>
+      </tr>
+      <tr>
+        <td>b) Date & Period of Policy:</td>
+        <td><%= insurance_form.text_field :policy_period %></td>
+      </tr>
+      <tr>
+        <td>c) Paid Up Value:</td>
+        <td><%= insurance_form.number_field :paid_up_value, step: "0.01" %></td>
+      </tr>
+      <tr>
+        <td>d) Surrender Value:</td>
+        <td><%= insurance_form.number_field :surrender_value, step: "0.01" %></td>
+      </tr>
+      <tr>
+        <td>e) Name of the Policy:</td>
+        <td><%= insurance_form.text_field :policy_name  %></td>
+      </tr>
+      <tr>
+        <td>f) Policy Maturity Date:</td>
+        <td><%= insurance_form.date_field :maturity_date  %></td>
+      </tr>
+    </table>
+  <% end %>
+
+  <h6>II. Machinery / Vehicle</h6>
+  <%= member_form.fields_for :vehicle do |vehicle_form| %>
+    <table class="table">
+      <tr>
+        <td>Type:</td>
+        <td><%= vehicle_form.text_field :vehicle_type %></td>
+      </tr>
+      <tr>
+        <td>Make & Model:</td>
+        <td><%= vehicle_form.text_field :make_model %></td>
+      </tr>
+      <tr>
+        <td>Registration No.:</td>
+        <td><%= vehicle_form.text_field :registration_no %></td>
+      </tr>
+      <tr>
+        <td>Purchase Cost:</td>
+        <td><%= vehicle_form.number_field :purchase_cost, step: "0.01" %></td>
+      </tr>
+      <tr>
+        <td>Insurance Company:</td>
+        <td><%= vehicle_form.text_field :insurance_company %></td>
+      </tr>
+      <tr>
+        <td>Valid Upto:</td>
+        <td><%= vehicle_form.date_field :valid_upto %></td>
+      </tr>
+      <tr>
+        <td>Market Value:</td>
+        <td><%= vehicle_form.number_field :market_value, step: "0.01" %></td>
+      </tr>
+    </table>
+  <% end %>
+
+  <h6>III. Deposit</h6>
+  <%= member_form.fields_for :deposit do |deposit_form| %>
+    <table class="table">
+      <tr>
+        <td>Bank/Company:</td>
+        <td><%= deposit_form.text_field :bank_name %></td>
+      </tr>
+      <tr>
+        <td>Amount (Rs.):</td>
+        <td><%= deposit_form.number_field :amount, step: "0.01" %></td>
+      </tr>
+      <tr>
+        <td>Maturity Date:</td>
+        <td><%= deposit_form.date_field :maturity_date %></td>
+      </tr>
+      <tr>
+        <td>Maturity Value (Rs.):</td>
+        <td><%= deposit_form.number_field :maturity_value, step: "0.01" %></td>
+      </tr>
+    </table>
+  <% end %>
+
+  <h6>IV. Gold Ornaments / Jewellery (Family)</h6>
+  <%= member_form.fields_for :gold_ornament do |gold_form| %>
+    <table class="table">
+      <tr>
+        <td>Description of the Ornaments:</td>
+        <td><%= gold_form.text_field :description %></td>
+      </tr>
+      <tr>
+        <td>Gross Weight (in grams):</td>
+        <td><%= gold_form.number_field :gross_weight, step: "0.01" %></td>
+      </tr>
+      <tr>
+        <td>Market Value:</td>
+        <td><%= gold_form.number_field :market_value, step: "0.01" %></td>
+      </tr>
+    </table>
+  <% end %>
+
+  <h6>V. Immovable Property</h6>
+  <%= member_form.fields_for :immovable_property do |property_form| %>
+     
+    <table class="table">
+      <tr>
+        <td>a) Immovable Property/ies:<br />  (Owned and involved)  </td>
+        <td><%= property_form.text_field :description %></td>
+      </tr>
+       
+      <tr class='no-border'>
+        <td class="left-pad-5">S.No/R.S/No Property No.:</td>
+        <td><%= property_form.text_field :property_number %></td>
+      </tr>
+      <tr class='no-border'>
+        <td class="left-pad-5">Extent/Incents/Sq. meters:</td>
+        <td><%= property_form.text_field :extent %></td>
+      </tr>
+      <tr class='no-border'>
+        <td class="left-pad-5">Location/Village:</td>
+        <td><%= property_form.text_field :location %></td>
+      </tr>
+      <tr class='no-border'>
+        <td class="left-pad-5">Present Market Value:</td>
+        <td><%= property_form.number_field :market_value, step: "0.01" %></td>
+      </tr>
+    
+      <tr class='no-border'>
+        <td>b) House Property/ies (Owned): </td>
+        <td><%= property_form.text_field :houses_owned %></td>
+      </tr>
+
+      <tr class='no-border'>
+        <td class="left-pad-5">CTS/VPC./TRC No.:</td>
+        <td><%= property_form.text_field :house_cts_vpc_trc_no %></td>
+      </tr>
+      <tr class='no-border'>
+        <td class="left-pad-5">Extent (Sq. Ft.):</td>
+        <td><%= property_form.text_field :house_extent %></td>
+      </tr>
+      <tr class='no-border'>
+        <td class="left-pad-5">Location/Village:</td>
+        <td><%= property_form.text_field :house_location %></td>
+      </tr>
+      <tr class='no-top-border'>
+        <td class="left-pad-5">Present Market Value:</td>
+        <td><%= property_form.number_field :house_market_value, step: "0.01" %></td>
+      </tr>
+ 
+      <tr class='no-border'>
+        <td >c) Non-Agriculture Land </td>
+        <td><%= property_form.text_field :non_agri_land %></td>
+      </tr>
+      <tr class='no-border'>
+        <td class="left-pad-5">S. No. / R.S. No.:</td>
+        <td><%= property_form.text_field :land_survey_no %></td>
+      </tr>
+      <tr class='no-border'>
+        <td class="left-pad-5">Area (Sq. Ft.):</td>
+        <td><%= property_form.text_field :land_area %></td>
+      </tr>
+      <tr class='no-border'>
+        <td class="left-pad-5">Location/Village:</td>
+        <td><%= property_form.text_field :land_location %></td>
+      </tr>
+      <tr class='no-border'>
+        <td class="left-pad-5">Present Market Value:</td>
+        <td><%= property_form.number_field :land_market_value, step: "0.01" %></td>
+      </tr>
+    
+      <tr class='no-border'>
+        <td>d) Existing Liabilities (if any):</td>
+        <td><%= property_form.number_field :existing_liabilities, step: "0.01" %></td>
+      </tr>
+     
+      <tr class='no-top-border'>
+        <td>e) Annual Income</td>
+        <td><%= property_form.number_field :annual_income, step: "0.01" %></td>
+      </tr>
+    </table>
+  <% end %>
+
+  
+  <%= member_form.fields_for :indirect_liability do |liability_form| %>
+    <table class="table">
+      <tr>
+        <td><h6>VI. Indirect Liabilities</h6> Co-obligant/Guarantor:</td>
+        <td><%= liability_form.text_field :co_obligant_guarantor %></td>
+      </tr>
+    </table>
+  <% end %>
+
+  <h3></h3>
+  <%= member_form.fields_for :tax_detail do |tax_form| %>
+    <table class="table">
+      <tr>
+        <td><h6>VII. Whether Income Tax Assessee?:</h6></td>
+        <td><%= tax_form.check_box :income_tax_assessee %></td>
+      </tr>
+      <tr>
+        <td>Is GST Registration Holder:</td>
+        <td><%= tax_form.check_box :gst_registration_holder %></td>
+      </tr>
+      <tr>
+        <td>GST No. (if applicable):</td>
+        <td><%= tax_form.text_field :gst_number %></td>
+      </tr>
+    </table>
+  <% end %>
+
+ <%end%>
+
+ 
+
+    <div class="declaration-box">
+      <center> <h4>DECLARATION BY THE APPLICANT</h4> </center>
+      <p style="margin-bottom: 80px">Above information is true and correct to the best of my knowledge and belief.</p>
+      
+      <table>
+        <tr>
+          <td>Date:</td>
+          <td><%= form.date_field :declaration_date, value: Date.today %></td>
+          <td class="signature-label">Signature</td>
+        </tr>
+        <tr>
+          <td>Place:</td>
+          <td><%= form.text_field :declaration_place, value: Current.branch.try(:name) %></td>
+          <td class="signature-placeholder">APPLICANT</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Page 6 -->
+    <div class="page-break"> </div>
+    
+     <div id="coapplicant-forms" class="mt-3">
+      <% @loan_application.loan_application_co_applicants.each do |coapp| %>
+        <%= render partial: 'co_applicant_fields', locals: { member: coapp.member, unique_index: coapp.id, coapp: coapp  } %>
+      <% end %>
+    </div>
+
+    <div class="page-break"> </div>
+    
+    <div class="form-group">
+       <% @loan_application.co_obligants.each_with_index do |co_ob, i| %>
+          <%= form.fields_for :co_obligants, co_ob do |co_f| %>
+              <%= co_f.hidden_field :member_id, value: co_ob.member.try(:id) %>
+
+            <h5 class="section-header-top"><%= "#{i+9}) Details of Co-obligant/Guarantor(#{i+1})" %></h5>
+            <div class="section-wrapper">
+                <table class="table table-bordered">
+                  <tr>
+                    <td>Member No.</td>
+                    <td><%= text_field_tag "member_no", co_ob.member.try(:member_no), disabled: true  %></td>
+                  </tr>
+                  <tr>
+                    <td>Name</td>
+                    <td><%= text_field_tag "name", co_ob.member.try(:name), disabled: true  %></td>
+                  </tr>
+                  <tr>
+                    <td>Age</td>
+                     <td><%= text_field_tag "age", co_ob.member.try(:age), disabled: true  %></td>
+                  </tr>
+                  <tr>
+                    <td>Father/Husband</td>
+                     <td><%= text_field_tag "father_or_husband_name", co_ob.member.try(:father_or_husband_name), disabled: true  %></td>
+                  </tr>
+                  <tr>
+                    <td>Address</td>
+                    <td><%= text_area_tag "address", co_ob.member.try(:address), disabled: true  %></td>
+                  </tr>
+                  <tr>
+                    <td>Phone/Mobile</td>
+                    <td><%= text_field_tag "phone", co_ob.member.try(:mobile_number), disabled: true  %></td>
+                  </tr>
+                  <tr>
+                    <td>Aadhar No. </td>
+                    <td><%= text_field_tag "aadhaar_number", co_ob.member.try(:aadhaar_number), disabled: true  %></td>
+                  </tr>
+                  <tr>
+                    <td>PAN No.</td>
+                    <td><%= text_field_tag "pan_card", co_ob.member.try(:pan_card), disabled: true  %></td>
+                  </tr>
+                  <tr>
+                    <td>Details of Business/Profession</td>
+                    <td><%= co_f.text_area :business_details  %></td>
+                  </tr>
+                  <tr>
+                    <td>Whether Income Tax Assessee?</td>
+                    <td><%= co_f.check_box :tax_assessee %> Yes</td>
+                  </tr>
+                  <tr>
+                    <td>Is GST Registration Holder?</td>
+                    <td><%= co_f.check_box :gst_holder %> Yes</td>
+                  </tr>
+                  <tr>
+                    <td>If Yes, Mention GST No.</td>
+                    <td><%= co_f.text_field :gst_number  %></td>
+                  </tr>
+                  <tr>
+                    <td>Details of Loans with Sahakari</td>
+                    <td><%= co_f.text_area :loan_details  %></td>
+                  </tr>
+                  <tr>
+                    <td>Details of Immovable Property (Owned)</td>
+                    <td><%= co_f.text_area :immovable_property  %></td>
+                  </tr>
+                  <tr>
+                    <td>Other Movable Property</td>
+                    <td><%= co_f.text_area :movable_property  %></td>
+                  </tr>
+                </table>
+                <div class="absolute-box"></div>
+            </div>
+            <div class="declaration-box">
+              <center> <h4>DECLARATION BY THE CO-OBLIGANT/GUARANTOR</h4> </center>
+              <p>Above information is true and correct to the best of my knowledge and belief & is furnished as an indication of my willingness to be guarantor/co-obligant to any credit facilities to be granted to:
+              <%= co_f.text_field :guaranteed_for, value: @member.name  %></p>
+              <br />
+              <table>
+                <tr>
+                  <td>Date:</td>
+                  <td><%= co_f.date_field :declaration_date, value: Date.today %></td>
+                  <td class="signature-label" style="padding-right: 25px">Signature</td>
+                </tr>
+               <tr>
+                   <td>Place:</td>
+                  <td> <%= co_f.text_field :declaration_place, value: Current.branch.try(:name) %></td>
+                  <td class="signature-placeholder"> Co-obligant (<%= i + 1 %>) </td>
+               </tr>
+              </table>
+            </div>
+
+         <% end %>
+     
+      <% end %>
+     </div>
+     <div class="page-break"> </div>
+
+     <table border="1" class="report_table">
+        <tr>
+            <td colspan="4" class="header"><h4>REPORT BY BRANCH SECTION INCHARGE/CLERK</h4></td>
+        </tr>
+        <tr>
+            <td colspan="4" style="height: 100px;"> <%= form.text_area :branch_incharge_report, :rows => 8 , style: "width: 100%"%>
+</td>
+        </tr>
+         
+        <tr>
+            <td colspan="4" style="text-align: right; padding-right: 10px;">Section Incharge/Clerk</td>
+        </tr>
+    </table>
+
+    <br>
+    <table border="1" class="report_table">
+        <tr>
+            <th colspan="4" class="header"><h4>BRANCH MANAGER REPORT/RECOMMENDATION</h4></th>
+        </tr>
+        <tr>
+            <td colspan="4" style="height: 100px;"><%= form.text_area :branch_manager_report, :rows => 8 , style: "width: 100%"%></td>
+        </tr>
+        <tr>
+            <td style="padding: 0;">
+              <table class="table">
+                <tr>
+                  <th>Purpose</th>
+                  <th>Loan Amount</th>
+                  <th>Term</th>
+                  <th>Security</th>
+                 </tr>
+
+                 <tr>
+                    <td><%= form.text_field :purpose_bm, as: :date, label: false %></td>
+                    <td><%= form.text_field :loan_amount_bm, as: :string, label: false %></td>
+                    <td><%= form.text_field :term_bm, as: :string, label: false %></td>
+                    <td><%= form.text_field :security_bm, as: :number, label: false %></td>
+                 </tr>
+              </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" style="height: 20px;"></td>
+        </tr>
+        <tr>
+            <td> Date:  <%= form.date_field :date_bm, label: false, value: Date.today %></td>
+           
+        </tr>
+        <tr>
+            <td> Place:  <%= form.text_field :place_bm, label: false, value: Current.branch.try(:name)  %></td>
+            <td colspan="4" style="text-align: right; padding-right: 10px;"> <b>Branch Manager</b></td>
+        </tr>
+    </table>
+ 
+    <br>
+    
+     
+   <div class="declaration-box">
+      <center> <h4>HEAD OFFICE SECTION</h4> 
+      <h5> VERIFICATION AND RECOMMENDATION REPORT</h5></center>
+       
+      <table>
+         <tr>
+            <td colspan="4" style="height: 150px;"><%= form.text_area :head_office_report, :rows => 8 , style: "width: 100%"%></td>
+        </tr>
+        <tr>
+          <td>Date:</td>
+          <td><%= form.text_field :date_ho  %></td>
+          <td class="signature-label"> </td>
+        </tr>
+       <tr>
+           <td>Place:</td>
+          <td> <%= form.text_field :place_ho  %></td>
+          <td class="signature-placeholder"> Section Incharge / <br >Loan Section Head </td>
+       </tr>
+      </table>
+    </div>
+
+  
+
+  <div class="section">
+    <h4><center>Sanction Order/Recommendations By MD</center></h4>
+    <p>On the basis of recommendation by the Branch Manager and scrutiny by the authorized officer in Head Office; it is ordered/recommended for a Loan Amount of Rs.
+       (Rupees  )</p>
+    <h6 style="margin-top: 25px"><u>Sanction Order</u></h6>
+   
+     <table  class="report_table">
+        <tr>
+          <td style="width: 180px">Sanction Amount:</td>
+          <td><%= form.text_field :sanction_amount  %> </td>
+          <td class="signature-label"> </td>
+        </tr>
+        <tr>
+          <td style="width: 180px">Sanction Order No:</td>
+          <td><%= form.text_field :sanction_order_no  %> </td>
+          <td class="signature-label"> </td>
+        </tr>
+       <tr>
+           <td style="width: 180px">Sanction Order Date:</td>
+          <td> <%= form.date_field :sanction_order_date %></td>
+          <td class="signature-placeholder"> Managing Director </td>
+       </tr>
+         
+        
+    </table>
+
+    
+  </div>
+
+  <div class="sanction-section section">
+    <h4><center>BOARD RESOLUTION</center></h4>
+     
+    <div class="sanction-content" style="margin-top: 50px">
+      <p>Loan sanctioned/approved on <%= form.text_field :date_bo  %> by loan committee/Board of Directors meeting held at H.O.</p>
+      <p>Sanctioned limit: <%= form.text_field :limit_bo  %></p>
+      <p>Resolution No./L.C.O No: <%= form.text_field :resolution_no_bo  %></p>
+    </div>
+  </div>
+        
+  <div class="declaration-box">
+         <center> <h4>Inspection Review</h4> </center>
+          
+              
+          <table>
+                <tr>
+                   <td colspan="4" style="height: 150px;"><%= form.text_area :inspection_review, :rows => 8 , style: "width: 100%" %></td>
+                </tr>
+                <tr>
+                  <td>Date:</td>
+                  <td><%= form.date_field :date_inspection %></td>
+                  <td class="signature-label"> </td>
+                </tr>
+               <tr>
+                   <td>Place:</td>
+                  <td><%= form.date_field :place_inspection %></td>
+                  <td class="signature-placeholder"> Ins. Officer </td>
+               </tr>
+          </table>
+  </div>
+  
+ <table border="1" class="report_table">
+        <tr>
+            <th colspan="4" class="header"><h4>Details of Loan Disbursement</h4></th>
+        </tr>
+         <tr>
+            <td colspan="4" style="height: 30px;"></td>
+        </tr>
+        <tr>
+            <td style="padding: 0;" >
+              <table class="disbursement-table table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Account No.</th>
+                    <th>Term</th>
+                    <th>Loan Amount</th>
+                    <th>RoI</th>
+                    <th>TERM</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><%= form.date_field :loan_disbursement_date %></td>
+                    <td><%= form.text_field :account_no %></td>
+                    <td><%= form.text_field :loan_term %></td>
+                    <td><%= form.number_field :loan_amount_disbursed %></td>
+                    <td><%= form.number_field :rate_of_interest, step: 0.01 %></td>
+                    <td><%= form.text_field :loan_term %></td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+        </tr>
+ 
+       
+        <tr>
+            <td style="padding: 0;">
+              <table>
+                <tr>
+                  <td>Date:</td>
+                  <td><%= form.date_field :date_disbursement %></td>
+                  <td class="signature-label"> </td>
+                </tr>
+               <tr>
+                   <td>Place:</td>
+                  <td> <%= form.date_field :place_disbursement %></td>
+                  <td class="signature-placeholder"> Branch Manager </td>
+               </tr>
+              </table>
+               </td>
+        </tr>
+  </table>
+
+    <hr />
+
+    <div class="form-group">
+       <%= form.submit "Submit", class: "btn btn-primary" %>
+    </div>
+    <br />
+    </br />
+  </div>
+<%end%>
+
+<script>
+  document.addEventListener("turbo:load", function () {
+      const coAppSelect = document.querySelector("#co_applicant_select");
+      if (!coAppSelect) return;
+
+      // Avoid multiple initializations
+      if (!coAppSelect.dataset.slimInitialized) {
+        new SlimSelect({
+          select: coAppSelect,
+          settings: {
+            placeholderText: 'Select Co-Applicants',
+            searchText: 'No matches',
+            closeOnSelect: false,
+            allowDeselect: true,
+            showSearch: true,
+            maxSelected: 5  // optional: set max number of co-applicants
+          }
+        });
+        coAppSelect.dataset.slimInitialized = "true";
+      }
+   });
+</script>
+
+<script>
+  document.addEventListener("turbo:load", function () {
+    const select = document.getElementById("co_applicant_select");
+    const container = document.getElementById("coapplicant-forms");
+
+    if (!select || !container) return;
+
+    // Track loaded member IDs using a Set
+    let loadedForms = new Set();
+
+    // Initialize with any existing forms (for edit pages)
+    function initializeExistingForms() {
+      document.querySelectorAll('[data-member-id]').forEach(form => {
+        const id = form.dataset.memberId;
+        if (id && !loadedForms.has(id)) {
+          loadedForms.add(id);
+          // Ensure the select option is selected
+          const option = select.querySelector(`option[value="${id}"]`);
+          if (option) option.selected = true;
+        }
+      });
+    }
+
+    // Load form for a member ID if not already loaded
+    function loadFormForMember(id) {
+      if (!loadedForms.has(id)) {
+        fetch(`/members/${id}/co_applicant_form`)
+          .then(response => {
+            if (!response.ok) throw new Error("Fetch failed for ID " + id);
+            return response.text();
+          })
+          .then(html => {
+            container.insertAdjacentHTML("beforeend", html);
+            loadedForms.add(id);
+          })
+          .catch(err => console.error(err));
+      }
+    }
+
+    // Remove form for a member ID
+    function removeFormForMember(id) {
+      const div = container.querySelector(`[data-member-id="${id}"]`);
+      if (div) div.remove();
+      loadedForms.delete(id);
+      // Ensure the select option is deselected
+      const option = select.querySelector(`option[value="${id}"]`);
+      if (option) option.selected = false;
+    }
+
+    // Handle select changes
+    select.addEventListener("change", function () {
+      const selectedIds = new Set(
+        Array.from(this.selectedOptions)
+          .map(opt => opt.value.toString())
+          .filter(id => id) // filter out empty values
+      );
+
+      // Add new forms for newly selected IDs
+      selectedIds.forEach(id => {
+        if (!loadedForms.has(id)) {
+          loadFormForMember(id);
+        }
+      });
+
+      // Remove forms that are no longer selected
+      loadedForms.forEach(id => {
+        if (!selectedIds.has(id)) {
+          removeFormForMember(id);
+        }
+      });
+    });
+
+    // Initialize on page load
+    initializeExistingForms();
+    
+    // If there are existing forms, ensure their options are selected
+    if (loadedForms.size > 0) {
+      Array.from(loadedForms).forEach(id => {
+        const option = select.querySelector(`option[value="${id}"]`);
+        if (option) option.selected = true;
+      });
+    }
+  });
+</script>
+
+
+
+
+

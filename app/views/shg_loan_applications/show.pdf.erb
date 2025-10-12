@@ -1,0 +1,504 @@
+<style>
+    
+    @font-face {
+            font-family: 'Baloo';
+            src: url('https://fonts.gstatic.com/s/balootamma2/v2/vEFK2_hCAgcR46PaajtrYlBbd7wf8tK1W77HtMo.ttf') format('truetype');
+    }
+
+    body {
+      font-family: 'Baloo', sans-serif;
+     
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .header h1 {
+      color: #b30000;
+      margin-bottom: 5px;
+    }
+    .header h3 {
+      margin: 0;
+    }
+    .reg-info {
+      text-align: center;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #aaa;
+      padding: 1px 6px;
+      text-align: left;
+     
+       
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .no-border tr td{border: 0; text-align: left}
+    .section-title {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 0px;
+      margin-bottom: 10px;
+      font-size: 20px;
+      border-bottom: 1px solid #aaa;
+      display: inline-block;
+      padding-bottom: 3px;
+      width: 100%;
+      line-height: 32px;
+    }
+    .report-table td {
+      text-align: left;
+    }
+    .declaration {
+      margin-top: 10px;
+    }
+    .declaration p {
+      margin: 10px 0;
+      text-align: justify;
+       
+    }
+
+        .header-text h1, .header-text h2, .header-text p, .header-text h3 {
+            margin: 0;
+        }
+
+        .header-text h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-text h2 {
+            font-size: 24px;
+            margin: 5px 0;
+        }
+
+        .header-text p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .header-text h3 {
+            font-size: 22px;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        .header-table {
+            width: 100%;
+            border: 0;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+        .report_display{min-height: 140px}
+        .page, .page-break { page-break-after: always; }
+
+        .mgr-top-30{margin-top: 30px}
+        .no-break {
+          page-break-inside: avoid;
+        }
+  </style>
+
+<table class="header-table no-border">
+  <tr>
+    <td style="width: 120px;">
+      <%= wicked_pdf_image_tag asset_url('logo.png'), class: "logo", alt: "Logo" %>
+    </td>
+    <td class="header-text" style="text-align: center; flex-grow: 1; font-family: 'Baloo', sans-serif;">
+      <h1><%= Current.branch.name %></h1>
+      <h2><%= Current.branch.kannada_address %></h2>
+      <p><%= Current.branch.english_address %></p>
+      <!-- Removed duplicate address line -->
+      <p>Phone: <%= Current.branch.phone_no %></p>
+      <p>(R. NO. <%= Current.branch.r_no %>)</p>
+      <br />
+      <h2>ಸಾಲದ ಅರ್ಜಿ / SHG LOAN APPLICATION</h2>
+    </td>
+  </tr>
+</table>
+
+ <div style="width: 70%; margin-bottom: 10px" >
+        <p>To,<br/>
+         The Manager<br/>
+         <%= Current.branch.try(:name)%> Branch</p>
+
+        <!-- Bordered Section -->
+        <div style="border: 1px solid #aaa; padding: 10px; margin-top: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <div> R. No.: <%= @shg_loan_application.r_no %></div>
+              <br />
+              <div> Date:  <%= format_date(@shg_loan_application.application_date) %></div>
+            </div>
+
+            <div style="text-align: right;">
+              <i>Section Incharge/Clerk</i>
+            </div>
+          </div>
+        </div>
+</div>
+ 
+
+<table class="table">
+  <tr>
+    <td>ಸದಸ್ಯತ್ವ ಸಂಖ್ಯೆ<br>Membership No</td>
+    <td><%= @shg_loan_application.membership_number %></td>
+  </tr>
+  <tr>
+    <td>ಸ್ವಸಹಾಯ ಗುಂಪಿನ ಹೆಸರು<br>Name of the SHG</td>
+    <td><%= @shg_loan_application.self_help_group.name %></td>
+  </tr>
+  <tr>
+    <td>ಸ್ವಸಹಾಯ ಗುಂಪಿನ ವಿಳಾಸ<br>Address</td>
+    <td><%= simple_format(@shg_loan_application.self_help_group.address) %></td>
+  </tr>
+</table>
+
+<h2 class="section-title mgr-top-30">ಸಾಲಕ್ಕೆ ಬೇಡಿಕೆ ಸಲ್ಲಿಸುವ ಸದಸ್ಯರ ವಿವರ <br>DETAILS OF MEMBERS APPLYING FOR A LOAN</h2>
+
+<table>
+  <tr>
+    <th>ಕ್ರ.ಸಂ.<br>Si.No</th>
+    <th>ಅರ್ಜಿದಾರರ ಹೆಸರು<br>Name Of the applicant</th>
+    <th>ಆಧಾರ್ ಸಂಖ್ಯೆ<br>Aadhar No.</th>
+    <th>ಸಾಲದ ಬೇಡಿಕೆ<br>Demand Of Loan</th>
+    <th>ಸಾಲದ ಉದ್ದೇಶ<br>Purpose Of Loan</th>
+  </tr>
+  <% @shg_loan_application.shg_loan_applicants.each_with_index do |applicant, i| %>
+    <tr>
+      <td><%= i + 1 %></td>
+      <td><%= applicant.shg_member.name %></td>
+      <td><%= applicant.shg_member.aadhar_number %></td>
+      <td><%= "#{number_to_indian_currency(applicant.loan_amount)}".html_safe unless applicant.loan_amount.blank? %></td>
+      <td><%= applicant.purpose_of_loan %></td>
+    </tr>
+  <% end %>
+  <tr>
+      <td style="text-align: center;" colspan=3> Total</td>
+      <td>&#8377;<%= number_to_indian_currency(@shg_loan_application.shg_loan_applicants.map(&:loan_amount).compact.sum) %></td>
+      <td></td>
+  </tr>
+</table>
+
+<h2 class="section-title mgr-top-30">ಸ್ವಸಹಾಯ ಸಂಘದ ವರದಿ<br>REPORT</h2>
+
+<table class="report-table table">
+  <tr><td>ಸ್ವಸಹಾಯ ಸಹಾಯ ಸಂಘ ಪ್ರಾರಂಭವಾದ ದಿನಾಂಕ<br>Date Of commencement of Self help Group</td><td style="min-width: 200px"><%=format_date( @shg_loan_application.commencement_date) %></td></tr>
+  <tr><td>ಸ್ವಸಹಾಯ ಸಹಾಯ ಸಂಘದ ಒಟ್ಟು ಉಳಿತಾಯ<br>Total Savings of the Self help Group</td><td><%= @shg_loan_application.total_savings %></td></tr>
+  <tr><td>ಸ್ವಸಹಾಯ ಸಹಾಯ ಸಂಘದ ಸದಸ್ಯರ ಸಂಖ್ಯೆ<br>Total number of members of the Self help Group</td><td style="min-width: 300px"><%= @shg_loan_application.total_members %></td></tr>
+  <tr>
+    <td>ಈ ಹಿಂದೆ ಸಾಲ ಪಡೆದಿದ್ದಲ್ಲಿ ದಿನಾಂಕ ಮತ್ತು ಮೊತ್ತ<br>Date and amount of the previous loan taken</td>
+    <td>
+      <%= format_date(@shg_loan_application.previous_loan_date) %><br />
+      <%= number_to_indian_currency(@shg_loan_application.previous_loan_amount) %>
+    </td>
+  </tr>
+  <tr><td>ಸ್ವಸಹಾಯ ಸಹಾಯ ಸಂಘ ಆಂತರಿಕ ಸಾಲ ಪಡೆದಿದ್ದಲ್ಲಿ ಬಾಕಿ ಮೊತ್ತ<br>Outstanding amount if any internal loan has been taken by the Self-Help Group</td><td><%= @shg_loan_application.internal_loan_outstanding %></td></tr>
+  <tr><td>ಸ್ವಸಹಾಯ ಸಹಾಯ ಸಂಘದ ಠೇವಣಿಗಳು ಇದ್ದರೆ ಠೇವಣಿ ಮೊತ್ತ<br>Deposit amount if the Self-Help Group has any deposits</td><td><%= number_to_indian_currency(@shg_loan_application.deposit_amount) %></td></tr>
+  <tr>
+    <td>ಸ್ವಸಹಾಯ ಸಹಾಯ ಸಂಘದ ವಾರದ ಸಭೆಗಳು ನಿಯಮಿತವಾಗಿ ನಡೆಯುತ್ತಿವೆಯೆ?<br>Are the weekly meetings of the Self-Help Group being conducted regularly?</td>
+    <td><%= @shg_loan_application.weekly_meetings? ? 'ಹೌದು / Yes' : '' %></td>
+  </tr>
+  <tr>
+    <td>ನಡವಳಿ ಪುಸ್ತಕ/ಸದಸ್ಯರ ವೈಯುಕ್ತಿಕ ಪುಸ್ತಕವನ್ನು ಸೂಕ್ತವಾಗಿ ನಿರ್ವಹಿಸಲಾಗುತ್ತದೆಯೇ?<br>Are the transaction records of the Self-Help Group and the individual passbooks of the members being maintained properly?</td>
+    <td><%= @shg_loan_application.records_maintained? ? 'ಹೌದು / Yes' : '' %></td>
+  </tr>
+</table>
+
+<h2 class="section-title mgr-top-30">ಸ್ವಸಹಾಯ ಸಂಘದ ಸದಸ್ಯರ ಘೋಷಣಾ ಪತ್ರ<br>DECLARATION LETTER OF MEMBERS OF SHG</h2>
+
+  <div class="declaration">
+    <p><strong>01.</strong> ಈ ಮೇಲಿನ ಸಾಲ ಬೇಡಿಕೆ ಸಲ್ಲಿಸಿದ ಸದಸ್ಯರ ಸಾಲಗಳಿಗೆ ಈ ಕೆಳಗೆ ಸಹಿ ಮಾಡುವ ನಾವು ಎಲ್ಲಾ ಸ್ವಸಹಾಯ ಸಂಘದ ಸದಸ್ಯರಾದ ನಾವು ಯಾವುದೇ ಸದಸ್ಯರು ಸಾಲ ಮರುಪಾವತಿ ಮಾಡದೆ ಯಾ ಯಾವುದೇ ಕಾರಣದಿಂದ ಆ ಪ್ರದೇಶವನ್ನು ಬಿಟ್ಟು ಹೋದ ಪಕ್ಷದಲ್ಲಿ ನಾವೆಲ್ಲರೂ ಸದರಿ ಸಾಲವನ್ನು ಮರುಪಾವತಿ ಮಾಡಲು ಬದ್ಧರಾಗಿರುತ್ತೇವೆ.</p>
+    <p>"We, the members of the self-help group who have signed as guarantors for the loans requested by fellow members, hereby agree that if any member who has taken a loan fails to repay it or leaves the area for any reason, we, as members of the self-help group, shall be jointly responsible to repay the loan."</p>
+
+    <p><strong>02.</strong> ಮೇಲಿನ ಸಾಲಕ್ಕೆ ಸಂಬಂಧಿಸಿದಂತೆ ಸಾಲದ ಕಂತು ವ ಬಡ್ಡಿಯನ್ನು ವಸೂಲಾತಿ ಮಾಡುವರೇ ಎಲ್ಲಾ ಸಂಘದ ಸದಸ್ಯರ ಮೇಲೆ ಜಂಟಿಯಾಗಿ ಮತ್ತು ವೈಯಕ್ತಿಕವಾಗಿ ಕಾನೂನು ಕ್ರಮ ಕೈಗೊಳ್ಳುವರೇ <%= Current.branch.name %> ಇವರಿಗೆ ಅಧಿಕಾರ ಇರುತ್ತದೆ ಎಂದು ತಿಳಿದಿರುತ್ತೇವೆ. ಸಂಘದ ಸದಸ್ಯರು ಯಾವ ಉದ್ದೇಶಗಳಿಗೆ ಸಾಲ ಪಡೆದಿರುತ್ತಾರೋ ಆ ಉದ್ದೇಶಗಳಿಗೆ ಮಾತ್ರ ಸಾಲದ ಹಣವನ್ನು ಬಳಸಿಕೊಳ್ಳತಕ್ಕದ್ದು ಎಂದು ತಿಳಿದಿದ್ದು ಇದಕ್ಕೆ ಎಲ್ಲರೂ ಬದ್ಧರಾಗಿರಿರುತ್ತೇವೆ .</p>
+    <p>"We understand that <strong>Mathrubhoomi Souharda Co-operative Society, Mangalore</strong> has the authority to take <strong>joint and individual legal action</strong> against the members of the self-help group to recover any loan installment or interest related to the loan. I also acknowledge that the loan amount must be used strictly for the purpose for which it was taken, and all members are committed to this condition."</p>
+
+    <p><strong>03.</strong> ಯಾವುದೇ ಸಾಲ ೩ ಕಂತುಗಳಿಗಿಂತ ಹೆಚ್ಚು ಓವರ್ಡ್ಯೂ ಆದ ಪಕ್ಷದಲ್ಲಿ ಸದರಿ ಬಾಕಿದಾರರಿಂದ ವಸೂಲಿ ಮಾಡುವ ಅಧಿಕಾರ ಉಳಿದ ಸದಸ್ಯರಿಗೆ ಇರುತ್ತದೆ ಎಂದು ತಿಳಿದಿರುತ್ತೇವೆ. ಮತ್ತು ಸದರಿ ಸಾಲ ವಸೂಲಾತಿ ಸಮಯದಲ್ಲಿ ಯಾವುದೇ ಸಮಸ್ಯೆಯನ್ನು ಮಾಡುವುದಿಲ್ಲ ಎಂದು ದೃಢೀಕರಿಸುತ್ತೇವೆ. <%= Current.branch.name %> ಇವರ ಈಗ ಇರುವ ನಿಯಮಗಳು ಹಾಗೂ ಸಹಕಾರಿಯು ಮುಂದಿನ ದಿನಗಳಲ್ಲಿ ಜಾರಿಗೆ ತರಬಹುದಾದ ಯಾವುದೇ ಅಗತ್ಯಗಳನ್ನು ಪೂರೈಸಲು ಈ ಮೂಲಕ ದೃಢೀಕರಿಸುತ್ತೇವೆ .</p>
+    <p>"I understand that if the loan installment is overdue for more than three installments, the members of the self-help group have the authority to recover the outstanding amount from the concerned defaulter. I hereby affirm that no issues will be created during the recovery process. I also confirm that I shall comply with the existing rules of <strong>Mathrubhoomi Souharda Co-operative Society, Mangalore</strong>, as well as any necessary requirements that may be implemented by the co-operative in the future."</p>
+  </div>
+ 
+  <% i = 1 %>
+<table>
+  <tr>
+    <th>ಕ್ರ.ಸಂ.<br>Si.No</th>
+    <th>ಅರ್ಜಿದಾರರ ಹೆಸರು ಮತ್ತು ವಿಳಾಸ<br>Name of the applicant & address</th>
+    <th>ಆಧಾರ್ ಸಂಖ್ಯೆ<br>Aadhar No.</th>
+    <th>ಮೊಬೈಲ್ ಸಂಖ್ಯೆ<br>Mobile No.</th>
+    <th style="min-width: 180px">ಸಹಿ<br>Signature</th>
+  </tr>
+  <% @shg_loan_application.self_help_group.shg_members.each do |member| %>
+    <% unless member.name.blank? %>
+      <tr>
+        <td><%= i %></td>
+        <td><%= member.name %><br><%= member.full_address %></td>
+        <td><%= member.aadhar_number %></td>
+        <td><%= member.mobile %></td>
+        <td style="height: 50px "> </td>
+      </tr>
+      <% i += 1 %>
+    <%end%>
+  <% end %>
+</table>
+
+<p style="margin-top: 30px; font-size: 14px;">
+  ಸ್ವಸಹಾಯ ಸಂಘದ ಈ ಮೇಲೆ ಸಹಿ ಮಾಡಿರುವ ನಾವು ಸಂಘದ ಸದಸ್ಯರು ಪಡೆದಿರುವ ಸಾಲಗಳಿಗೆ ಎಲ್ಲರೂ ಸಾಮೂಹಿಕವಾಗಿ ಜವಾಬ್ದಾರರು ಎಂಬುದು ತಿಳಿದುಕೊಂಡು ನಡೆದ ಸಭೆಯಲ್ಲಿ ಹಾಜರಿದ್ದು ಒಪ್ಪಿಕೊಂಡಿದ್ದಾರೆ ಎಂದು ದೃಢಪಡಿಸುತ್ತೇವೆ.<br>
+  We the signed members of the Self help group, confirm that we were present at the meeting and agreed that all members are collectively responsible for the loans taken
+</p>
+
+<table style=" margin-top: 20px;" class="no-border">
+  <tr><td>ದಿನಾಂಕ / Date: <%= format_date(@shg_loan_application.declaration_date) %></td><td></td></tr>
+  <tr>
+    <td style="width: 40%;">ಸ್ಥಳ / Place: <%= @shg_loan_application.declaration_plce %></td>
+    <td style="width: 300px">ಪ್ರಭಂದಕರು / President:</td>
+    <td>ಸಂಯೋಜಕರು / Secretary:</td>
+  </tr>
+</table>
+<br />
+<br />
+<h2 class="section-title mgr-top-30">ಮೇಲ್ವಿಚಾರಕರ / ಪರಿವೀಕ್ಷಕರ ವರದಿ<br>Supervisor’s/Inspector’s Report</h2>
+<table class="report-table">
+    <tr>
+      <td>01</td>
+      <td>ಸಾಲ ಬೇಡಿಕೆ ಸಲ್ಲಿಸಿದ ಸ್ವಸಹಾಯ ಗುಂಪಿನ ಸಭೆಯ ದಿನಾಂಕ<br>
+      Date of the Self-Help Group meeting in which the loan request was submitted</td>
+      <td style="min-width: 150px"><%= format_date(@shg_loan_application.supervisor_meeting_date) %></td>
+    </tr>
+    <tr>
+      <td>02</td>
+      <td>ಉಳಿತಾಯದ ಮೇಲೆ ಆಧಾರಿತವಾಗಿ ಮಂಜೂರಾಗಬಹುದಾದ ಸಾಲ<br>
+      Loan amount that can be sanctioned based on the Self-Help Group’s savings</td>
+      <td><%= number_to_indian_currency(@shg_loan_application.supervisor_sanctionable_amount) %></td>
+    </tr>
+    <tr>
+      <td>03</td>
+      <td>ವಾರ ಸಭೆಗಳು/ಉಳಿತಾಯ/ಸಾಲ ಪಾವತಿ ಬಗ್ಗೆ ಟಿಪ್ಪಣಿ (ಈ ಹಿಂದೆ ಮಂಜೂರಾದ ಸಾಲ ಪಾವತಿಸಲಾಗಿಲ್ಲದಿದ್ದರೆ ವಿವರ ನೀಡಬೇಕು)<br>
+      Comments on the Self-Help Group's weekly meetings / savings / loan repayments (If any previously sanctioned loan is unpaid or delayed, it should be clearly mentioned)</td>
+      <td><%= @shg_loan_application.supervisor_comments %></td>
+    </tr>
+    <tr>
+      <td>04</td>
+      <td>ಸಾಲಕ್ಕೆ ಸಂಬಂಧಿಸಿದ ನಿರ್ಧಾರಗಳು ಸಂಘದ ಸಭೆಯಲ್ಲಿ ಸರ್ವಾನುಮತದಿಂದ ತೀರ್ಮಾನವಾಗಿದೆಯೆ?<br>
+      Have the decisions related to the loan been unanimously approved in the Self-Help Group meeting?</td>
+      <td><%= @shg_loan_application.supervisor_unanimous ? "ಹೌದು / Yes" : "" %></td>
+    </tr>
+    <tr>
+      <td>05</td>
+      <td>ಮಂಜೂರಾದ ಸಾಲದ ಮೊತ್ತದಲ್ಲಿ ಉತ್ಪಾದಕ ಸಾಲಕ್ಕಿಂತ ಅನುತ್ಪಾದಕ ಸಾಲ ಹೆಚ್ಚು ಇದೆಯೆ?<br>
+      Is the sanctioned loan amount for non-productive purposes higher than the loan amount for productive purposes?</td>
+      <td><%= @shg_loan_application.supervisor_productive_more_than_nonproductive ? "ಹೌದು / Yes" : "" %></td>
+    </tr>
+     <tr>
+        <td>06</td>
+        <td>ಸ್ವಸಹಾಯ ಸಂಘ ಪಡೆದ ಒಟ್ಟು ಸಾಲ<br>
+        Total loan amount received by the Self-Help Group</td>
+        <td><%= number_to_indian_currency(@shg_loan_application.total_loan_received) %></td>
+      </tr>
+      <tr>
+        <td>07</td>
+        <td>ಈವರೆಗೆ ಆದ ಮರುಪಾವತಿ  <br>
+        Total amount repaid from the loan received by the Self-Help Group</td>
+        <td><%= number_to_indian_currency(@shg_loan_application.total_loan_repaid) %></td>
+      </tr>
+      <tr>
+        <td>08</td>
+        <td>ಹೊರಬಾಕಿ ಸಾಲ <br>
+        Outstanding Loan</td>
+        <td><%= @shg_loan_application.total_loan_outstanding %></td>
+      </tr>
+      <tr>
+        <td>09</td>
+        <td>ಸಾಲದ ನಿಗದಿತ ಮೊತ್ತಕ್ಕಿಂತ ಹೆಚ್ಚು ಬೇಡಿಕೆ ಸಲ್ಲಿಸಿದ ಸದಸ್ಯರ ವಿವರ ಮತ್ತು ದಾಖಲೆಗಳು<br>
+        Details of members who have submitted loan requests exceeding the prescribed amount and the documents received from them</td>
+        <td><%= @shg_loan_application.excess_demand_details %></td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>ಸಭೆಯಲ್ಲಿ ಎಲ್ಲ ಸದಸ್ಯರು ಉಳಿತಾಯ ಹಾಗೂ ಸಾಲದ ಮೊತ್ತವನ್ನು ವಾರದ ಸಭೆಗಳಲ್ಲಿ ಜಮಾ ಮಾಡುತ್ತಾರೆಯೇ ?<br>
+        Do all members of the Self-Help Group deposit their savings and loan amounts during the weekly meetings?</td>
+        <td><%= @shg_loan_application.weekly_deposit_compliance ? "ಹೌದು / Yes" : "" %></td>
+      </tr>
+    </table>
+
+<br />
+<div style="border: 1px solid #aaa; padding: 10px; margin-top: 20px;" class="no-break">
+
+  <h2 class="section-title">ಸ್ವಸಹಾಯ ಸಂಘದ ಮೇಲ್ವಿಚಾರಕರ/ಕ್ಲರ್ಕ್ ವರದಿ <br />Supervisor/Clerk Report</h2>
+    <div class="report_display"> <%= simple_format(@shg_loan_application.supervisor_report) %></div>
+
+    <p style="margin-top: 20px; text-align: right">ಸಂಘದ ಮೇಲ್ವಿಚಾರಕರ ಸಹಿ / Sign. of SHG Supervisor</p>
+</div>
+ 
+
+<div style="border: 1px solid #aaa; padding: 10px; margin-top: 20px;" class="no-break">
+    <h2 class="section-title">ಶಾಖಾಧಿಕಾರಿಯ ವರದಿ/ಶಿಫಾರಸು <br /> Branch Manager Report / Recommendations</h2>
+    <div class="report_display"><%= simple_format(@shg_loan_application.bm_report) %></div>
+    <table>
+      <tr>
+        <th>ಸಾಲದ ಉದ್ದೇಶ<br>Purpose of Loan</th>
+        <th>ಸಾಲದ ಮೊತ್ತ<br>Loan Amount</th>
+        <th>ಅವಧಿ<br>Term</th>
+        <th>ಭದ್ರತೆ<br>Security</th>
+      </tr>
+      <tr>
+        <td><%= @shg_loan_application.bm_purpose %>&nbsp;</td>
+        <td>&#8377;<%= number_to_indian_currency(@shg_loan_application.bm_amount) %>&nbsp;</td>
+        <td><%= @shg_loan_application.bm_term %>&nbsp;</td>
+        <td><%= @shg_loan_application.bm_security %>&nbsp;</td>
+      </tr>
+    </table>
+
+    <p style="margin-top: 20px;">
+      ದಿನಾಂಕ / Date: <%= format_date(@shg_loan_application.bm_date) %><br>
+      ಸ್ಥಳ / Place: <%= @shg_loan_application.bm_place %>
+    </p>
+
+    <p style="margin-top: 20px; text-align: right">ಶಾಖಾಧಿಕಾರಿಯ ಸಹಿ / Sign. of Branch Manager</p>
+</div>
+ 
+<div class="page-break"> </div>
+<div style="border: 1px solid #aaa; padding: 10px; margin-top: 20px;" class="no-break">
+  <h2 class="section-title">ಕೇಂದ್ರಕಚೇರಿ ವಿಭಾಗ (Head Office Section)</h2>
+  <center>ಸಾಲ ವಿಭಾಗದ  ಮೇಲ್ವಿಚಾರಕರ/ಮುಖ್ಯಸ್ಥರ ವರದಿ  </center>
+  <center>Verification And Recommendation Report Of Loan Section Incharge/Head</center>
+  
+
+  <div class="report_display"><%= simple_format(@shg_loan_application.ho_report) %></div>
+
+  <table style="width: 100%; margin-top: 10px;" class="no-border">
+    <tr>
+      <td>ದಿನಾಂಕ / Date:</td>
+      <td><%= format_date(@shg_loan_application.ho_date) %></td>
+      <td style="text-align: right;">ಸಹಿ / Sign:</td>
+    </tr>
+    <tr>
+      <td>ಸ್ಥಳ / Place:</td>
+      <td><%= @shg_loan_application.ho_place %></td>
+      <td></td>
+    </tr>
+  </table>
+
+
+ </div>
+
+ <div style="border: 1px solid #aaa; padding: 10px; margin-top: 20px;" class="no-break">
+  <h2 class="section-title">ಮುಖ್ಯಕಾರ್ಯನಿರ್ವಾಹಕರು/ಆಡಳಿತ ನಿರ್ದೇಶಕರು ಇವರ ಮಂಜೂರಾತಿ ಆದೇಶ <br> Sanction Order/Recommendations By CEO/MD</h2>
+  <p>
+    ಶಾಖೆಯ ಶಾಖಾಧಿಕಾರಿಯ ಶಿಫಾರಸ್ಸಿನ ಆಧಾರದ ಮೇಲೆ ಮತ್ತು ಕೇಂದ್ರ ಕಚೇರಿಯ ಅಧಿಕೃತ ಅಧಿಕಾರಿ ಪರಿಶೀಲನೆಯ ಆಧಾರದ ಮೇಲೆ <%= @shg_loan_application.shg_name %> ಸ್ವಸಹಾಯ ಸಂಘಕ್ಕೆ ರೂ. <%= number_to_indian_currency(@shg_loan_application.sanction_amount) %> ಸಾಲವನ್ನು ಮಂಜೂರು ಮಾಡಲು ಸೂಚಿಸಲಾಗಿದೆ.
+  </p>
+
+  <p><em>
+    On the basis of recommendation by the Branch Manager and Scrutiny by the authorized officer in Head Office,
+    it is ordered/recommended for a loan amount of <%= number_to_indian_currency(@shg_loan_application.sanction_amount) %> (Rupees <%= number_to_currency_words( @shg_loan_application.sanction_amount )%>)
+  </em></p>
+
+  <table style="width: 100%; margin-top: 10px;" class="no-border">
+    <tr>
+      <td>ಸಾಲ ಮಂಜೂರಾತಿ ಆದೇಶ ಸಂಖ್ಯೆ<br>Sanction Order No:</td>
+      <td><%= @shg_loan_application.sanction_order_no %></td>
+    </tr>
+    <tr>
+      <td>ಸಾಲ ಮಂಜೂರಾತಿ ಆದೇಶ ದಿನಾಂಕ<br>Sanction Order Date:</td>
+      <td><%= format_date(@shg_loan_application.sanction_order_date) %></td>
+    </tr>
+    <tr>
+      <td>ಮಂಜೂರಾತಿ ಮೊತ್ತ<br>Sanction Amount:</td>
+      <td><%= number_to_indian_currency(@shg_loan_application.sanction_amount) %></td>
+    </tr>
+  </table>
+  <br />
+
+  <p style="text-align: right; margin-top: 20px;">
+    <strong>CEO/MD</strong><br>
+    ಮುಖ್ಯಕಾರ್ಯನಿರ್ವಾಹಕರು
+  </p>
+</div>
+
+ 
+
+
+ 
+<div style="border: 1px solid #aaa; padding: 10px; margin-top: 25px;" class="no-break">
+
+  <h2 class="section-title">ಆಡಳಿತ ಮಂಡಳಿಯ ನಿರ್ಧಾರಗಳು<br>Resolutions of the Board of Management</h2>
+
+  <p style="text-align: justify;">
+    ಕೇಂದ್ರ ಕಚೇರಿಯಲ್ಲಿ ನಡೆದ ಸಾಲಮಂಜೂರಾತಿ ಸಮಿತಿ/ನಿರ್ದೇಶಕರ ಮಂಡಳಿಯ ಸಭೆಯಲ್ಲಿ ಸಾಲವನ್ನು ಅನುಮೋದಿಸಲಾಗಿದೆ<br>
+    <em>Loan sanctioned/approved on by loan committee/Board of Directors meeting held at Head Office</em>
+  </p>
+
+  <table style="width: 100%; margin-top: 10px;" class="no-border">
+    <tr>
+      <td>ಮಂಜೂರಾತಿ ಮಿತಿ:/Sanction Limit:</td>
+      <td><%= number_with_precision(@shg_loan_application.resolution_limit, precision: 2) %></td>
+    </tr>
+    <tr>
+      <td>ನಿರ್ಣಯ ಸಂಖ್ಯೆ:/Resolution No. / L.C.O No:</td>
+      <td><%= @shg_loan_application.resolution_number %></td>
+    </tr>
+  </table>
+</div>
+<br />
+
+<div style="border: 1px solid #aaa; padding: 10px; " class="no-break">
+  
+
+  <h2 class="section-title">ತಪಾಸಣಾ ವಿಮರ್ಶೆ ವರದಿ<br>Inspection Review</h2>
+ 
+  <div class="report_display"><%= @shg_loan_application.inspection_report %></div>
+  
+
+  <table style="width: 100%; margin-top: 10px;" class="no-border">
+    <tr>
+      <td>ದಿನಾಂಕ / Date:</td>
+      
+      <td><%= format_date(@shg_loan_application.inspection_date) %></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>ಸ್ಥಳ / Place:</td>
+      
+      <td><%= @shg_loan_application.inspection_place %></td>
+      <td style="text-align: right;">ಅಧೀಕ್ಷಕ ಅಧಿಕಾರಿ / Ins. Officer</td>
+    </tr>
+  </table>
+</div>
+<br />
+<div style="border: 1px solid #aaa; padding: 10px; " class="no-break">
+  <h2 class="section-title">ಸಾಲ ವಿತರಣೆಯ ವಿವರಗಳು<br>Details Of Loan Disbursement</h2>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 10px;" border="1">
+    <thead>
+      <tr>
+        <th>ದಿನಾಂಕ / Date</th>
+        <th>ಸಾಲದ ಖಾತೆ ಸಂಖ್ಯೆ<br>Account No</th>
+        <th>ಸಾಲದ ಅವಧಿ<br>Term</th>
+        <th>ಸಾಲದ ಮೊತ್ತ<br>Loan Amount</th>
+        <th>ಬಡ್ಡಿ<br>ROI</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= format_date(@shg_loan_application.disbursement_date) %></td>
+        <td><%= @shg_loan_application.account_no %></td>
+        <td><%= @shg_loan_application.account_term %></td>
+        <td><%= number_to_indian_currency( @shg_loan_application.account_amount ) %></td>
+        <td><%= number_to_indian_currency(@shg_loan_application.account_roi) %>%</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top: 20px;">
+    ದಿನಾಂಕ / Date: <%= format_date(@shg_loan_application.bm_sign_date) %><br>
+    ಸ್ಥಳ / Place: <%= @shg_loan_application.bm_sign_place %><br>
+    <span style="float: right;">ಶಾಖಾಧಿಕಾರಿಯ ಸಹಿ / Sign. of Branch Manager</span>
+  </p>
+
+</div>

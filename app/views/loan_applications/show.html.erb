@@ -1,0 +1,289 @@
+<h4 class="mt-3">Loan Application of Member: <%= @loan_application.member&.name %></h4>
+
+<%= link_to "Print", member_loan_application_path(@member, @loan_application, format: :pdf), class: "btn btn-info " %> &nbsp;
+<%= link_to "Edit", edit_member_loan_application_path(@member, @loan_application), class: "btn btn-warning " %> &nbsp;
+
+
+<%= link_to "Create Gurantor", new_member_loan_application_guarantor_undertaking_path(@member, @loan_application), class: "btn btn-secondary " %>&nbsp;
+
+
+<% if @loan_application.term_loan_agreements.blank? %>
+  <%= link_to 'Create Term Loan Agreement', new_member_loan_application_term_loan_agreement_path(@member, @loan_application), class: "btn btn-secondary " %>&nbsp;
+<%else%>
+  <%= link_to 'Edit Term Loan Agreement', edit_member_loan_application_term_loan_agreement_path(@member, @loan_application, @loan_application.term_loan_agreements.last), class: "btn btn-secondary " %>&nbsp;
+<%end%>
+
+<% if @loan_application.demand_promissory_notes.blank? %>
+  <%= link_to 'Create Demand Promissory', new_member_loan_application_demand_promissory_note_path(@member, @loan_application), class: "btn btn-secondary " %>&nbsp;
+<%else%>
+  <%= link_to 'Edit Demand Promissory', edit_member_loan_application_demand_promissory_note_path(@member, @loan_application, @loan_application.demand_promissory_notes.last), class: "btn btn-secondary " %>&nbsp;
+<%end%>
+
+<% if @loan_application.hypothecation_deeds.blank? %>
+  <%= link_to 'Create Hypothecation Deed', new_member_loan_application_hypothecation_deed_path(@member, @loan_application), class: "btn btn-secondary " %>&nbsp;
+<%else%>
+  <%= link_to 'Edit Hypothecation Deed', edit_member_loan_application_hypothecation_deed_path(@member, @loan_application, @loan_application.hypothecation_deeds.last), class: "btn btn-secondary " %>&nbsp;
+<%end%>
+
+<% if @loan_application.pro_notes.blank? %>
+   <%= link_to 'Create Pro Note', new_member_loan_application_pro_note_path(@member, @loan_application), class: "btn btn-secondary " %>
+<%else%>
+   <%= link_to 'Edit Pro Note', edit_member_loan_application_pro_note_path(@member, @loan_application, @loan_application.pro_notes.last), class: "btn btn-secondary " %>
+<%end%>
+
+
+<br />
+<br />
+<div class="card p-3 mb-4">
+  <h5 class="mb-3">Loan & Member Details</h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Loan Amount</th>
+        <th>Loan Purpose</th>
+        <th>Estimated Cost</th>
+        <th>Loan Date</th>
+        <th>Application Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>₹ <%= @loan_application.loan_amount %></td>
+        <td><%= @loan_application.loan_purpose %></td>
+        <td>₹ <%= @loan_application.estimated_cost %></td>
+        <td><%= @loan_application.loan_date %></td>
+        <td><%= @loan_application.application_date %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card p-3 mb-4">
+  <h5 class="mb-3">Income & Asset Details</h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Business Income</th>
+        <th>Agriculture Income</th>
+        <th>Other Income</th>
+        <th>Total Income</th>
+        <th>Balance Outstanding</th>
+        <th>Overdue Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>₹ <%= @loan_application.business_income %></td>
+        <td>₹ <%= @loan_application.agriculture_income %></td>
+        <td>₹ <%= @loan_application.other_income %></td>
+        <td>₹ <%= @loan_application.total_income %></td>
+        <td>₹ <%= @loan_application.balance_outstanding %></td>
+        <td>₹ <%= @loan_application.overdue_amount %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table table-bordered mt-3">
+    <thead>
+      <tr>
+        <th>Gold Value</th>
+        <th>Property Value</th>
+        <th>Vehicle Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>₹ <%= @loan_application.gold_value %></td>
+        <td>₹ <%= @loan_application.property_value %></td>
+        <td>₹ <%= @loan_application.vehicle_value %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card p-3 mb-4">
+  <h5 class="mb-3">Guarantor Details</h5>
+  <%= form_with model: [@member, @loan_application], local: true do |f| %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Aadhaar</th>
+          <th>Phone</th>
+          <th> Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= f.fields_for :co_obligants do |co_form| %>
+          <tr>
+            <td><%= co_form.object.member.name %></td>
+            <td><%= co_form.object.member.aadhaar_number %></td>
+            <td><%= co_form.object.member.mobile_number %></td>
+            <td>
+              <%= co_form.hidden_field :id %>
+              <%= co_form.number_field :position, min: 1, class: "form-control" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <%= f.submit "Update Positions", class: "btn btn-primary" %>
+  <% end %>
+
+   
+</div>
+
+<div class="card p-3 mb-4">
+  <h5 class="mb-3">Sanction & Disbursement</h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Sanction Amount</th>
+        <th>Sanction (in words)</th>
+        <th>Sanction Order No</th>
+        <th>Sanction Date</th>
+        <th>Resolution No</th>
+        <th>Disbursement Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>₹ <%= @loan_application.sanction_amount %></td>
+        <td><%= @loan_application.sanction_amount_words %></td>
+        <td><%= @loan_application.sanction_order_no %></td>
+        <td><%= @loan_application.sanction_order_date %></td>
+        <td><%= @loan_application.resolution_no %></td>
+        <td><%= @loan_application.loan_disbursement_date %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card p-3 mb-4">
+  <h5 class="mb-3">Reports & Inspection</h5>
+  <p><strong>Branch Incharge Report:</strong> <%= simple_format(@loan_application.branch_incharge_report) %></p>
+  <p><strong>Branch Manager Report:</strong> <%= simple_format(@loan_application.branch_manager_report) %></p>
+  <p><strong>Head Office Report:</strong> <%= simple_format(@loan_application.head_office_report) %></p>
+  <p><strong>Inspection Review:</strong> <%= simple_format(@loan_application.inspection_review) %></p>
+</div>
+
+<% if @guarantor_undertakings.any? %>
+  <div class="card p-3 mb-4">
+    <h5 class="mb-3">Guarantor Undertakings</h5>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Guarantor Name</th>
+          <th>Guarantor Mobile</th>
+         
+          <th>Guarantee Date</th>
+          <th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @guarantor_undertakings.each do |undertaking| %>
+          <tr>
+            <td><%= undertaking.guarantor&.name || 'N/A' %></td>
+            <td><%= undertaking.guarantor&.mobile_number || 'N/A' %></td>
+           
+            <td><%= undertaking.guarantee_date %></td>
+            <td><%= link_to "Print", member_loan_application_guarantor_undertaking_path(undertaking.member, undertaking.loan_application, undertaking, format: :pdf), class: "btn btn-info  btn-sm" %>
+          <%= link_to "Edit", edit_member_loan_application_guarantor_undertaking_path(undertaking.member, undertaking.loan_application, undertaking), class: "btn btn-warning  btn-sm" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
+
+<div class="card p-3 mb-4">
+  <h5 class="mb-3">Term Loan Agreements</h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+       <% @loan_application.term_loan_agreements.each_with_index do |term, index| %>
+            <tr>
+               <td><%= "#{term.date} #{term.month}, #{term.year}" %></td>
+               <td><%= link_to "Print", member_loan_application_term_loan_agreement_path(term.member, term.loan_application, term, format: :pdf), class: "btn btn-info  btn-sm" %>
+          <%= link_to "Edit", edit_member_loan_application_term_loan_agreement_path(term.member, term.loan_application, term), class: "btn btn-warning  btn-sm" %></td>
+            </tr>
+           
+        <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="card p-3 mb-4">
+  <h5 class="mb-3">Demand Promissory Notes</h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+       <% @loan_application.demand_promissory_notes.each_with_index do |dpn, index| %>
+            <tr>
+               <td><%= dpn.date %></td>
+               <td><%= link_to "Print", member_loan_application_demand_promissory_note_path(dpn.member, dpn.loan_application, dpn, format: :pdf), class: "btn btn-info  btn-sm" %>
+          <%= link_to "Edit", edit_member_loan_application_demand_promissory_note_path(dpn.member, dpn.loan_application, dpn), class: "btn btn-warning  btn-sm" %></td>
+            </tr>
+           
+        <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="card p-3 mb-4">
+  <h5 class="mb-3">Hypothecation Deeds</h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+       <% @loan_application.hypothecation_deeds.each_with_index do |hd, index| %>
+            <tr>
+               <td><%= "#{hd.day} #{hd.month}, #{hd.year}" %></td>
+               <td><%= link_to "Print", member_loan_application_hypothecation_deed_path(hd.member, hd.loan_application, hd, format: :pdf), class: "btn btn-info  btn-sm" %>
+          <%= link_to "Edit", edit_member_loan_application_hypothecation_deed_path(hd.member, hd.loan_application, hd), class: "btn btn-warning  btn-sm" %></td>
+            </tr>
+           
+        <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="card p-3 mb-4">
+  <h5 class="mb-3">Pro Notes</h5>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+       <% @loan_application.pro_notes.each_with_index do |pn, index| %>
+            <tr>
+               <td><%= pn.date %></td>
+               <td><%= link_to "Print", member_loan_application_pro_note_path(pn.member, pn.loan_application, pn, format: :pdf), class: "btn btn-info  btn-sm" %>
+          <%= link_to "Edit", edit_member_loan_application_pro_note_path(pn.member, pn.loan_application, pn), class: "btn btn-warning  btn-sm" %></td>
+            </tr>
+           
+        <% end %>
+    </tbody>
+  </table>
+</div>
+
+<hr />
+<%= link_to "Back", loan_applications_path, class: "btn btn-secondary mt-3" %>

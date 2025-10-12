@@ -1,0 +1,42 @@
+ <h5>Guarantor Undertakings</h5>
+ <br />
+ <%= search_form_for @q do |f| %>
+
+ <table class='table table-bordered search-table' >
+   <tr>
+      <th> <%= f.label :member_name_cont %>:
+       <%= f.search_field :member_name_cont %> </th>
+      <th> <%= f.label :member_mobile_number_cont %>:
+       <%= f.search_field :member_mobile_number_cont %> </th>
+      <th> <%= f.label :member_aadhaar_number_cont %>:
+       <%= f.search_field :member_aadhaar_number_cont %> </th>
+      <th rowspan="2">  <%= f.submit "Search", class: 'btn btn-secondary btn-sm' %> </th>
+   </tr>
+ 
+<% end %>
+ 
+<table class="table list-table table-bordered">
+      <thead>
+        <tr>
+          <th>Guarantor Name</th>
+          <th>Guarantor Mobile</th>
+         
+          <th>Guarantee Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @guarantor_undertakings.each do |undertaking| %>
+          <tr>
+            <td><%= undertaking.guarantor&.name || 'N/A' %></td>
+            <td><%= undertaking.guarantor&.mobile_number || 'N/A' %></td>
+           
+            <td><%= undertaking.guarantee_date %></td>
+           <td> <%= link_to 'Print', member_loan_application_guarantor_undertaking_path(undertaking.member, undertaking.loan_application, undertaking, format: :pdf) , class: 'btn btn-info  btn-sm '%> 
+             <%= link_to 'Edit', edit_member_loan_application_guarantor_undertaking_path(undertaking.member, undertaking.loan_application, undertaking), class: 'btn btn-sm btn-warning' %>   
+             <%= link_to "Loan App",  member_loan_application_path(undertaking.member, undertaking.loan_application), class: "btn btn-secondary  btn-sm" %>
+             <%= link_to "Member",   undertaking.member, class: "btn btn-secondary  btn-sm" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+</table>

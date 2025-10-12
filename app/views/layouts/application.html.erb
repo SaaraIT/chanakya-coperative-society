@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= content_for?(:title) || "Dashboard" %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+
+  <!-- Material Design CSS -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@materializecss/materialize@2.1.1/dist/css/materialize.min.css" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/slim-select@2.8.1/dist/slimselect.css" rel="stylesheet" />
+
+  <%= javascript_importmap_tags %>
+
+  <!-- Material Design JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/@materializecss/materialize@2.1.1/dist/js/materialize.min.js"></script>
+
+</head>
+<body id="main" class="grey lighten-4">
+  <%= render 'shared/navbar' %>
+
+  <%= render 'shared/sidebar' %>
+
+  <main style="padding: 20px; padding-top: 84px; margin-left: 250px; width: calc(100vw - 250px); min-height: calc(100vh - 64px);">
+    <% if notice %>
+      <div class="card-panel green lighten-4 green-text text-darken-4">
+        <i class="material-icons left">check_circle</i>
+        <%= notice %>
+      </div>
+    <% end %>
+
+    <% if alert %>
+      <div class="card-panel red lighten-4 red-text text-darken-4">
+        <i class="material-icons left">error</i>
+        <%= alert %>
+      </div>
+    <% end %>
+
+    <%= yield %>
+  </main>
+</body>
+</html>

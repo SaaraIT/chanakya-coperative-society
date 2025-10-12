@@ -1,0 +1,28 @@
+<!-- app/views/shared/_pdf_footer.html.erb -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      function substitutePdfVariables() {
+        var vars = {};
+        var x = window.location.search.substring(1).split('&');
+        for (var i in x) {
+          var z = x[i].split('=', 2);
+          vars[z[0]] = decodeURIComponent(z[1]);
+        }
+
+        var keys = ['frompage', 'topage', 'page'];
+        keys.forEach(function(key) {
+          var elements = document.getElementsByClassName(key);
+          for (var j = 0; j < elements.length; ++j) {
+            elements[j].textContent = vars[key];
+          }
+        });
+      }
+    </script>
+    
+  </head>
+  <body onload="substitutePdfVariables()">
+    Page <span class="page">?</span> of <span class="topage">?</span>
+  </body>
+</html>

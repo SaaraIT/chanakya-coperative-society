@@ -1,0 +1,50 @@
+<h5>Jewel Loan Applications</h5>
+ 
+<br />
+<%= search_form_for @q do |f| %>
+
+ <table class='table table-bordered search-table' >
+   <tr>
+      <th> <label> Applicant Name Contains: </label>
+       <%= f.search_field :member_name_cont %> </th>
+      <th> <label> Mobile Number Contains: </label>  
+       <%= f.search_field :member_mobile_number_cont %> </th>
+      <th> <label> Aadhar Contains: </label> 
+       <%= f.search_field :member_aadhaar_number_cont %> </th>
+      
+      <th rowspan="2">  <%= f.submit "Search", class: 'btn btn-secondary btn-sm' %> </th>
+   </tr>
+ 
+<% end %>
+<table class="table table-bordered table-hover table-striped">
+  <thead class="table-light">
+    <tr>
+      <th>ID</th>
+      <th>Member</th>
+      <th>Loan Date</th>
+     
+      <th>Sanction Amount</th>
+      <th>Created At</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @jewel_loans.each do |loan| %>
+      <tr>
+        <td><%= loan.id %></td>
+        <td><%= loan.member&.name || "N/A" %></td>
+        <td><%= loan.loan_date&.strftime("%d-%m-%Y") %></td>
+    
+        <td><%= loan.sanction_amount %></td>
+        <td><%= loan.cooperative_branch.try(:name) %></td>
+        
+        <td>
+          <%= link_to 'Print', member_jewel_loan_path(loan.member, loan, format: :pdf), class: "btn btn-sm btn-info" %>
+          <%= link_to 'Show', member_jewel_loan_path(loan.member, loan), class: "btn btn-sm btn-info" %>
+          <%= link_to 'Edit', edit_member_jewel_loan_path(loan.member, loan), class: "btn btn-sm btn-warning" %>
+           
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

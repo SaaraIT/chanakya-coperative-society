@@ -1,0 +1,49 @@
+<h5>Additional Shares Applications</h5>
+<br />
+
+ 
+<%= search_form_for @q do |f| %>
+
+ <table class='table table-bordered search-table' >
+   <tr>
+      <th> <label> Applicant Name Contains: </label>
+       <%= f.search_field :member_name_cont %> </th>
+      <th> <label> Mobile Number Contains: </label>  
+       <%= f.search_field :member_mobile_number_cont %> </th>
+      <th> <label> Aadhar Contains: </label> 
+       <%= f.search_field :member_aadhaar_number_cont %> </th>
+     
+      <th rowspan="2">  <%= f.submit "Search", class: 'btn btn-secondary btn-sm' %> </th>
+   </tr>
+ 
+<% end %>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Member Name</th>
+      <th>Additional Shares Required</th>
+      <th>Share Capital to be Paid</th>
+     
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @additional_shares_applications.each do |application| %>
+      <tr>
+        <td><%= application.member.name %></td>
+        <td><%= application.additional_shares_required %></td>
+        <td><%=  application.additional_share_capital_to_be_paid %></td>
+         
+        <td>
+           <%= link_to "Print", member_additional_shares_application_path(application.member, application, format: :pdf), class: 'btn btn-primary  btn-sm'  %> 
+          <%= link_to "Edit", edit_member_additional_shares_application_path(application.member, application), class: 'btn btn-sm btn-warning' %>  
+          
+          <%= link_to "Member",   application.member, class: "btn btn-secondary  btn-sm" %></td>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+ 

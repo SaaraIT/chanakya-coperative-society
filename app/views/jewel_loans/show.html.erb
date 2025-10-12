@@ -1,0 +1,127 @@
+<style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  table.bordered { margin-bottom: 20px }
+
+  .bordered tr td, .bordered tr th {
+    border: 1px solid black;
+    padding: 8px;
+    vertical-align: top;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .no-border {
+    border: none;
+  }
+
+  .signature-space {
+    margin-top: 40px;
+  }
+
+  hr.page-break {
+    page-break-after: always;
+    border: none;
+    margin: 50px 0;
+  }
+
+  .indent {
+    margin-left: 20px;
+  }
+
+  .signature-line {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  .underline {
+    text-decoration: underline;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
+</style>
+
+<div class="center">
+  <%= render "shared/loan_header" %>
+  <p>To The Manager <span class="underline"><%= Current.branch.try(:name) %></span> Branch</p>
+  <h5>Application for loan by pledge Of Gold Jewels</h5>
+</div>
+
+<table class="bordered">
+  <tr>
+    <td style="width: 200px">1. Member No</td>
+    <td><%= @member.member_no %></td>
+  </tr>
+  <tr>
+    <td>Name & Address<br>Of the Borrower</td>
+    <td style="height: 100px;"><%= @member.name %><br><%= @member.address %></td>
+  </tr>
+</table>
+
+<h5>2. Description of Jewels Offered</h5>
+<table class="bordered">
+  <tr>
+    <th>Description of Jewels</th>
+    <th>Gross Weight</th>
+    <th>Net Weight</th>
+  </tr>
+  <% @jewel_loan.jewel_items.each do |j| %>
+    <tr>
+      <td><%= j.description %></td>
+      <td><%= j.gross_weight %></td>
+      <td><%= j.net_weight %></td>
+    </tr>
+  <% end %>
+  <tr>
+    <td><strong>Total</strong></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+
+<p>3. Loan amount Required: ₹ <%= @jewel_loan.loan_amount %> (Rupees ...................................)</p>
+<p>4. Loan Duration: <%= @jewel_loan.loan_duration %> months</p>
+<p>
+  5. I hereby authorise and nominate <%= @jewel_loan.nominee_name %> Relation: <%= @jewel_loan.nominee_relation %>
+  Aged about <%= @jewel_loan.nominee_age %> Aadhar No. <%= @jewel_loan.nominee_aadhaar %> to receive the pledged jewels after my death
+</p>
+
+<p class="indent">
+  I hereby declare that the aforesaid jewels belong to me absolutely and I agree to abide the rules of the Sahakari presently in force or that may be modified/amended in future from time to time. This is a computerized application and I read and understood all terms and conditions of this loan.
+</p>
+
+<div class="signature-space">
+  <p>Loan Sanctioned ₹<%= @jewel_loan.sanction_amount %> </p>
+ 
+</div>
+
+<hr />
+<% if @jewel_loan.jewel_appraisers_report.blank? %>
+   <%= link_to "Create Appraiser Report", new_member_jewel_loan_jewel_appraisers_report_path(@member,  @jewel_loan), class: "btn btn-secondary" %>
+<%else%>
+   <%= link_to "Edit Appraiser Report", edit_member_jewel_loan_jewel_appraisers_report_path(@member,  @jewel_loan, @jewel_loan.jewel_appraisers_report), class: "btn btn-secondary" %>
+<%end%>
+&nbsp; 
+
+<% if @jewel_loan.jewel_loan_promissory_note.blank? %>
+   <%= link_to "Create Promissory Note", new_member_jewel_loan_jewel_loan_promissory_note_path(@member,  @jewel_loan), class: "btn btn-secondary" %>
+<%else%>
+   <%= link_to "Edit Promissory Note", edit_member_jewel_loan_jewel_loan_promissory_note_path(@member,  @jewel_loan, @jewel_loan.jewel_loan_promissory_note), class: "btn btn-secondary" %>
+<%end%>
+
+<br />
+
+<br />

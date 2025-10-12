@@ -1,0 +1,23 @@
+<h5>Manage Users</h5>
+<%= link_to "New User", new_admin_user_path, class: "btn btn-primary mb-3" %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Branch</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.email %></td>
+        <td><%= user.role %></td>
+        <td><%= user.cooperative_branch&.name %></td>
+        <td><%= link_to 'Edit', edit_admin_user_path(user), class: "btn btn-sm btn-primary" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

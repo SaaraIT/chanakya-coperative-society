@@ -1,0 +1,180 @@
+  <style>
+   
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 10px 0;
+    }
+
+    table.no-border td, table.no-border th{border: none}
+    td, th {
+      border: 1px solid black;
+      padding: 8px;
+      vertical-align: top;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .no-border {
+      border: none;
+    }
+
+    .signature-space {
+      margin-top: 40px;
+    }
+
+    hr.page-break {
+      page-break-after: always;
+      border: none;
+      margin: 50px 0;
+    }
+    
+    .indent {
+      margin-left: 20px;
+    }
+    
+    .signature-line {
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+    .underline {
+      border-bottom: 1px dotted black;
+      
+      padding-bottom: 2px;
+      min-width: 200px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .center {
+      text-align: center;
+    }
+    .bold {
+      font-weight: bold;
+    }
+  </style>
+<%= form_with model: [@member, @jewel_loan, @promissory_note], local: true do |form| %>
+  <div class="center">
+    <h2><strong>PROMISSORY NOTE</strong></h2>
+  </div>
+
+  <table class="no-border">
+    <tr>
+      <td style="width: 70%;">
+        ₹. <span class="underline"> <%= @jewel_loan.loan_amount %></span><br><br>
+        On demand I <span class="underline"><%= @member.name %></span><br>
+        Address <span class="underline"><%= @member.address %></span><br><br>
+        Do hereby promise to pay Mathrubhoomi Souharda Sahakari Sangha Ltd.(REG.NO.526/2005-06) Or Order a sum of ₹.
+        <%= form.number_field :amount_in_words, step: 0.01, value: @jewel_loan.loan_amount %> (Rupees  )
+        along with the interest thereon at <%= form.number_field :interest_rate, step: 0.01 %>% p.a.
+        for value received on this <%= form.date_field :issued_on, value: Date.today %>
+      </td>
+      <td style="text-align: left;">
+        Place:&nbsp;<%= Current.branch.name %><br>
+        Date:&nbsp;&nbsp; <%= Date.today %><br><br>
+        Member No. <span class="underline"><%= @member.member_no %></span><br><br><br>
+        <div style="border: 1px solid black; height: 100px; width: 100px; margin: 0 auto;"></div>
+        <center>(Specimen Sign.)</center>
+      </td>
+    </tr>
+  </table>
+
+  <hr>
+
+  <div class="center">
+    <strong>Shri Guru Chanakya Souharda Sahakari Sangha Ltd</strong> (REG.NO. 526/2005-06)
+  </div>
+
+  <table class="no-border">
+    <tr>
+      <td>Branch <span class="underline"><%= @jewel_loan.cooperative_branch.name %></span></td>
+      <td>Loan No. <%=  form.text_field :loan_number %> </td>
+    </tr>
+  </table>
+
+  <p>This agreement made on this <%= form.date_field :agreement_date %> by AND BETWEEN</p>
+
+  <table class="no-border">
+    <tr><td>Member No.: <%= @jewel_loan.member.member_no %></td></tr>
+    <tr><td>Name: <%= @jewel_loan.member.name %></td></tr>
+    <tr><td>Address: <%= @jewel_loan.member.address %></td></tr>
+  </table>
+
+  <p>Hereinafter called the Borrower</p>
+
+  <!-- Continue static legal content -->
+
+  <p> AND <br>
+  <strong>Shri Guru Chanakya Souharda Sahakari Sangha Ltd</strong> (REG.NO.526/2005-06)<br>
+  Represented by its Manager Hereinafter called as</p>
+
+  <p>"THE SAHAKARI SANGHA"<br>
+  The Borrower have on this day <%= @jewel_loan.loan_date  %> borrowed from the SAHAKARI a sum of ₹ <%= @jewel_loan.sanction_amount %> (Rupees <%= number_to_currency_words(@jewel_loan.sanction_amount) %>) for a period <%= @jewel_loan.loan_duration %> months.</p>
+
+  <p> 2.As a security to the said loan the BORROWER has pledged the jewels belonging to him/her absolutely whose description has been fully enumerated on the reverse of this agreement </p>
+  <p>The BORROWER has today receive an amount of ₹ <%= @jewel_loan.sanction_amount %>. Being the proceeds of the said loan in full subject to the following conditions.</p>
+
+<ol type="a">
+  <li>
+    The loan amount shall carry an interest @ ______% per annum. The borrower agrees to pay the interest on quarterly basis and agrees to repay the loan along with interest on demand.
+  </li>
+  <li>
+    In case the BORROWER fails to pay the interest at ______% p.a he/she shall pay penal interest 3% p.a. in addition to till such date of payment. In case the borrower fails to do so, Sahakari is at liberty to suction the pledged jewels as it deems proper to do so. And in such an event, The Borrower shall have no right to object the sahakari from auctioning the jewels and appropriating the auction proceeds towards the loan liability.
+  </li>
+</ol>
+
+<p>
+  The Borrower hereby waives issuance of prior notice by the Sahakari to him/her in this regard. In case the auction proceeds are insufficient to meet the loan liability, the sahakari shall be at liberty to proceed against the Borrower personally and also by attachment and sale of movable and immovable property of the Borrower.
+</p>
+
+<ol start="3">
+  <li>
+    The Sahakari is at liberty to auction the jewels as it deems proper to do so and Borrower shall have no right to object, Sahakari’s appropriation of said auction proceeds to loan principal, interest and charges. Borrower shall have right to claim the remainder amount only after all such appropriations to principal, interest and charges etc. In case the amount received in auction of the said jewels is not sufficient to cover the amount of loan interest, charges etc. due to sahakari, Borrower or his legal representatives shall be liable to pay the shortfall from Borrower's personal movable and immovable properties/assets.
+  </li>
+  <li>
+    In case the value of jewels pledged by the BORROWER depreciates for any reason, the SAHAKARI shall be at liberty to MANDATE the BORROWER to give additional security to sahakari or reduce the loan amount as the sahakari feels fit.
+  </li>
+</ol>
+
+<p>
+  In case the sahakari feels that the market value of the pledged jewels are not found to its satisfaction, not sufficient to repay the loan with interest, Sahakari may by written notice of 7 days, demand the Borrower to repay such shortfall or provide additional security for which the Borrower is agreeable to meet such demand and on failure on the part of the Borrower to meet the demands of the Sahakari to be advanced by means of a notice. The sahakari shall be at liberty to auction the pledged jewels as it deems fit. In case the proceeds realised by the sahakari from such auction are not sufficient to cover the entire loan liability.The sahakari shall have the right to proceed against the BORROWER as well by the personally and also by attachment and sale of the movable/immovable property owned by the Borrower.
+</p>
+
+<p>5.The Sahakari shall also have the right to re-pledged the the jewels pledged by the Borrower.</p>
+<p>6.On account of aforesaid loan or the loans remaining unpaid, interest alongwith charges incurred thereto with any branches of sahakari or if fails to repay the unpaid loans as demanded by sahakari. Sahakari is at liberty to recover the amounts due there in by public auction or private sale of the jewels now pledged by the borrower or as a guarantor or loans in any other branches of sahakari for which sahakari have right and borrower shall not have any objection for the same. </p>
+<p>7.Borrower hereby authorize to disburse and recover the loan through Borrower members savings account maintained at sahakari branch.</p>
+<p>8.The sahakari is authorized to charge interest, penal interest charges as per the rules in force from same to the such charges amount shall be added to the principal and shall be treated as principal thereafter.</p>
+<p>The Borrower have received a sum of ₹<%= @jewel_loan.sanction_amount %> being the consideration of this bond.</p>
+
+  <div class="row signature-line">
+    <div>....................<br>Manager</div>
+    <div>....................<br>Borrower</div>
+  </div>
+
+  <hr>
+
+  <p>I hereby the certify that the signature has been obtained in my presence.</p>
+
+  <div class="signature-line">....................<br>Manager</div>
+
+  <hr>
+
+  <p class="underline bold">Details of Repayment</p>
+  <p>I have this day <%= form.date_field :repaid_on %> Repaid the loan in full along with interest and received back the jewels pledged by me.</p>
+
+  <div class="signature-line center">
+    ....................................<br>
+    Signature of the Borrower
+  </div>
+
+  <br />
+  <%= form.submit "Save Promissory Note", class: "btn btn-primary" %>
+<% end %>
+<br />

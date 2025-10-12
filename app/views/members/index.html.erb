@@ -1,0 +1,107 @@
+<div class="row" style="margin-bottom: 20px;">
+  <div class="col s12">
+    <h5 style="font-weight: 500; margin: 0; color: #37474f;">
+      <i class="material-icons left" style="font-size: 24px; vertical-align: middle; margin-right: 8px;">people</i>
+      Membership Applications
+    </h5>
+  </div>
+</div>
+
+<!-- Floating Action Button -->
+<div class="fixed-action-btn">
+  <%= link_to new_member_path, class: "btn-floating btn-large blue waves-effect waves-light pulse", title: "New Membership" do %>
+    <i class="material-icons">add</i>
+  <% end %>
+</div>
+
+<div class="card" style="margin-bottom: 20px;">
+  <div class="card-content">
+ 
+    <%= search_form_for @q do |f| %>
+      <div class="row" style="margin-bottom: 0; display: flex; align-items: flex-end; flex-wrap: nowrap;">
+        <div class="input-field col s12 m3 l3">
+          <%= f.search_field :name_cont, class: "validate" %>
+          <%= f.label :name_cont, "Name" %>
+        </div>
+        <div class="input-field col s12 m3 l3">
+          <%= f.search_field :mobile_number_cont, class: "validate" %>
+          <%= f.label :mobile_number_cont, "Mobile Number" %>
+        </div>
+        <div class="input-field col s12 m3 l3">
+          <%= f.search_field :aadhaar_number_cont, class: "validate" %>
+          <%= f.label :aadhaar_number_cont, "Aadhaar Number" %>
+        </div>
+        <div class="col s12 m3 l3" style="padding-top: 10px;">
+          <%= f.submit "Search", class: 'btn white grey-text text-darken-3 waves-effect', style: "border: 1px solid #ddd;" %>
+          <%= link_to "Clear", members_path, class: 'btn white grey-text text-darken-3 waves-effect', style: "margin-left: 5px; border: 1px solid #ddd;" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-content" style="padding: 0;">
+    <table class='striped responsive-table highlight'>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Mobile Number</th>
+          <th>Aadhaar Number</th>
+          <th>Number of Shares</th>
+          <th>Branch</th>
+          <th class="center-align">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @members.each do |member| %>
+          <tr class="member-row">
+            <td><strong>#<%= member.id %></strong></td>
+            <td>
+              <i class="material-icons tiny" style="color: #42a5f5;">person</i>
+              <%= member.name %>
+            </td>
+            <td>
+              <i class="material-icons tiny" style="color: #66bb6a;">phone</i>
+              <%= member.mobile_number %>
+            </td>
+            <td>
+              <i class="material-icons tiny" style="color: #ffa726;">badge</i>
+              <%= member.aadhaar_number %>
+            </td>
+            <td>
+              <span class="chip">
+                <%= member.memberships.last.number_of_shares %> shares
+              </span>
+            </td>
+            <td><%= member.cooperative_branch.try(:name) %></td>
+            <td class="center-align" style="white-space: nowrap;">
+              <%= link_to member_path(member, format: :pdf), target: "_blank", class: 'btn-floating btn-small blue tooltipped waves-effect waves-light', data: { position: "top", tooltip: "Print PDF" }, style: "display: inline-block; margin: 0 2px;" do %>
+                <i class="material-icons">print</i>
+              <% end %>
+
+              <%= link_to edit_member_path(member), class: 'btn-floating btn-small orange tooltipped waves-effect waves-light', data: { position: "top", tooltip: "Edit" }, style: "display: inline-block; margin: 0 2px;" do %>
+                <i class="material-icons">edit</i>
+              <% end %>
+
+              <%= link_to member_path(member), class: 'btn-floating btn-small teal tooltipped waves-effect waves-light', data: { position: "top", tooltip: "View Details" }, style: "display: inline-block; margin: 0 2px;" do %>
+                <i class="material-icons">visibility</i>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var tooltips = document.querySelectorAll('.tooltipped');
+    M.Tooltip.init(tooltips);
+
+    var fab = document.querySelectorAll('.fixed-action-btn');
+    M.FloatingActionButton.init(fab);
+  });
+</script>

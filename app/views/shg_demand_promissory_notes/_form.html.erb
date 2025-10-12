@@ -1,0 +1,124 @@
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      
+      text-align: justify;
+    }
+    
+    
+
+    h1, h2, h3 {
+      text-align: center;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .signature-box {
+      
+      margin-top: 20px;
+    }
+
+    .underline {
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            text-underline-offset: 0.2em;
+        }
+
+    .signature-box div {
+      border: 1px solid black;
+      width: 100px;
+      height:100px;
+      text-align: center;
+      line-height: 50px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    td {
+      padding: 8px;
+    }
+
+    .right-align {
+      text-align: right;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .table td, .table th {
+      border: 1px solid #aaa;
+      padding: 6px;
+      vertical-align: top;
+    }
+  </style>
+
+<%= form_with model: [@member, @loan_application, @demand_promissory_note] do |f| %>
+ 
+  <div class="container">
+ 
+    <table>
+      <tr>
+        <td><strong>Branch:</strong> <%= Current.branch.try(:name)%></td>
+        <td class="right-align"><strong>Loan No.:</strong> <%= f.text_field :loan_no , value: @loan_application.id %></td>
+      </tr>
+    </table>
+
+    <h3><u>DEMAND PROMISSORY NOTE</u></h3>
+ 
+    <p> On demand We the members of the Shg: <%=  @loan_application.self_help_group.name %></p>
+      Address: <%=  @loan_application.self_help_group.address %>
+    
+ 
+    <p> Do hereby promise to pay Mathrubhoomi Souharda Sahakari Sangha Ltd. Or Order a sum
+of ₹(<%= f.number_field :sum, step: "0.01", value: @loan_application.sanction_amount %>) Rupees ____ only</p>
+
+    <p>along with the interest thereon at <%= f.number_field :interest_rate, step: "0.01", value: @loan_application.int_rate %> p.a. for value received on this <%= f.text_field :day, placeholder: "Day", value: Date.today.day.ordinalize
+ %> day of <%= f.text_field :month, placeholder: "Month", value: Date.today.strftime("%B") %> <%= f.text_field :year, placeholder: "Year", value: Date.today.strftime("%Y") %>.</p>
+
+    <hr>
+     <table class="table">
+      <thead>
+        <tr>
+          <th style="width: 100px">ಕ್ರ.ಸಂ./Si.No</th>
+          <th style="width: 500px">ಹೆಸರು/Name</th>
+          <th>ಆಧಾರ್ ಸಂಖ್ಯೆ/Aadhar Number</th>
+          <th>ಸಹಿ/Signature</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @loan_application.self_help_group.shg_members.each_with_index do |member, index| %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= member.name %></td>
+            <td><%= member.aadhar_number %></td>
+            <td> </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <br /><br />
+
+    <table class="footer" style="width: 100%;">
+      <tr>
+        <td class="signature">_______________</td>
+        <td class="signature" style="text-align: right">_______________</td>
+      </tr>
+      <tr>
+        <td class="signature">ಪ್ರಧಾನಕರು / President</td>
+        <td class="signature" style="text-align: right">ಸಂಯೋಜಕರು / Secretary</td>
+      </tr>
+    </table>
+
+    <div style=" margin-top: 20px;">
+      <%= f.submit "Save", class: "btn btn-primary" %>
+    </div>
+    <br />
+  </div>
+<% end %>

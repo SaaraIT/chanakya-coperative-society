@@ -1,0 +1,2 @@
+module ShgLoanApplicationsHelper
+end

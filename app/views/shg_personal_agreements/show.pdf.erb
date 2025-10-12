@@ -1,0 +1,207 @@
+<style>
+    
+    @font-face {
+            font-family: 'Baloo';
+            src: url('https://fonts.gstatic.com/s/balootamma2/v2/vEFK2_hCAgcR46PaajtrYlBbd7wf8tK1W77HtMo.ttf') format('truetype');
+    }
+
+  body {
+    font-family: "Baloo", "Noto Sans", "Times New Roman", serif;
+  }
+  .center { text-align: center; }
+  .photo-box {
+    border: 1px solid #aaa;
+    width: 150px;
+    height: 150px;
+    float: right;
+    margin-left: 30px;
+  }
+  .two-col-table, .table {
+    width: 100%;
+    border: 1px solid #aaa;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  .two-col-table td, .table td, .table th {
+    border: 1px solid #aaa;
+    padding: 6px;
+    vertical-align: top;
+  }
+  .no-border tr td { border: 0; text-align: left; }
+  .section-title {
+    text-align: center;
+    margin-top: 30px;
+  }
+  .signature {
+    text-align: right;
+    margin-top: 40px;
+  }
+  .header-text h1, .header-text h2, .header-text h3, .header-text p {
+    margin: 0;
+  }
+  .header-text h1 { font-size: 24px; font-weight: bold; }
+  .header-text h2 { font-size: 22px; margin: 5px 0; }
+  .header-text h3 { font-size: 22px; font-weight: bold; }
+  .header-text p { font-size: 16px; margin: 5px 0; }
+   .header-text h1, .header-text h2, .header-text p, .header-text h3 {
+            margin: 0;
+        }
+ 
+
+   .header-table {
+            width: 100%;
+            border: 0;
+            margin-bottom: 10px;
+            line-height: 1.2;
+    }
+</style>
+
+<table class="header-table no-border" style="width: 100%">
+  <tr>
+    <td style="width: 120px;">
+      <%= wicked_pdf_image_tag asset_url('logo.png'), class: "logo", alt: "Logo", style: "width: 120px;" %>
+    </td>
+    <td class="header-text" style="text-align: center;">
+      <h1><%= Current.branch.name %></h1>
+      <h2><%= Current.branch.kannada_address %></h2>
+      <p><%= Current.branch.english_address %></p>
+      <!-- Removed duplicate address line -->
+      <p>Phone: <%= Current.branch.phone_no %></p>
+      <p>(R. NO. <%= Current.branch.r_no %>)</p>
+      <br />
+      
+    </td>
+    <td><div class="photo-box"></div></td>
+  </tr>
+</table>
+<center><h3>ಸ್ವಸಹಾಯ ಸಂಘದ ಸದಸ್ಯನ/ಳ ವೈಯುಕ್ತಿಕ ಒಪ್ಪಂದ ಪತ್ರ<br>Personal agreement letter of the Self help Group member</h3></center>
+<p>ಸ್ವಸಹಾಯ ಸಂಘದಲ್ಲಿ ರೂ. <%= @loan_applicant.loan_amount %> ಸಾಲಕ್ಕೆ ಬೇಡಿಕೆ ಸಲ್ಲಿಸಿದ್ದೇನೆ ಮತ್ತು ಅದರೊಂದಿಗೆ ಒಪ್ಪಂದ ಪತ್ರವನ್ನು ಸಲ್ಲಿಸಿದ್ದೇನೆ.</p>
+<p>I have submitted a request for a loan of ₹ <%= @loan_applicant.loan_amount %> in Self help Group and have provided the agreement letter along with my personal details.</p>
+
+<table class="two-col-table">
+    <tr><td>ಸದ್ಯತ್ವ ಸಂಖ್ಯೆ<br>Membership No</td><td><%= @member.membership_no %></td></tr>
+    <tr><td>ಅರ್ಜಿ ಸಲ್ಲಿಸಿದವರ ಹೆಸರು<br>Name of the Applicant</td><td><%= @member.name %></td></tr>
+    <tr><td>ತಂದೆ/ಗಂಡನ ಹೆಸರು<br>Father/Husband Name</td><td><%= @member.husband_or_father_name %></td></tr>
+    <tr><td>ವಯಸ್ಸು /Age</td><td><%= @member.age %></td></tr>
+    <tr><td colspan="2"><b>ವಿಳಾಸ/Address</b></td></tr>
+    <tr><td>ಮನೆ ಸಂಖ್ಯೆ/ಮನೆಯ ಹೆಸರು<br>Door No/Name of the Building</td><td><%= @member.door_number %></td></tr>
+    <tr><td>ಸ್ಥಳ, ಗ್ರಾಮ ಮತ್ತು ಅಂಚೆ<br>Place, Village and Post</td><td><%= @member.village %></td></tr>
+    <tr><td>ತಾಲೂಕು/ಜಿಲ್ಲೆ<br>Taluk/District</td><td><%= @member.taluk %></td></tr>
+    <tr><td>ಪಿನ್ ಕೋಡ್/Pincode</td><td><%= @member.pin_code %></td></tr>
+    <tr><td>ಮೊಬೈಲ್/Mobile No</td><td><%=  @member.mobile %></td></tr>
+    <tr><td>ಆಧಾರ್ ಸಂಖ್ಯೆ/Aadhar Number</td><td><%=  @member.aadhar_number %></td></tr>
+    <tr><td>ಪಾನ್ ಸಂಖ್ಯೆ/PAN No</td><td><%=  @member.pan_number %></td></tr>
+    <tr><td>ಸಾಲದ ಉದ್ದೇಶ/Purpose of Loan</td><td><%=  @loan_applicant.purpose_of_loan  %></td></tr>
+    <tr><td>ಉದ್ಯೋಗ/Occupation</td><td><%= @member.occupation %></td></tr>
+    <tr><td>ಆದಾಯ/Income</td><td><%=  @member.income %></td></tr>
+</table>
+
+<br />
+<br />
+<br />
+<br />
+<h4 class="section-title">ದೃಢೀಕರಣ / Confirmation Letter</h4>
+
+<p>
+  ಸಂಸ್ಥೆಯಿಂದ ಪಡೆದುಕೊಂಡ ಸಾಲವನ್ನು ಅಸಲು, ಬಡ್ಡಿ ಸಹಿತ ಮರುಪಾವತಿ ಮಾಡಲು ಬದ್ಧನಾಗಿದ್ದು, ಮರುಪಾವತಿಗೆ ತಪ್ಪಿದಲ್ಲಿ ಗುಂಪಿನ ಇತರ ಸದಸ್ಯರು ನನ್ನಲ್ಲಿರುವ ಸ್ಥಿರ, ಚರ ಆಸ್ತಿಯನ್ನು ಜಪ್ತಿ ಮಾಡಿಕೊಳ್ಳುವರೇ ಹಾಗೂ ನನ್ನ ವೈಯುಕ್ತಿಕ ಜಾಮೀನುದಾರರಿಂದಲೂ ಸಾಲ ವಸೂಲಾತಿ ಮಾಡಲು ಹಕ್ಕಿದೆ ಎಂದು ತಿಳಿದಿರುತ್ತೇನೆ. ಸಾಲ ಮರುಪಾವತಿ ಮಾಡಲು ತಪ್ಪಿದಲ್ಲಿ/ಸಾಲ ವಸೂಲಾತಿ ಸಂದರ್ಭದಲ್ಲಿ ವ್ಯತಿರಿಕ್ತವಾಗಿ ನಡೆದಲ್ಲಿ ಕಾನೂನು ಯಾ ದಂಡನೆ ಕ್ರಮಗಳನ್ನು ಕೈಗೊಳ್ಳಲು ಸಹಕಾರಿಯು ಸ್ವತಂತ್ರವಾಗಿರುತ್ತದೆ ಎಂದು ನಾನು ತಿಳಿದಿರುತ್ತೇನೆ.
+</p>
+
+<p>
+  I hereby confirm that I am committed to repaying the loan obtained from the institution along with the principal and interest. I understand that if I default on the repayment, the remaining members of the self-help group have the right to seize my movable and immovable assets, and also recover the loan amount from my personal guarantors. I am also aware that if I fail to repay the loan or behave inappropriately during the loan recovery process, the cooperative has the right and freedom to initiate legal or punitive action against me.
+</p>
+
+<div class="signature">
+  .....................................................<br>
+  ಅರ್ಜಿದಾರರ ಸಹಿ / Applicant Sign.
+</div>
+ 
+<table style="width: 100%;">
+  <tr>
+    <td style="width: 80%; vertical-align: top; padding-top:60px">
+      <h4 class="center">ಅರ್ಜಿದಾರನ/ಳ ಮನೆಯ ಸದಸ್ಯನ/ಳ ಒಪ್ಪಿಗೆಯ ಹೇಳಿಕೆ </h4>
+      <p>
+        ನನ್ನ ಮನೆಯ ಸದಸ್ಯರಾದ ಶ್ರೀ/ಶ್ರೀಮತಿ <%= @member.name %> ಈ ಮೇಲಿನ ಸಾಲ ಪಡೆದಿರುವವರು ಎಂಬುದು ನನಗೆ ತಿಳಿದಿದೆ ಹಾಗೂ ಸಾಲ ಮರುಪಾವತಿ ತಪ್ಪಿದಲ್ಲಿ ನನ್ನಿಂದ ಸಾಲ ವಸೂಲಿ ಮಾಡಲು ಸ್ವಸಹಾಯ ಸಂಘದ ಸದಸ್ಯರಿಗೆ ಸಾಲ ನೀಡಿದ ಸಂಸ್ಥೆಗೆ ಅಧಿಕಾರ ಇರುವುದೆಂದು ತಿಳಿದಿದ್ದೇನೆ. ಈ ನಿಯಮ ನಿಭಂದನೆಗಳಿಗೆ ಒಪ್ಪಿಕೊಂಡು ನಾನು ಈ ಸಾಲಕ್ಕೆ ಜಾಮೀನುದಾರನಾಗಲು ಒಪ್ಪಿ ಸಹಿ ಹಾಕಿರುತ್ತೇನೆ.
+      </p>
+    </td>
+    <td style="width: 20%; text-align: right; padding-left: 20px">
+      <div style="border: 1px solid #000; width: 140px; height: 150px;">
+        
+      </div>
+    </td>
+  </tr>
+</table>
+
+
+
+<p>
+  It is known to me that Mr./Ms. <%= @member.name %>, a member of my household, has availed the above-mentioned loan. I am aware that in case of default in loan repayment, the members of the self-help group and the lending institution have the authority to recover the loan amount from me. I hereby agree to these terms and conditions and willingly sign as a guarantor for this loan.
+</p>
+
+<h4 class="section-title">ಜಾಮೀನುದಾರರ/ಯ ವಿವರಗಳು / Guarantor Details</h4>
+<% unless @shg_personal_agreement.guarantor.blank? %>
+  <table class="table">
+    <tr><td>ಹೆಸರು/Name</td><td style="width: 350px"><%= @shg_personal_agreement.guarantor.try(:name) %></td></tr>
+    <tr><td>ತಂದೆ/ಗಂಡನ ಹೆಸರು/Father/Husband Name</td><td><%= @shg_personal_agreement.guarantor.father_or_husband_name %></td></tr>
+    <tr><td>ವಯಸ್ಸು/Age</td><td><%= @shg_personal_agreement.guarantor.age %></td></tr>
+    <tr><td colspan="2"><b>ವಿಳಾಸ/Address</b></td> </tr>
+    <tr><td>ಮನೆ ಸಂಖ್ಯೆ/ಮನೆಯ ಹೆಸರು/Door No/Name of the Building</td><td><%= @shg_personal_agreement.guarantor.address_a_building.strip %></td></tr>
+    <tr><td>ಸ್ಥಳ, ಗ್ರಾಮ ಮತ್ತು ಅಂಚೆ/Place, Village and Post</td><td><%= @shg_personal_agreement.guarantor.address_a_village %></td></tr>
+    <tr><td>ತಾಲೂಕು/ಜಿಲ್ಲೆ/Taluk/District</td><td><%= @shg_personal_agreement.guarantor.address_a_district %></td></tr>
+    <tr><td>ಪಿನ್ ಕೋಡ್/Pincode</td><td><%= @shg_personal_agreement.guarantor.address_a_pincode %></td></tr>
+    <tr><td>ಮೊಬೈಲ್/Mobile</td><td><%= @shg_personal_agreement.guarantor.mobile_number %></td></tr>
+    <tr><td>ಆಧಾರ್ ಸಂಖ್ಯೆ</Aadhar</td><td><%= @shg_personal_agreement.guarantor.aadhaar_number %></td></tr>
+    <tr><td>ಪ್ಯಾನ್ ನಂ /PAN</td><td><%= @shg_personal_agreement.guarantor.pan_card %></td></tr>
+    <tr><td>ಉದ್ಯೋಗ/Occupation</td><td><%= @shg_personal_agreement.guarantor.occupation %></td></tr>
+    <tr><td>ಆದಾಯ/Income</td><td><%= @shg_personal_agreement.guarantor.income_amount %></td></tr>
+  </table>
+<%end%>
+<div class="signature">
+  ____________________________<br>
+  ಜಾಮೀನುದಾರರ/ಯ ಸಹಿ / Sign. of Guarantor
+</div>
+<br />
+ 
+<p>
+ ಈ ಮೇಲಿನ ಸಾಲಕ್ಕೆ ಸಂಬಂಧಿಸಿದಂತೆ ಸಾಲದ ಕಂತು ಅಥವಾ ಬಡ್ಡಿ ಮರುಪಾವತಿ ಆಗದೇ ಇದ್ದಲ್ಲಿ ಸಂಘದ ಸದಸ್ಯರಾದ ನಾವೆಲ್ಲರೂ ಜವಾಬ್ದಾರರಾಗಿದ್ದು ಸದರಿ ಸಾಲವನ್ನು ಮರುಪಾವತಿ ಮಾಡಲು ಬದ್ಧರಾಗಿರುತ್ತೇವೆ ಎಂದು ಈ ಕೆಳಗೆ ಸಹಿ ಹಾಕಿರುತ್ತೇವೆ.
+</p>
+
+<p>
+  With respect to the above-mentioned loan, if the loan installment or interest is not repaid, we, the members of the self-help group, shall be collectively responsible and are committed to repaying the said loan. We hereby sign below in agreement to this.
+</p>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th style="width: 100px">ಕ್ರ.ಸಂ./Si.No</th>
+        <th>ಹೆಸರು/Name</th>
+        <th>ಆಧಾರ್ ಸಂಖ್ಯೆ/Aadhar Number</th>
+        <th>ಸಹಿ/Signature</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @shg_loan_application.self_help_group.shg_members.each_with_index do |member, index| %>
+        <% unless member.name.blank? %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= member.name %></td>
+            <td><%= member.aadhar_number %></td>
+            <td> </td>
+          </tr>
+        <%end%>
+      <% end %>
+    </tbody>
+</table>
+<br />
+<br />
+<table class="footer" style="width: 100%;">
+  <tr>
+    <td>ದಿನಾಂಕ/Date: <%= format_date(@shg_personal_agreement.signed_date) %></td>
+    <td class="signature">______________________</td>
+    <td class="signature">______________________</td>
+  </tr>
+  <tr>
+    <td>ಸ್ಥಳ/Place: <%= @shg_personal_agreement.signed_place %></td>
+    <td class="signature">ಪ್ರಭಂದಕರು / President</td>
+    <td class="signature">ಸಂಯೋಜಕರು / Secretary</td>
+  </tr>
+</table>

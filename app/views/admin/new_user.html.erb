@@ -1,0 +1,80 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="h2">New User</h1>
+      <%= link_to "Back to Users", admin_users_path, class: "btn btn-outline-secondary mb-3" %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <%= form_with model: @user, url: admin_create_user_path, local: true do |form| %>
+            <% if @user.errors.any? %>
+              <div class="alert alert-danger">
+                <h6>Please fix the following errors:</h6>
+                <ul class="mb-0">
+                  <% @user.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <div class="mb-3">
+              <%= form.label :email, class: "form-label" %>
+              <%= form.email_field :email, class: "form-control" %>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <%= form.label :password, class: "form-label" %>
+                  <%= form.password_field :password, class: "form-control" %>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <%= form.label :password_confirmation, class: "form-label" %>
+                  <%= form.password_field :password_confirmation, class: "form-control" %>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <%= form.label :role, class: "form-label" %>
+                  <%= form.select :role, 
+                      options_for_select([
+                        ['Staff', 'staff'],
+                        ['Manager', 'manager'], 
+                        ['Admin', 'admin'],
+                        ['Super Admin', 'super_admin']
+                      ], @user.role), 
+                      { prompt: 'Select Role' }, 
+                      { class: "form-select" } %>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <%= form.label :cooperative_branch_id, "Branch", class: "form-label" %>
+                  <%= form.select :cooperative_branch_id, 
+                      options_from_collection_for_select(@branches, :id, :name, 
+                        params[:branch_id] || @user.cooperative_branch_id), 
+                      { prompt: 'Select Branch' }, 
+                      { class: "form-select" } %>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-grid">
+              <%= form.submit "Create User", class: "btn btn-success" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

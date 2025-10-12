@@ -1,0 +1,152 @@
+<style>
+        @page {
+            size: A4 portrait;
+            margin: 12mm;
+        }
+
+ 
+        .bold {
+            font-weight: bold;
+        }
+        .italic {
+            font-style: italic;
+        }
+        .right-align {
+            text-align: right;
+        }
+ 
+        .signature {
+            margin-top: 40px;
+        }
+        .suggestion {
+          padding: 4px 8px;
+          cursor: pointer;
+        }
+        .suggestion:hover {
+          background-color: #eee;
+        }
+
+        .underline {
+             border-bottom: 1px dotted black; margin-bottom: 10px;
+            
+        }
+
+</style>
+<%= form_with(model: [@member, @loan_application, @guarantor_undertaking], local: true) do |form| %>
+    <%= form.hidden_field :loan_application_id, id: "loan_application_id" %>
+    <div class="form-group">
+      <label> Start typing the name of the guarantor </label>
+      <input type="text" id="guarantor_search" list="guarantor_suggestions" class="form-control" data-member-id="<%= params[:member_id] %>" autocomplete="off" />
+
+
+      <datalist id="guarantor_suggestions"></datalist>
+         
+      <%= form.hidden_field :guarantor_id, id: "guarantor_id" %>
+    </div>
+
+    <h2 class="bold" style="text-align: center;">LETTER OF UNDERTAKING FROM GUARANTOR</h2>
+    <p class="right-align">Form No. MB-40</p>
+    <p class="bold">From</p>
+    <p>..........................................................<br>
+       ..........................................................<br>
+       ..........................................................<br>
+    </p>
+    <p class="right-align"><span class="bold">Date:</span><%=form.date_field :guarantee_date, value: Date.today %></p>
+    <p class="bold">To</p>
+    <p><span class="italic">The Branch Manager</span><br>
+       Mathrubhoomi Souharda Sahakari Sangha Ltd.</p>
+    <p class="bold italic underline">Subject: Letter of undertaking to repay the Loan amount</p>
+    <p><span class="italic">Dear Sir,</span></p>
+    <p>Mr / Mrs / Ms <span class="underline" style="width: 300px;" id="guarantor_name">&nbsp;</span> <%= @member.father_or_husband == "Husband" ? "W/O" : "S/O" %> <span class="underline" style="width: 300px;" id="guarantor_father">&nbsp;</span> Aged about <span class="underline" style="width: 50px;" id="guarantor_age">&nbsp;</span>
+       Residing at <span class="underline" style="width: 400px;" id="guarantor_address">&nbsp;</span> is working with M/S <span class="underline" style="width: 200px;" id="guarantor_employer">&nbsp;</span>
+       As <span class="underline" style="width:200px;" id="guarantor_profession">&nbsp;</span> Since/from <span class="underline" style="width: 100px;" id="guarantor_experience">&nbsp;</span></p>
+    <p><span class="bold">Here with I</span> offer myself as the guarantor to the borrower</p>
+    <p>Mr./Ms./Mrs <span class="underline" style="width: 300px;" ><%= @loan_application.applicant_names %></span> one who is availing a loan of Rs <span class="underline" style="width: 100px;"><%= @loan_application.sanction_amount %></span>
+       (Rupees <span class="underline" style="width: 650px;"><%= number_to_currency_words(@loan_application.sanction_amount) %></span>) For the purpose of <span class="underline" style="width:400px;" ><%= @loan_application.loan_purpose %></span> on <span class="underline" style="width: 300px;" ><%= form.date_field :purpose_date %>&nbsp;</span></p>
+    <p><span class="bold">Further,</span> I hereby agree to undertake the loan liability of Mr./Mrs./Ms.
+       <span class="underline" style="width: 300px;" ><%= @loan_application.applicant_names %>&nbsp;</span> To repay the loan amount of Rs. <span class="underline" style="width: 100px;"><%= @loan_application.sanction_amount %>&nbsp;</span> along with interest payable for the same on
+       installments specified by you for the period of <span class="underline" style="width: 100px;"><%= @loan_application.term_bm %>&nbsp;</span> months without fail.</p>
+    <p><span class="italic">I also declare that in case if I fail to do so you have rights on me to recover the same by legally or through any other ways.</span></p>
+    <p>Thanking you</p>
+    <p class="signature right-align">Yours faithfully</p>
+    <p class="signature right-align">( <span class="underline" style="width: 300px;" id="guarantor_name">&nbsp;</span> )</p>
+    <p class="signature right-align italic">Name of the Undertaker</p>
+ 
+    <hr />
+    <div class="form-group">
+      <%= form.submit "Submit", class: "btn btn-primary" %>
+    </div>
+    <br />
+<% end %>
+
+<script>
+ document.addEventListener("turbo:load", () => {
+  const searchInput = document.getElementById("guarantor_search");
+  const suggestions = document.getElementById("guarantor_suggestions");
+  const hiddenIdField = document.getElementById("guarantor_id");
+
+  const nameSpan = document.getElementById("guarantor_name");
+  const addressSpan = document.getElementById("guarantor_address");
+  const ageSpan = document.getElementById("guarantor_age");
+  const fatherNameSpan = document.getElementById("guarantor_father");
+  const employerSpan = document.getElementById("guarantor_employer");
+  const professionSpan = document.getElementById("guarantor_profession");
+  const experienceSpan = document.getElementById("guarantor_experience");
+  
+  const loanInput = document.getElementById("loan_application_id");
+  const loanId = loanInput ? loanInput.value : null;
+
+  if (searchInput) {
+    searchInput.addEventListener("keyup", () => {
+      const query = searchInput.value;
+      const memberId = searchInput.dataset.memberId;
+
+      if (query.length >= 3) {
+        fetch(`/members/search?q=${query}&member=${memberId}&loan=${loanId}`)
+          .then(response => response.json())
+          .then(data => {
+            suggestions.innerHTML = "";
+            data.forEach(member => {
+              const option = document.createElement("option");
+              option.value = `${member.name} (${member.mobile_number})`;
+              option.dataset.id = member.id;
+              option.dataset.name = member.name;
+              option.dataset.mobile = member.mobile_number;
+              option.dataset.address = member.address || "";
+       
+              option.dataset.age = member.age || "";
+              option.dataset.fatherName = member.father_name || "";
+              option.dataset.profession = member.profession || "";
+              option.dataset.employer = member.employer || "";
+              option.dataset.experience = member.experience || "";
+
+              suggestions.appendChild(option);
+            });
+          });
+      }
+    });
+
+    searchInput.addEventListener("change", () => {
+      const selected = Array.from(suggestions.options).find(
+        opt => opt.value === searchInput.value
+      );
+      console.log(selected)
+      if (selected) {
+        hiddenIdField.value = selected.dataset.id;
+        nameSpan.textContent = selected.dataset.name;
+        addressSpan.textContent = selected.dataset.address;
+ 
+        ageSpan.textContent = selected.dataset.age;
+        fatherNameSpan.textContent = selected.dataset.fatherName;
+        employerSpan.textContent = selected.dataset.employer;
+        professionSpan.textContent = selected.dataset.profession;
+        experienceSpan.textContent = selected.dataset.experience;
+      }
+    });
+  }
+});
+
+
+
+</script>
+

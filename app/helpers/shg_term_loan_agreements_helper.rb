@@ -1,0 +1,2 @@
+module ShgTermLoanAgreementsHelper
+end

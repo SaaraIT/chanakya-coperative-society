@@ -1,0 +1,244 @@
+ 
+    <style>
+        
+        h1 {
+            text-align: center;
+        }
+        .content {
+            margin-top: 20px;
+            
+        }
+        input {
+            border: none;
+            border-bottom: 1px dotted black;
+            width: 200px;
+            font-size: 16px;
+        }
+        @page {
+            size: A4 portrait;
+            margin: 12mm;
+        }
+
+        
+         
+        .underline {
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            text-underline-offset: 0.2em;
+        }
+        .sureties, .borrowers {
+            text-align: left;
+        }
+        .borrowers {
+            text-align: right;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            vertical-align: top;
+            padding: 10px;
+        }
+        .left {
+            text-align: left;
+            width: 30%;
+        }
+        .middle {
+            text-align: center;
+            width: 40%;
+        }
+        .right {
+            text-align: right;
+            width: 30%;
+        }
+        .signature {
+            text-align: center;
+           
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .right-align{text-align: right}
+    </style>
+ 
+<p class="right-align">Form No. MB-36</p>
+<h2 style="margin-bottom: 30px"><center> AGREEMENT FOR TERM LOANS </center></h2>
+<%= form_with(model: [@member, @loan_application, @term_loan_agreement], local: true) do |f| %>   
+    <p> ARTICLES of Agreement made on this <%= f.text_field :date, placeholder: "Day", value: Date.today.day.ordinalize
+ %> day of <%= f.text_field :month, placeholder: "Month", value: Date.today.strftime("%B") %> two thousand <%= f.text_field :year, placeholder: "Year", value: Date.today.strftime("%Y") %> between <span style="display: inline-block; width: 1400px; border-bottom: 1px dotted black; text-underline-position: under;">   <%= @loan_application.applicant_names_and_addresses %>
+        </span> (hereinafter referred to as "Borrower / s" of the first part) and Sri <%= @loan_application.surety_names_with_address(false) %>
+     (hereinafter called Surety / Sureties) of the second part in favour of Mathrubhoomi Souharda Sahakari Sangha Ltd., Mathrudhama, Gurupura-Kaikamba, a co-operative institution incorporated under Karnataka Souharda Co-op. Act 1997, having its Head Office situated at Mathrudhama, Gurupura-Kaikamba, Mangalore in Dakshina Kannada District of Karnataka State, and a branch office among others at <span style="width: 1200px; border-bottom: 1px dotted black; text-underline-position: under;"> &nbsp;  <%= Current.branch.try(:name)%> &nbsp; </span>represented by its Branch / Office - in Charge Sri <%= f.text_field :branch_manager, value: Current.branch.try(:manager_name), style: "width: 350px" %> </span>        
+     residing at <%= f.text_field :branch_manager_address, value: Current.branch.try(:manager_address), style: "width: 800px" %>
+             </span> (hereinafter referred to as "The Sahakari" of the other party). The words ‘Borrower / Borrowers’, Surety / Sureties, and "The Sahakari" mean and include the legal heirs, the successors-in-interest, the administrators, assigns, etc. </p>
+
+    <p> WHEREAS parties to the 1st party are members of the Sahakari/Co-operative and are in need of money for the purpose of 
+        <%=@loan_application.loan_purpose %> and at the request of the Borrower/s and the Surety/ies as per their application dated 
+        <%= @loan_application.application_date %>
+    for Rs 
+         <%= @loan_application.sanction_amount %>,
+        the Sahakari/Co-operative have agreed to grant to Borrower/s a loan of
+        (Rupees <%= number_to_currency_words(@loan_application.sanction_amount) %> only)
+     upon the terms set forth in these presents and in other documents listed in second schedule hereto and/or such other documents as may be executed by Borrower/s hereinafter collectively referred to as security documents.</p>
+
+     
+    <ol>
+        <li>The Borrower/s hereby agree that the said advance shall be governed by terms contained herein as well as those embodied in the security document listed in the schedule hereto, except in so far as the security documents may expressly or by necessary implication be modified by these persons.</li>
+
+        <li>The Borrower/s expressly agree that the said advance shall be utilised exclusively for the purpose set forth in the Borrower’s application and for no other purpose.</li>
+
+        <li>The Borrower/s agree to notify the Sahakari/Co-operative in writing of any circumstances affecting the correctness of any of the particulars set forth in the Borrower’s application within fifteen days of the occurrence of any such circumstances.</li>
+
+        <li>In consideration of a sum of Rs
+            <%= f.text_field :sum_paid, placeholder: "Sum Paid", value: @loan_application.sanction_amount %>
+            to be paid by the Sahakari/Co-operative in instalments for various purposes as set out in the Borrower’s application and also as per the terms and conditions of the sanction order.</li>
+    </ol>
+
+    <p><center>-2-</center></p>
+
+    <ol start="5">
+        <li> The Borrower/s agrees / agree that if quarterly interest and/or any of the principal is not paid on due dates, the outstanding balance of the loan shall bear interest at the rate fixed by the Sahakari for such loans from time to time until the interest and/or the installments of the principal in arrears as the case may be is/are paid.</li>
+        
+        <li>The Borrower/s agrees / agree that the rules of business of the Sahakari/Co-operative that are now in force or hereafter to come into force shall in all respects be completely binding on the Borrower/s.</li>
+
+        <li>Not withstanding anything contained herein or in security documents, the Sahakari may at its option demand and recover the entire outstanding balance of the loan including future installment upon the happening of any one or more of the following events namely:
+            <ul>
+                <li>a) Any installment of the principal money being unpaid and in arrears.</li>
+                <li>b)Any interest remaining unpaid and in arrears for the space of 3 months after the same shall have become due.</li>
+                <li>c) The Borrower/s committing any breach of default to performance or observance of the terms of security documents or any other terms relating to the advance.</li>
+                <li>d) The Borrower/s entering into any arrangement or composition with his/their credit or committing any act of insolvency.</li>
+                <li>e) Executing of distress being enforced or levied against the whole or any part of the Borrower/Borrower's property.</li>
+
+               <li> f) The Borrower/s going into liquidation except for the purpose of amalgamation or reconstitution.</li>
+
+               <li> g) A receiver being appointed in respect of whole or any part of the property of the Borrower/s.</li>
+
+               <li> h) The Borrower/s ceasing or threatening to cease to carry on business or any other activities for which the advance is made.</li>
+
+               <li> i) The occurrence of the circumstance which prejudicially or adversely affects in any manner the capacity of the Borrower/s to repay the loan.</li>
+                 
+            </ul>
+        </li>
+
+        <li>The Borrower/s hereby undertake to consult the Sahakari in advance and seek permission in the following matter:
+            <ul>
+                <li> a) Making other borrowing arrangements.</li>
+
+                <li>b) Taking up new projects or large-scale expansion.</li>
+
+                <li>c) Making investments in our subsidiaries, associated concerns, individuals, or other companies other than loans to employees under welfare schemes.</li>
+
+                <li>d) Effecting mergers and acquisitions.</li>
+
+                <li>e) Paying dividends other than out of current year's earnings after making the provisions.</li>
+
+                <li>f) Giving guarantees on behalf of third parties.</li>
+
+                <li>g) Disposal of the whole or substantially the whole of the undertaking.</li>
+
+                <li>h) Premature repayment of loans and discharge of other liabilities.</li>
+            </ul>
+        </li>
+
+        <li>The Borrower/s hereby undertakes/undertake to pay services, postage, insurance premium on life policies as well as on fire, marine, and comprehensive policies, etc., covering the securities and other charges incidental to the granting, servicing, and closing of the loans and advances which the Sahakari/Co-operative may levy from time to time and also all expenses which the Sahakari/Co-operative may incur in connection with the realization of the securities.</li>
+
+        <li>Further, the Borrower/s hereby authorizes/authorize the Sahakari/Co-operative to debit his/her/their account with penalty interest at
+            <%= f.text_field :penalty_interest, placeholder: "Penalty Interest Rate", value: 3 %> % p.a. over and above the sanctioned rate of 
+            <%= @loan_application.int_rate %>% p.a. on the outstanding balances after the due date on overdue interest and installments as per the rules of the <b>Sahakari/Co-operative.</b>
+        </li>
+
+        <li>The Borrower/s on demand will pay all reasonable costs incidental to this/these security/ies.</li>
+    </ol>
+    <p><center>-3-</center></p>
+    <p> 12. It is hereby expressly agreed that the Sahakari/Co-operative shall be liberty to assign the debt and benefit of these presents and the security/ies, documents of the advance and the security/ies documents to the industrial development Co-Operative India. Agricultural refinance and Development Corporation or any other financial institution for security for any Refinance obtained by the Sahakari from the said Development Co-operative, of the Borrowers and the Borrower/s shall if and wherever required by the Sahakari to do so at the Borrower/Borrower's own expense do and execute and join in doing and executing all such acts, things, deeds, documents of assurance as the Sahakari/Co-operative may require for the effectuation of assignment. </p>
+     <p>The Borrower/s shall not without the written consent of the Sahakari/Co-operative, create in any manner any charge, lien or other encumbrance of the security/ies in favour of any other party or person.</p>
+
+     <p>13. The Borrower/s shall insure and keep insured to the satisfaction of the Sahakari/Co-operative all the properties consulting the Sahakari's security for the loan against fire and all risks in a such equivalent to its full market value with an insurer approved by the Sahakari/Co-operative in the joint names of the Sahakari/Co-operative and the Borrower/s or otherwise as the Sahakari/Co-operative may require or stipulate and shall duly and punctually pay all premium and shall not do or cause or suffer to be done any act which may invalidate or avoid such insurance and shall deposit the insurance policy and all cover notes, premium receipts and other documents connected thereto with the Sahakari/Co-operative. Any moneys realised from insurance shall at option of the Sahakari/Co-operative be applied either in reinstating the security or in payment of the loan advance and interest of both. Should the Borrower/s fail to deliver the policies or receipts for premises duly endorsed as aforesaid within three days after demand, the Sahakari/Co-operative shall be at liberty though not bound to effect such insurance at the expense of the Borrower/s. </p>
+
+     <p>14. The Borrower/s shall, upon every request of the Sahakari/Co-operative allow the Sahakari's authorised servant or agent to inspect the Borrower's premises, form and plant and the Borrower/Borrower's books of account for ensuring that the Borrower/s has/have duly complied with terms of the advance. </p>
+
+     <p>15. The Borrower/s will furnish the Sahakari/Co-operative all such information as the Sahakari/Co-operative may require for the Sahakari's/Co-operative satisfaction as to due compliance with the terms of advance and all such periodic reports and information in such time and in such form and containing such particulars as the Sahakari may call for, for the purpose of ascertaining the result of the utilisation of the said advance. </p>
+
+     <div class="section">
+        <p> 16.  Notwithstanding anything contained in this agreement at the written request of the Borrower / Borrower's the Sahakari/Co-operative at its discretion may make available to the Borrower /s the financial facility extended to the Borrower/s under the terms of these present at any other branch of the Sahakari/Co-operative or transfer the account to any other branch and availment of such financial facilities by the Borrower /s ay or transfer of the account to such other branch and availment of such financial facilities by the Borrower/s hereafter and the liability of the sureties is also not affected by such transfer. The parties to this agreement hereby agree that the Sahakari can enforce its rights under the terms of the agreement through any of its branches agent.</p>
+    </div>
+
+    <div class="section">
+        <p>II. In consideration of the Sahakari/ Co-operative having agreed to advance Rs <span class="underline">&nbsp;<%= @loan_application.sanction_amount %>&nbsp; </span> to the Borrower /s as aforesaid the Sureties above named hereby agrees: agree and covenant /s with the Sahakari that:</p>
+
+        <ol>
+            <li>If any money payable by the Borrower /s fall due and the same remains unpaid, the Sahakari/ Co-operative will be entitled to recover the same from the Surety/ ies notwithstanding the remedies of the Sahakari/Co-operative have against the Borrower /s. This guarantee will be a continuing guarantee to the extent of Rs <span class="underline">&nbsp;<%= @loan_application.sanction_amount %>&nbsp;</span> (Rupees <span class="underline">&nbsp;<%= number_to_currency_words(@loan_application.sanction_amount) %> &nbsp; </span> only) together with all interest thereon any one time.</li>
+
+            <li>This guarantee shall be in force and subsisting whether the whole of the said sum of Rs <span class="underline">&nbsp;<%= @loan_application.sanction_amount %>&nbsp;</span> shall be actually advanced or not.</li>
+
+            <li>The Sahakari/Co-operative shall be at liberty any time to grant the Borrower /s any time or indulgence or make any other arrangement with him / her/ them as the Sahakari/Co-operative think fit without discharging or in any manner affecting the liability of surety/ies under the guarantees and obligations hereby undertaken by him /her/them.</li>
+
+            <li>If the Guarantee shall not be affected by any other future security/ies becomes become inoperative or unenforceable for any reason whatsoever, the amounts due under these presents shall be paid by the surety/ies as principle debtor/s and the Sahakari/ Co-operative shall be at liberty to recover the same accordingly.</li>
+
+            <li>The Guarantees shall not be affected by any other future security taken or held by Sahakari/ Co-operative not by any loss by the Sahakari of any collateral or other security or otherwise or by the Co-operative failing to recover by the realisation of any collateral or other security or otherwise of any sum or sums of money due from the said Borrower/s nor any laches on part of Sahakari/co-operative nor shall the Co-operative be responsible to the Surety/ies for any such loss or laches.</li>
+        </ol>
+
+        <p>This Guarantee shall not be considered to be discharged or revoked by my /our (security/ies) death.</p>
+    </div>
+    <p><center>-4-</center></p>
+
+    <h3 style="text-align: center; border-top: 1px solid #111; border-bottom: 1px solid #111;">FIRST SCHEDULE:</h3>
+    
+    <p><%= f.text_area :first_schedule, style: "width: 100%; height: 100px" %> </p>
+    
+    <h3 style="text-align: center; border-top: 1px solid #111; border-bottom: 1px solid #111;">SECOND SCHEDULE:</h3>
+    <table border="1" class="table" style="width: 100%">
+        <tr>
+            <th>Date of Document</th>
+            <th>Parties</th>
+            <th>Brief Description</th>
+            <th>Particulars of Property Security by Instrument</th>
+        </tr>
+        <tr>
+            <td><%= f.date_field :document_date, placeholder: "Document Date" %>  </td>
+            <td><%= f.text_field :document_parties, placeholder: "Document Parties" %> </td>
+            <td><%= f.text_field :document_description, placeholder: "Document Description" %> </td>
+            <td><%= f.text_field :document_security, placeholder: "Document Security" %>  </td>
+        </tr>
+    </table>
+    <p><%= f.text_area :second_schedule, style: "width: 100%; height: 100px" %> </p>
+    <p>In witness of the Borrower/s Surety/ies has/have signed this agreement on this <%= f.text_field :witness_date, placeholder: "Day", value: Date.today.day.ordinalize
+ %> day of <%= f.text_field :witness_month, placeholder: "Month", value: Date.today.strftime("%B") %> two thousand <%= f.text_field :witness_year, placeholder: "Year", value: Date.today.strftime("%Y").to_s[-2..-1].to_i %> </p>
+    
+    <br />
+    <br />
+    <br />
+    <table>
+        <tr>
+            <td class="left">
+                <p class="bold">SURETY/IES</p>
+                <div class="witness-section">
+                    <% @loan_application.co_obligants.each_with_index do |co_obligant, index| %>
+                      <p><%= "#{index + 1}. #{co_obligant.member.name}" %></p>
+                    <% end %>
+
+                </div>
+
+ 
+            </td>
+            <td class="middle">
+                <p>For The Mathrubhoomi S.S.S Ltd.</p>
+                 <br />
+                 <p>...........................................</p>
+                 <p class="bold">BRANCH MANAGER</p>
+
+            </td>
+            <td class="right">
+                <p class="bold">BORROWER/S</p>
+            </td>
+        </tr>
+    </table>
+
+    
+ 
+   <hr />
+   <div class="form-group">
+      <%= f.submit "Submit", class: "btn btn-primary" %>
+   </div>
+   <br />
+<% end %>

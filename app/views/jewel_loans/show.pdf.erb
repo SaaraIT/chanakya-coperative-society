@@ -1,0 +1,368 @@
+<style>
+  body{line-height: 28px; font-size: 16px;}
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  table.bordered { margin-bottom: 15px }
+  .header th{width: 250px}
+
+  h2, h3, h4, h5{margin-bottom: 8px; margin-top: 8px}
+
+  .bordered tr td, .bordered tr th {
+    border: 1px solid black;
+    padding: 8px;
+    vertical-align: top;
+  }
+
+  .center { text-align: center; }
+
+  .no-border { border: none; }
+
+  .signature-space { margin-top: 40px; }
+
+  .page-break {
+    page-break-after: always;
+    border: none;
+    margin: 50px 0;
+  }
+
+  .indent { margin-left: 20px; }
+
+  .signature-line {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+ 
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .bold { font-weight: bold; }
+
+  .underline {
+      border-bottom: 1px dotted black;
+      
+      padding-bottom: 2px;
+      min-width: 200px;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+   .page, .page-break { page-break-after: always; }
+</style>
+
+<table class="header-table">
+        <tr>
+            <!-- Left-aligned Logo -->
+            <td style="width: 120px;">
+                <%= wicked_pdf_image_tag asset_url('logo.png'), class: "logo", alt: "Logo", style: "height: 150px;" %>
+                
+            </td>
+
+            <!-- Centered Header Text -->
+            <td class="header-text" style="text-align: center; flex-grow: 1;">
+                <h2>Shri Guru Chanakya Souharda Sahakari Sangha Ltd</h2>
+                <h3>(R. NO. <%= Current.branch.r_no %>)</h3>
+                <h4>Mathrudhama, Gurupura Kaikamba, Kinnikambla Post, Mangalore, D.K-574 151</h4>
+                <h2>Loan Application</h2>
+            </td>
+        </tr>
+</table>
+
+<div class="center">
+  <div>To The Manager <span class="underline"><%= @jewel_loan.cooperative_branch.name %></span> Branch</div>
+  <h3 style="margin-top: 15px">Application for loan by pledge Of Gold Jewels</h3>
+</div>
+
+<table class="bordered">
+  <tr>
+    <td style="width: 200px">1. Member No</td>
+    <td><%= @member.member_no %></td>
+  </tr>
+  <tr>
+    <td>Name & Address<br>Of the Borrower</td>
+    <td style="min-height: 60px;"><%= @member.name %><br><%= @member.address %></td>
+  </tr>
+</table>
+
+<h4>2. Description of Jewels Offered</h4>
+<table class="bordered">
+  <tr>
+    <th>Description of Jewels</th>
+    <th>Gross Weight</th>
+    <th>Net Weight</th>
+  </tr>
+  <% @jewel_loan.jewel_items.each do |item| %>
+    <tr>
+      <td><%= item.description.presence || "&nbsp;".html_safe %></td>
+
+      <td><%= item.gross_weight %></td>
+      <td><%= item.net_weight %> </td>
+    </tr>
+  <% end %>
+  <tr>
+    <td><strong>Total</strong></td>
+	<td><%= @jewel_loan.jewel_items.sum { |item| item.gross_weight.to_d rescue 0 } %> g</td>
+	<td><%= @jewel_loan.jewel_items.sum { |item| item.net_weight.to_d rescue 0 } %> g</td>
+  </tr>
+</table>
+
+<p>3. Loan amount Required : &#8377; <%= number_to_indian_currency(@jewel_loan.loan_amount) %> (Rupees <span class="underline"> <%= number_to_currency_words(@jewel_loan.loan_amount) %></span> )</p>
+<p>4. Loan Duration : <%= @jewel_loan.loan_duration %> months</p>
+<p>
+  5. I hereby authorise and nominate <span class="underline"><%= @jewel_loan.nominee_name %> &nbsp;</span> Relation: <span class="underline"><%= @jewel_loan.nominee_relation %></span>  
+  Aged about <span class="underline"><%= @jewel_loan.nominee_age %></span> years, Aadhaar No. <span class="underline"><%= @jewel_loan.nominee_aadhaar %></span> to receive the pledged jewels after my death.
+</p>
+
+<p class="indented">
+  <span style="padding-left: 50px">I </span>hereby declare that the aforesaid jewels belong to me absolutely and I agree to abide the rules of the Sahakari presently in force or that may be modified/amended in future from time to time. This is a computerized application and I read and understood all terms and conditions of this loan.
+</p>
+
+<div class="signature-space">
+  <p>_________________________<br>(Signature of the applicant)</p>
+  <p>Loan Sanctioned &#8377;<%= number_to_indian_currency(@jewel_loan.sanction_amount) %> (Rupees <span class="underline"> <%= number_to_currency_words(@jewel_loan.sanction_amount) %>)</p>
+  <p style="text-align: right;">_____________________<br>(Manager's Signature)</p>
+
+  <p>Date: <%= format_date(@jewel_loan.loan_date) %></p>
+  <p>Place: <%= @jewel_loan.loan_place || @jewel_loan.cooperative_branch&.name %></p>
+ 
+</div>
+
+
+<%- @jewel_appraisers_report = @jewel_loan.jewel_appraisers_report %>
+<% unless @jewel_appraisers_report.blank? %>
+    <div class="page-break"></div>
+    <table class="header-table">
+        <tr>
+            <!-- Left-aligned Logo -->
+            <td style="width: 120px;">
+                <%= wicked_pdf_image_tag asset_url('logo.png'), class: "logo", alt: "Logo", style: "height: 150px;" %>
+                
+            </td>
+
+            <!-- Centered Header Text -->
+            <td class="header-text" style="text-align: center; flex-grow: 1;">
+                <h2>Shri Guru Chanakya Souharda Sahakari Sangha Ltd</h2>
+                <h3>(R. NO. <%= Current.branch.r_no %>)</h3>
+                <h4>Mathrudhama, Gurupura Kaikamba, Kinnikambla Post, Mangalore, D.K-574 151</h4>
+            </td>
+        </tr>
+    </table>
+    <br />
+	<table class="bordered header">
+	  <tr><th>Branch</th><td><%= @jewel_loan.cooperative_branch.name %></td></tr>
+	  <tr><th>Member No</th><td><%= @jewel_loan.member.member_no %></td></tr>
+	  <tr><th>Gold Loan No.</th><td><%= @jewel_appraisers_report.loan_number %></td></tr>
+	  <tr>
+	    <th>Name & Address Of Borrower</th>
+	    <td style="height: 60px;">
+	      <%= @jewel_loan.member.name %><br>
+	      <%= @jewel_loan.member.address %>
+	    </td>
+	  </tr>
+	</table>
+    <br />
+	<div class="center">
+	  <h3>Jewel Appraiser's Report</h3>
+	</div>
+  
+    <table class="bordered">
+      <thead>
+        <tr>
+          <th>Description of Jewels</th>
+          <th>Gross Weight</th>
+          <th>Net Weight</th>
+          <th>Rate Per Gram</th>
+          <th>Approximate Market Value</th>
+        </tr>
+      </thead>
+    <tbody>
+      <% 7.times do %>
+        <tr>
+          <td>&nbsp;</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      <% end %>
+      <tr>
+          <td>Total</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+      
+    </tbody>
+  </table>
+
+ 
+	<p>
+	  I hereby declare that I have thoroughly examined the above jewels and I have found that they are genuine with no defects.</p>
+   <p>The approximate total value of the jewels is 
+	  <strong><span class="underline" style="display: inline-block; min-width: 200px;"> &#8377;  </span></strong>(In words <span class="underline" style="display: inline-block; min-width: 270px;"> &nbsp;</span></p>  <p><span class="underline" style="display: inline-block; min-width: 650px;"> &nbsp;</span> )</p>
+	</p>
+
+	<br />
+    
+    
+	<table class="no-border table">
+	  <tr>
+	    <td style="width: 70%">.................................<br>Signature Of the Borrower</td>
+	    <td>.................................<br>Signature Of the Appraiser</td>
+	  </tr>
+	</table>
+
+	<br>
+    <br>
+ 
+    
+	<table class="no-border table">
+	  <tr>
+	    <td style="width: 70%">.................................<br>Signature of the staff in whose<br>Presence jewels are examined</td>
+	    <td>.................................<br>Signature of the Manager</td>
+	  </tr>
+	</table>
+<%end%>
+
+<%- @jewel_loan_promissory_note = @jewel_loan.jewel_loan_promissory_note %>
+<% unless @jewel_loan_promissory_note.blank? %>
+   <div class="page-break"></div>
+
+   <div class="center">
+      <h2><strong>PROMISSORY NOTE</strong></h2>
+    </div>
+
+    <table class="no-border">
+      <tr>
+        <td style="width: 70%;">
+          ₹. <span class="underline"> <%= number_to_indian_currency(@jewel_loan.loan_amount) %></span><br><br>
+          On demand I <span class="underline"><%= @member.name %></span><br>
+          Address <span class="underline"><%= @member.address %></span><br><br>
+          Do hereby promise to pay Mathrubhoomi Souharda Sahakari Sangha Ltd.(REG.NO.526/2005-06) Or Order a sum of ₹<%= number_to_indian_currency(@jewel_loan.loan_amount) %> ( Rupees <%= number_to_currency_words(@jewel_loan.loan_amount) %> )
+          along with the interest thereon at <%= @jewel_loan_promissory_note.interest_rate %>% p.a. for value received on this <%= @jewel_loan_promissory_note.issued_on.day.ordinalize %> day of <%= @jewel_loan_promissory_note.issued_on.strftime("%B") %> <%= @jewel_loan_promissory_note.issued_on.year %>
+          <br /><br />
+          Witness:
+        </td>
+        <td style="text-align: left;">
+          Place:&nbsp;<%= Current.branch.name %><br>
+          Date:&nbsp;&nbsp; <%= format_date(Date.today) %><br><br>
+          Member No. <span class="underline"><%= @member.member_no %></span><br><br><br>
+
+          <div style="border: 1px solid black; height: 90px; width: 150px; margin: 0 auto;"></div>
+          <center>(Specimen Sign.)</center>
+        </td>
+      </tr>
+    </table>
+
+    <hr>
+
+    <p><strong>Shri Guru Chanakya Souharda Sahakari Sangha Ltd</strong> (REG.NO. 526/2005-06)</p>
+
+    <table class="no-border">
+      <tr>
+        <td>Branch <span class="underline"><%= @jewel_loan.cooperative_branch.name %></span></td>
+        <td>Loan No. <span class="underline"><%= @jewel_loan_promissory_note.loan_number %></span></td>
+      </tr>
+    </table>
+
+    <p>This agreement made on this <%= @jewel_loan_promissory_note.agreement_date.day.ordinalize %> day of <%= @jewel_loan_promissory_note.agreement_date.strftime("%B") %> <%= @jewel_loan_promissory_note.agreement_date.year %> by AND BETWEEN</p>
+
+    <table class="no-border">
+      <tr><td>Member No.: <%= @jewel_loan.member.member_no %></td></tr>
+      <tr><td>Name: <%= @jewel_loan.member.name %></td></tr>
+      <tr><td>Address: <%= @jewel_loan.member.address %></td></tr>
+    </table>
+
+    <p>Hereinafter called the Borrower</p>
+
+    <p> AND <p>
+    <p><strong>Shri Guru Chanakya Souharda Sahakari Sangha Ltd</strong> (REG.NO.526/2005-06)<br>
+    Represented by its Manager Hereinafter called as</p>
+
+    <p>"THE SAHAKARI SANGHA"<br>
+    The Borrower have on this day <%= format_date(@jewel_loan.loan_date) %> borrowed from the SAHAKARI a sum of ₹ <%= @jewel_loan.sanction_amount %> (Rupees <%= number_to_currency_words(@jewel_loan.sanction_amount) %>) for a period <%= @jewel_loan.loan_duration %> months.</p>
+
+    <p> 2.As a security to the said loan the BORROWER has pledged the jewels belonging to him/her absolutely whose description has been fully enumerated on the reverse of this agreement </p>
+    <p>The BORROWER has today receive an amount of ₹ <%= @jewel_loan.sanction_amount %>. Being the proceeds of the said loan in full subject to the following conditions.</p>
+
+  <ol type="a">
+    <li>
+      The loan amount shall carry an interest @<%= @jewel_loan_promissory_note.interest_rate %>% per annum. The borrower agrees to pay the interest on quarterly basis and agrees to repay the loan along with interest on demand.
+    </li>
+    <li>
+      In case the BORROWER fails to pay the interest at <%= @jewel_loan_promissory_note.interest_rate %>% p.a he/she shall pay penal interest 3% p.a. in addition to till such date of payment. In case the borrower fails to do so, Sahakari is at liberty to suction the pledged jewels as it deems proper to do so. And in such an event, The Borrower shall have no right to object the sahakari from auctioning the jewels and appropriating the auction proceeds towards the loan liability.
+    </li>
+  </ol>
+
+  <p>
+    The Borrower hereby waives issuance of prior notice by the Sahakari to him/her in this regard. In case the auction proceeds are insufficient to meet the loan liability, the sahakari shall be at liberty to proceed against the Borrower personally and also by attachment and sale of movable and immovable property of the Borrower.
+  </p>
+
+  <ol start="3">
+    <li>
+      The Sahakari is at liberty to auction the jewels as it deems proper to do so and Borrower shall have no right to object, Sahakari’s appropriation of said auction proceeds to loan principal, interest and charges. Borrower shall have right to claim the remainder amount only after all such appropriations to principal, interest and charges etc. In case the amount received in auction of the said jewels is not sufficient to cover the amount of loan interest, charges etc. due to sahakari, Borrower or his legal representatives shall be liable to pay the shortfall from Borrower's personal movable and immovable properties/assets.
+    </li>
+    <li>
+      In case the value of jewels pledged by the BORROWER depreciates for any reason, the SAHAKARI shall be at liberty to MANDATE the BORROWER to give additional security to sahakari or reduce the loan amount as the sahakari feels fit.
+    </li>
+  </ol>
+
+  <p>
+    In case the sahakari feels that the market value of the pledged jewels are not found to its satisfaction, not sufficient to repay the loan with interest, Sahakari may by written notice of 7 days, demand the Borrower to repay such shortfall or provide additional security for which the Borrower is agreeable to meet such demand and on failure on the part of the Borrower to meet the demands of the Sahakari to be advanced by means of a notice. The sahakari shall be at liberty to auction the pledged jewels as it deems fit. In case the proceeds realised by the sahakari from such auction are not sufficient to cover the entire loan liability.The sahakari shall have the right to proceed against the BORROWER as well by the personally and also by attachment and sale of the movable/immovable property owned by the Borrower.
+  </p>
+
+  <p>5.The Sahakari shall also have the right to re-pledged the the jewels pledged by the Borrower.</p>
+  <p>6.On account of aforesaid loan or the loans remaining unpaid, interest alongwith charges incurred thereto with any branches of sahakari or if fails to repay the unpaid loans as demanded by sahakari. Sahakari is at liberty to recover the amounts due there in by public auction or private sale of the jewels now pledged by the borrower or as a guarantor or loans in any other branches of sahakari for which sahakari have right and borrower shall not have any objection for the same. </p>
+  <p>7.Borrower hereby authorize to disburse and recover the loan through Borrower members savings account maintained at sahakari branch.</p>
+  <p>8.The sahakari is authorized to charge interest, penal interest charges as per the rules in force from same to the such charges amount shall be added to the principal and shall be treated as principal thereafter.</p>
+  <p>The Borrower have received a sum of ₹<%= @jewel_loan.sanction_amount %> being the consideration of this bond.</p>
+
+  <table style="width: 100%; margin-top: 40px;">
+    <tr>
+      <td style="text-align: left;">
+        ....................<br>
+        Manager
+      </td>
+      <td style="text-align: right;">
+        ....................<br>
+        Borrower
+      </td>
+    </tr>
+  </table>
+
+
+    <hr>
+
+    <p>I hereby the certify that the signature has been obtained in my presence.</p>
+
+    <table style="width: 100%; margin-top: 40px;">
+      <tr>
+        <td style="text-align: right;">
+          ....................<br>
+          Manager
+        </td>
+      </tr>
+    </table>
+
+    <br/ >
+    <p class="underline bold">Details of Repayment</p>
+    <p>I have this day <span class="underline" style="display: inline-block; min-width: 200px;"> &nbsp; </span> Repaid the loan in full along with interest and received back the jewels pledged by me.</p>
+
+    <table style="width: 100%; margin-top: 40px;">
+      <tr>
+        <td style="text-align: right;">
+          ....................................<br>
+          Signature of the Borrower
+        </td>
+      </tr>
+    </table>
+
+    
+<%end%>

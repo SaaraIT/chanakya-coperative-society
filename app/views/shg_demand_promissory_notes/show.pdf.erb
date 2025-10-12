@@ -1,0 +1,170 @@
+  <style>
+    @font-face {
+            font-family: 'Baloo';
+            src: url('https://fonts.gstatic.com/s/balootamma2/v2/vEFK2_hCAgcR46PaajtrYlBbd7wf8tK1W77HtMo.ttf') format('truetype');
+    }
+
+
+    body {
+      font-family: 'Baloo', sans-serif;
+    
+    }
+    
+    
+
+    h1, h2, h3 {
+      text-align: center;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .signature-box {
+      
+      margin-top: 20px;
+    }
+
+    .underline {
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            text-underline-offset: 0.2em;
+        }
+
+    .signature-box div {
+      border: 1px solid black;
+      width: 100px;
+      height:100px;
+      text-align: center;
+      line-height: 50px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    td {
+      padding: 8px;
+    }
+
+    .right-align {
+      text-align: right;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .table td, .table th {
+      border: 1px solid #aaa;
+      padding: 6px;
+      vertical-align: top;
+    }
+
+      .header-text h1, .header-text h2, .header-text p, .header-text h3 {
+            margin: 0;
+        }
+
+        .header-text h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-text h2 {
+            font-size: 24px;
+            margin: 5px 0;
+        }
+
+        .header-text p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .header-text h3 {
+            font-size: 22px;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        .header-table {
+            width: 100%;
+            border: 0;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        h3.no-top, table.no-top{margin-top: 0px}
+  </style>
+ 
+  <div class="container">
+    <table class="header-table no-border">
+      <tr>
+        <td style="width: 120px;">
+          <%= wicked_pdf_image_tag asset_url('logo.png'), class: "logo", alt: "Logo" %>
+        </td>
+        <td class="header-text" style="text-align: center; flex-grow: 1; font-family: 'Baloo', sans-serif;">
+          <h1><%= Current.branch.name %></h1>
+          <h2><%= Current.branch.kannada_address %></h2>
+          <p><%= Current.branch.english_address %></p>
+          <!-- Removed duplicate address line -->
+          <p>Phone: <%= Current.branch.phone_no %> | 
+           (R. NO. <%= Current.branch.r_no %>)</p>
+        </td>
+      </tr>
+    </table>
+    
+    <table>
+      <tr>
+        <td><strong>Branch:</strong> <%= Current.branch.try(:name)%></td>
+        <td class="right-align"><strong>Loan No.:</strong> <%= @demand_promissory_note.loan_no %></td>
+      </tr>
+    </table>
+
+    <h3 class='no-top'><u>DEMAND PROMISSORY NOTE</u></h3>
+ 
+    <p> On demand We the members of the Shg: <%=  @loan_application.self_help_group.name %></p>
+      Address: <%=  @loan_application.self_help_group.address %>
+    
+ 
+    <p> Do hereby promise to pay Mathrubhoomi Souharda Sahakari Sangha Ltd. Or Order a sum
+of ₹<%= @demand_promissory_note.sum %> (Rupees <%= number_to_currency_words(@demand_promissory_note.sum) %> only) along with the interest thereon at <%=@demand_promissory_note.interest_rate %> p.a. for value received on this <%= @demand_promissory_note.day %> day of <%= @demand_promissory_note.month %> <%=@demand_promissory_note.year %>.</p>
+
+
+    Signature Of the Members :-
+     <table class="table no-top">
+      <thead>
+        <tr>
+          <th style="width: 80px">ಕ್ರ.ಸಂ./Si.No</th>
+          <th style="width: 350px">ಹೆಸರು/Name</th>
+          <th style="width: 210px">ಆಧಾರ್ ಸಂಖ್ಯೆ/Aadhar Number</th>
+          <th>ಸಹಿ/Signature</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @loan_application.self_help_group.shg_members.each_with_index do |member, index| %>
+          <% unless member.name.blank? %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= member.name %></td>
+              <td><%= member.aadhar_number %></td>
+              <td> </td>
+            </tr>
+          <%end%>
+        <% end %>
+      </tbody>
+    </table>
+    <br /><br />
+
+    <table class="footer" style="width: 100%;">
+      <tr>
+        <td class="signature">_____________________</td>
+        <td class="signature" style="text-align: right">_____________________</td>
+      </tr>
+      <tr>
+        <td class="signature">ಪ್ರಭಂದಕರು / President</td>
+        <td class="signature" style="text-align: right">ಸಂಯೋಜಕರು / Secretary</td>
+      </tr>
+    </table>
+ 

@@ -1,0 +1,43 @@
+<h5>Edit Branch Details</h5>
+
+<%= form_with model: @cooperative_branch, local: true do |f| %>
+  <div class="mb-3">
+    <%= f.label :name, "Branch Name" %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+ 
+
+  <div class="mb-3">
+    <%= f.label :english_address, "English Address" %>
+    <%= f.text_field :english_address, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :kannada_address, "Kannada Address" %>
+    <%= f.text_field :kannada_address, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :r_no, "R. No." %>
+    <%= f.text_field :r_no, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :phone_no, "Phone Number" %>
+    <%= f.telephone_field :phone_no, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :manager_name, "Branch Manager" %>
+    <%= f.text_field :manager_name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :manager_address, "Branch Manager Address" %>
+    <%= f.text_field :manager_address, class: "form-control" %>
+  </div>
+  <%= f.submit "Update Branch", class: "btn btn-success" %>
+<% end %>
+<br />
+
+<%= link_to "Manage Users", admin_users_path %>

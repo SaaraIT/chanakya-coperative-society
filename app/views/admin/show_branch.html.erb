@@ -1,0 +1,103 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h2"><%= @branch.name %></h1>
+        <div>
+          <%= link_to "Edit Branch", admin_edit_branch_path(@branch), class: "btn btn-secondary" %>
+          <%= link_to "Back to Branches", admin_branches_path, class: "btn btn-outline-secondary" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h5>Branch Details</h5>
+        </div>
+        <div class="card-body">
+          <dl class="row">
+            <dt class="col-sm-3">Name:</dt>
+            <dd class="col-sm-9"><%= @branch.name %></dd>
+            
+            <dt class="col-sm-3">Address:</dt>
+            <dd class="col-sm-9"><%= @branch.english_address %></dd>
+            
+            <dt class="col-sm-3">Phone:</dt>
+            <dd class="col-sm-9"><%= @branch.phone_no %></dd>
+            
+            <dt class="col-sm-3">R.No:</dt>
+            <dd class="col-sm-9"><%= @branch.r_no %></dd>
+            
+            <dt class="col-sm-3">Bank ID:</dt>
+            <dd class="col-sm-9"><%= @branch.cooperative_bank_id %></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body text-center">
+          <h5 class="card-title">Users in this Branch</h5>
+          <h2 class="card-text text-primary"><%= @users.count %></h2>
+          <%= link_to "Add User", admin_new_user_path(branch_id: @branch.id), class: "btn btn-success btn-sm" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5>Branch Users</h5>
+        </div>
+        <div class="card-body">
+          <% if @users.any? %>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Created</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @users.each do |user| %>
+                    <tr>
+                      <td><%= user.email %></td>
+                      <td>
+                        <span class="badge bg-<%= user.role == 'manager' ? 'warning' : 'secondary' %>">
+                          <%= user.role.humanize %>
+                        </span>
+                      </td>
+                      <td><%= user.created_at.strftime("%B %d, %Y") %></td>
+                      <td>
+                        <%= link_to "Edit", admin_edit_user_path(user), class: "btn btn-sm btn-outline-secondary" %>
+                        <% unless user.super_admin? %>
+                          <%= link_to "Delete", admin_destroy_user_path(user), 
+                                method: :delete, 
+                                data: { confirm: "Are you sure?" },
+                                class: "btn btn-sm btn-outline-danger" %>
+                        <% end %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% else %>
+            <div class="text-center py-4">
+              <p class="text-muted">No users assigned to this branch yet.</p>
+              <%= link_to "Add First User", admin_new_user_path(branch_id: @branch.id), class: "btn btn-success" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

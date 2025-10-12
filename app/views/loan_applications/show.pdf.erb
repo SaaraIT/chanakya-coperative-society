@@ -1,0 +1,1417 @@
+  <style>
+        @font-face {
+            font-family: 'Baloo';
+            src: url('https://fonts.gstatic.com/s/balootamma2/v2/vEFK2_hCAgcR46PaajtrYlBbd7wf8tK1W77HtMo.ttf') format('truetype');
+        }
+
+        body{font-size: 16px;}
+        @page {
+            size: A4 portrait;
+            margin: 12mm;
+        }
+
+        .container {
+            width: 100%;
+            /*border: 1px solid #000;
+            padding: 15px;*/
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .header img {
+            width: 80px;
+            height: 80px;
+            position: absolute;
+            left: 20px;
+            top: 10px;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .header h2 {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .loan-types {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .loan-types th, .loan-types td {
+            border: 1px solid #000;
+            padding: 5px;
+            text-align: center;
+        }
+
+        .section {
+            margin-top: 10px;
+            border: 1px solid #000;
+            padding: 0px 10px;
+        }
+        
+        .section.no-border{border: 0px; padding: 0px}
+
+        input{padding-left: 5px}
+
+        .input-field {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .input-field label {
+            /*flex: 1;*/
+            padding-right: 10px;
+        }
+        
+         
+
+        .input-field input {
+            flex: 2;
+            border: none;
+            border-bottom: 1px solid #000;
+            outline: none;
+             
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+        }
+
+        .table th, .table td {
+            border: 1px solid #aaa;
+            padding:  10px 5px;
+            text-align: left;
+            font-weight: normal;
+            min-height: 35px; /* Ensures a minimum height */
+            height: 35px;
+            vertical-align: middle;
+
+        }
+
+        .table.guarantor tbody tr td, .table.guarantor tbody tr th{padding: 12px 5px; vertical-align: middle}
+        
+        h3{margin-top: 25px; margin-bottom: 5px}
+
+        .declaration-box {
+          border: 1px solid black;
+          padding: 0px 10px;
+          margin-top: 20px;
+          font-family: Arial, sans-serif;
+        }
+
+        .declaration-box p {
+          text-align: center;
+           
+        }
+
+        table {
+          width: 100%;
+          margin-top: 10px;
+        }
+
+        td {
+          padding: 5px;
+        }
+
+        .signature-label {
+          text-align: right;
+          font-weight: bold;
+          padding-right: 15px;
+        }
+
+        .signature-placeholder {
+          text-align: right;
+          font-weight: bold;
+        }
+
+        h5.section-header-top{margin-top: 25px; margin-bottom: 5px; font-size: 17px}
+        h6{margin-top: 25px; margin-bottom: 5px; font-size: 16px}
+        h5.section-header-top.no-top-margin{margin-top: 5px}
+
+        .table tr.no-border td{border-bottom: 0; border-top: 0}
+        .table tr.no-top-border td{ border-top: 0}
+        .table tr td.left-pad-5{padding-left: 20px}
+        .section-wrapper {
+            position: relative; /* This makes the box position relative to this div */
+            
+        }
+
+        th.highlight {
+          background-color: yellow;
+          color: black;
+        }
+
+        .absolute-box {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;  /* Adjust width as needed */
+            height: 150px;  /* Adjust height as needed */
+            border: 1px solid black;
+            background: white;
+        }
+
+        .member-details-table {
+          width: 100%;
+          border-collapse: collapse;
+          border: 1px solid #aaa;
+        }
+
+        .member-details-table th, .fixed-width-label th {
+          width: 280px;
+          text-align: left;
+          padding: 15px 5px 5px 5px;
+          font-weight: normal;
+           
+        }
+
+        .member-details-table td {
+          padding: 15px 5px 5px 5px;
+          border-style: dotted;
+   
+          
+        }
+ 
+         .header-text {
+            text-align: center;
+        }
+
+        .header-text h1, .header-text h2, .header-text p, .header-text h3 {
+            margin: 0;
+        }
+
+        .header-text h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-text h2 {
+            font-size: 24px;
+            margin: 5px 0;
+        }
+
+        .header-text p {
+            font-size: 16px;
+            margin: 5px 0;
+        }
+
+        .header-text h3 {
+            font-size: 22px;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        .header-table {
+            width: 100%;
+            border: 0;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .declaration-box.guarantor{margin-top: 50px}
+        .report_table h4, .declaration-box h5, .declaration-box h4, .section h4{text-decoration: underline; margin-top: 5px}
+        @media print {
+          .page, .page-break { display: block; clear: both; page-break-after: always; }
+        }
+        .page, .page-break { page-break-after: always; }
+        .no-break {
+          page-break-inside: avoid;
+        }
+</style>
+
+<div class='main-wrapper'>
+  
+
+  <div class="container">
+    <table class="header-table">
+        <tr>
+            <!-- Left-aligned Logo -->
+            <td style="width: 160px;">
+                <%= wicked_pdf_image_tag asset_url('logo.png'), class: "logo", alt: "Logo", style: "width: 160px" %>
+                
+            </td>
+
+            <!-- Centered Header Text -->
+            <td class="header-text" style="text-align: center; flex-grow: 1; font-family: 'Baloo', sans-serif;">
+                <h1><%= Current.branch.name %></h1>
+                <h2><%= Current.branch.kannada_address %></h2>
+                <p><%= Current.branch.english_address %></p>
+                <!-- Removed duplicate address line -->
+                <p>Phone: <%= Current.branch.phone_no %></p>
+                <p>(R. NO. <%= Current.branch.r_no %>)</p>
+                <br />
+                <h2>LOAN APPLICATION</h2>
+                <label>Loan Type: </label> <%= display_loan_type(@loan_application.loan_application_type) %>
+            </td>
+        </tr>
+     </table>
+     
+      
+   
+
+   <div class="section no-border" style="margin-bottom: 30px">
+     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px">
+
+     
+      <div style="width: 70%; float: left;" >
+        <p>To,</p>
+        <p>The Manager</p>
+        <p><%= Current.branch.try(:name)%> Branch</p>
+
+        <!-- Bordered Section -->
+        <div style="border: 1px solid #111; padding: 10px; margin-top: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <div> R. No.: <%= @loan_application.r_no %></div>
+              <br />
+              <div> Date:  <%= format_date(@loan_application.application_date) %></div>
+            </div>
+
+            <div style="text-align: right;">
+              <i>Section Incharge/Clerk</i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Section (Photo Box with Label) -->
+     <div style="float: right; text-align: center; margin-top: 40px;">
+        <div style="width: 150px; height: 180px; border: 1px solid black; display: flex; align-items: center; justify-content: center;">
+          <p>Paste Photo Here</p>
+        </div>
+        <label style="display: block; font-weight: bold; margin-top: 5px;">Applicant</label>
+      </div>
+
+     </div>
+     <div style="clear: both; "></div>
+        
+     <div class="input-field" style="margin-top: 30px;">
+       Member No: 
+       <%= @member.member_no %>
+     </div>
+       <p>I/We submit a loan application for <%= number_to_indian_currency(@loan_application.loan_amount ) %> for the purpose/s mentioned below with following details.</p>
+   </div>
+
+        <h5 class="section-header-top">01. Name & Address of the Applicant/s</h5>
+        <div>
+          <table class="table">
+            <tr>
+                <th>Full Name</th>
+                <th>Father/Husband Name</th>
+                <th>Age</th>
+            </tr>
+            <tr>
+                <td><%= @member.name %></td>
+                <td><%= @member.father_or_husband_name %></td>
+                <td><%= @member.age %></td>
+            </tr>
+            <% @loan_application.co_applicants.each do |m|%>
+               <tr>
+                  <td><%= m.name %></td>
+                  <td><%= m.father_or_husband_name %></td>
+                  <td><%= m.age %></td>
+               </tr>
+            <%end%>
+          </table>
+ 
+         <br /> 
+         <table class="member-details-table table">
+            <tr>
+              <th colspan="2">Address</th>
+              
+            </tr>
+            <tr>
+              <th>H. No/Building Name:</th>
+              <td><%= @member.address_a_building %></td>
+            </tr>
+            <tr>
+              <th>Place, Village & Post:</th>
+              <td><%= @member.address_a_village %></td>
+            </tr>
+            <tr>
+              <th>Taluk/District:</th>
+              <td><%= @member.address_a_district %></td>
+            </tr>
+            <tr>
+              <th>Pincode:</th>
+              <td><%= @member.address_a_pincode %></td>
+            </tr>
+            <tr>
+              <th>Contact No:</th>
+              <td><%= @member.mobile_number %></td>
+            </tr>
+            <tr>
+              <th>Aadhar No:</th>
+              <td><%= @member.aadhaar_number %></td>
+            </tr>
+            <tr>
+              <th>PAN No:</th>
+              <td><%= @member.pan_card %></td>
+            </tr>
+          </table>
+
+ 
+    <div class=" no-break">
+            <h5 class="section-header-top">02. Loan Purpose & Requested Amount</h5>
+            <table class="table">
+                <tr>
+                    <th>Purpose of Loan</th>
+                    <th>Estimated Cost</th>
+                    <th>Requested Loan</th>
+                </tr>
+                <tr>
+                    <td><%= @loan_application.loan_purpose || "" %></td>
+                    <td>&#8377; <%= @loan_application.estimated_cost || "" %></td>
+                    <td>&#8377; <%= number_to_indian_currency(@loan_application.loan_amount) || "" %></td>
+                </tr>
+            </table>
+    </div>
+    
+    <div class=" no-break">
+         <h5 class="section-header-top">03. Details of Deposits & Share Capital with Sahakari</h5>
+         <table  class="table">
+            <thead>
+               <tr>
+                 <th>S. No.</th>
+                 <th>Particulars</th>
+                 <th>Account No.</th>
+                 <th>Balance on Date</th>
+               </tr>
+           </thead>
+           <tbody>
+              <% if @member.deposits_and_shares.present? %>   
+                <% @member.deposits_and_shares.each_with_index do |deposit, index| %>
+                     
+                   <tr>
+                          <td><%= index + 1 %></td>
+                          <td>
+                            <%= deposit.particular  %>
+                          </td>
+                          <td>
+                            <%= deposit.account_no %>
+                          </td>
+                          <td>
+                            &#8377; <%=  deposit.balance_on_date %>
+                          </td>
+                     </tr>
+                     
+                <% end %>
+              <% else %>
+                <tr>
+                   <td>1</td>
+                   <td>S.B. A/C No.</td>
+                   <td></td>
+                   <td></td>
+                </tr>
+                <tr>
+                   <td>2</td>
+                   <td>Term Deposit</td>
+                   <td></td>
+                   <td></td>
+                </tr>
+                <tr>
+                   <td>3</td>
+                   <td>Share Capital</td>
+                   <td></td>
+                   <td></td>
+                </tr>
+                <tr>
+                   <td>4</td>
+                   <td>Others</td>
+                   <td></td>
+                   <td></td>
+                </tr>
+              <% end %>
+            </tbody>
+        </table>
+    </div>
+
+    <h5 class="section-header-top no-break">04. Family Details</h5>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Relationship</th>
+            <th>Annual Income</th>
+            <th>Sources of Income</th>
+        </tr>
+        <% if @member.family_members.present? %>   
+          <% @member.family_members.each do |family| %>
+            <tr>
+              <td><%= family.name %></td>
+              <td><%= family.relationship  %></td>
+              <td><%= family.annual_income  %></td>
+              <td><%= family.income_source  %></td>
+            </tr>
+          <%end%>
+        <% else %>
+          <tr>
+             <td></td>
+             <td></td>
+             <td></td>
+            <td></td>
+           </tr>
+             <tr>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
+            </tr>
+            <tr>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
+            </tr>
+            <tr>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
+            </tr>
+            <tr>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
+            </tr>
+            <tr>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
+            </tr>
+        <% end %>
+    </table>
+
+    <h5  class="section-header-top">05. Particulars of Income & Expenditure (Family)</h5>
+    <table class="table">
+      <thead>
+        <tr>
+           
+          <th>Sources of Income</th>
+          <th>Income</th>
+          <th>Expenditure</th>
+          <th>Excess/Deficit</th>
+        </tr>
+      </thead>
+      <tbody>
+         <% if @member.income_and_expenditures.present? %> 
+           <% total_income = 0 %>
+           <% total_expenditure = 0 %>
+
+           <% @member.income_and_expenditures.each do |income_exp| %>
+              <% total_income = total_income + income_exp.income.to_f %>
+              <% total_expenditure = total_expenditure + income_exp.expenditure.to_f %>
+
+              <tr>
+                
+                <td>
+                  <%= income_exp.source  %>
+                </td>
+                <td>
+                  &#8377; <%= income_exp.income.to_f %>
+                </td>
+                <td>
+                  &#8377; <%= income_exp.expenditure.to_f %>
+                </td>
+                <td>
+                  &#8377; <%= income_exp.income.to_f - income_exp.expenditure.to_f %>
+                </td>
+              </tr>
+           <% end %>
+           <tr>
+                
+               <td>Total</td>
+               <td>&#8377; <%= total_income %></td>
+               <td>&#8377; <%= total_expenditure %></td>
+               <td>&#8377; <%= total_income - total_expenditure %></td>
+            </tr>
+         <% else %>
+            <tr>
+               <td>A</td>
+               <td>Business/Self employment </td>
+               <td></td>
+               <td></td>
+               <td></td>
+            </tr>
+            <tr>
+               <td>B</td>
+               <td>Agriculture</td>
+               <td></td>
+               <td></td>
+              <td></td>
+            </tr>
+            <tr>
+               <td>C</td>
+               <td>Others</td>
+               <td></td>
+               <td></td>
+               <td></td>
+            </tr>
+            <tr>
+               <td></td>
+               <td>Total</td>
+               <td></td>
+               <td></td>
+               <td></td>
+            </tr>
+        <% end %>
+      </tbody>
+   </table>
+
+   <h5 class="section-header-top">06. Details of Present Loans/Liabilities</h5>
+   <table class='table'>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Date of Loan</th>
+          <th>Purpose</th>
+          <th>Loan Amount</th>
+          <th>Balance Outstanding</th>
+          <th>Overdue (if any)</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        <% if @member.existing_loan_liabilities.present? %>   
+          <% @member.existing_loan_liabilities.each do |loan| %>
+            <tr>
+              <td>
+                <%= loan.category  %>
+              </td>
+              <td>
+                <%= format_date(loan.date_of_loan) %>
+              </td>
+              <td>
+                <%= loan.purpose %>
+              </td>
+              <td>
+                <%= number_to_indian_currency(loan.loan_amount)  %>
+              </td>
+              <td>
+                <%= loan.balance_outstanding  %>
+              </td>
+              <td>
+                <%= number_to_indian_currency(loan.overdue_amount)  %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+            <tr>
+               <td>In Sahakari</td>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
+            </tr>
+            <tr>
+               <td>Co-op Bank Societies</td>
+               <td></td>
+               <td></td>
+               <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+               <td>Other Bank</td>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
+               <td></td>
+            </tr>
+        <% end %> 
+      </tbody>
+   </table>
+ 
+ 
+  <h5 class="section-header-top">07. Particulars of Business</h5>
+   
+    <table class="table fixed-width-label">
+      <tr>
+        <th>a) Name of Business/Address:</th>
+        <td><%= @member.business_detail.try(:business_name) %></td>
+      </tr>
+      <tr>
+        <th>b) Constitution:</th>
+        <td><%= @member.business_detail.try(:constitution) %></td>
+      </tr>
+      <tr>
+        <th>c) Relation with Firm:</th>
+        <td><%= @member.business_detail.try(:relation_with_firm) %></td>
+      </tr>
+      <tr>
+        <th>d) Capital Employed:</th>
+        <td><%= @member.business_detail.try(:capital_employed) %></td>
+      </tr>
+      <tr>
+        <th>e) Bankers to Business (Rs.):</th>
+        <td><%= @member.business_detail.try(:bankers_to_business) %></td>
+      </tr>
+      <tr>
+        <th>f) Liability to Banks (Rs.):</th>
+        <td><%= @member.business_detail.try(:liability_to_banks) %></td>
+      </tr>
+      <tr>
+        <th>g) Annual Income (Rs.):</th>
+        <td><%= @member.business_detail.try(:annual_income) %></td>
+      </tr>
+      <tr>
+        <th>h) Other Bank Dealings:</th>
+        <td><%= @member.business_detail.try(:other_bank_dealings) %></td>
+      </tr>
+    </table>
+ 
+ 
+
+  <h5 class="section-header-top">08. Details of the Securities</h5>
+  
+  <h6>I. Life/Postal Insurance Policy</h6>
+   
+    <table class="table fixed-width-label">
+      <tr>
+        <th>a) Amount Assured:</th>
+        <td><%=  number_to_indian_currency(@member.insurance_policy.try(:amount_assured))  %></td>
+      </tr>
+      <tr>
+        <th>b) Date & Period of Policy:</th>
+        <td><%= @member.insurance_policy.try(:policy_period) %></td>
+      </tr>
+      <tr>
+        <th>c) Paid Up Value:</th>
+        <td><%= @member.insurance_policy.try(:paid_up_value) %></td>
+      </tr>
+      <tr>
+        <th>d) Surrender Value:</th>
+        <td><%= @member.insurance_policy.try(:surrender_value) %></td>
+      </tr>
+      <tr>
+        <th>e) Name of the Policy:</th>
+        <td><%= @member.insurance_policy.try(:policy_name) %></td>
+      </tr>
+      <tr>
+        <th>f) Policy Maturity Date:</th>
+        <td><%= @member.insurance_policy.try(:maturity_date) %></td>
+      </tr>
+    </table>
+
+
+  <h6>II. Machinery / Vehicle</h6>
+   
+    <table class="table fixed-width-label">
+      <tr>
+        <th>Type:</th>
+        <td><%= @member.vehicle.try(:vehicle_type) %></td>
+      </tr>
+      <tr>
+        <th>Make & Model:</th>
+        <td><%=  @member.vehicle.try(:make_model) %></td>
+      </tr>
+      <tr>
+        <th>Registration No.:</th>
+        <td><%= @member.vehicle.try(:registration_no) %></td>
+      </tr>
+      <tr>
+        <th>Purchase Cost:</th>
+        <td><%= @member.vehicle.try(:purchase_cost) %></td>
+      </tr>
+      <tr>
+        <th>Insurance Company:</th>
+        <td><%= @member.vehicle.try(:insurance_company) %></td>
+      </tr>
+      <tr>
+        <th>Valid Upto:</th>
+        <td><%= @member.vehicle.try(:valid_upto) %></td>
+      </tr>
+      <tr>
+        <th>Market Value:</th>
+        <td><%= @member.vehicle.try(:market_value) %></td>
+      </tr>
+    </table>
+   
+
+  <h6>III. Deposit</h6>
+  
+    <table class="table fixed-width-label">
+      <tr>
+        <th>Bank/Company:</th>
+        <td><%= @member.deposit.try(:bank_name) %></td>
+      </tr>
+      <tr>
+        <th>Amount (Rs.):</th>
+        <td><%= number_to_indian_currency(@member.deposit.try(:amount)) %></td>
+      </tr>
+      <tr>
+        <th>Maturity Date:</th>
+        <td><%= format_date(@member.deposit.try(:maturity_date ))%></td>
+      </tr>
+      <tr>
+        <th>Maturity Value (Rs.):</th>
+        <td><%= @member.deposit.try(:maturity_value) %></td>
+      </tr>
+    </table>
+  
+
+  <h6>IV. Gold Ornaments / Jewellery (Family)</h6>
+  
+    <table class="table fixed-width-label">
+      <tr>
+        <th>Description of the Ornaments:</th>
+        <td><%= @member.gold_ornament.try(:description) %></td>
+      </tr>
+      <tr>
+        <th>Gross Weight (in grams):</th>
+        <td><%= @member.gold_ornament.try(:gross_weight) %></td>
+      </tr>
+      <tr>
+        <th>Market Value:</th>
+        <td><%= @member.gold_ornament.try(:market_value) %></td>
+      </tr>
+    </table>
+  
+  
+  <h6>V. Immovable Property</h6>
+ 
+     
+    <table class="table fixed-width-label">
+      <tr>
+        <th>a) Immovable Property/ies:<br />  (Owned and involved)  </th>
+        <td><%= @member.immovable_property.try(:description) %></td>
+      </tr>
+       
+      <tr>
+        <th class="left-pad-5">S.No/R.S/No Property No.:</th>
+        <td><%= @member.immovable_property.try(:property_number) %></td>
+      </tr>
+      <tr>
+        <th class="left-pad-5">Extent/Incents/Sq. meters:</th>
+        <td><%= @member.immovable_property.try(:extent)  %></td>
+      </tr>
+      <tr>
+        <th class="left-pad-5">Location/Village:</th>
+        <td><%= @member.immovable_property.try(:location)  %></td>
+      </tr>
+      <tr>
+        <th class="left-pad-5">Present Market Value:</th>
+        <td><%= @member.immovable_property.try(:market_value)  %></td>
+      </tr>
+    
+      <tr>
+        <th>b) House Property/ies (Owned): </th>
+        <td><%= @member.immovable_property.try(:houses_owned)  %></td>
+      </tr>
+
+      <tr>
+        <th class="left-pad-5">CTS/VPC./TRC No.:</th>
+        <td><%= @member.immovable_property.try(:house_cts_vpc_trc_no)  %></td>
+      </tr>
+      <tr >
+        <th class="left-pad-5">Extent (Sq. Ft.):</th>
+        <td><%= @member.immovable_property.try(:house_extent)  %></td>
+      </tr>
+      <tr>
+        <th class="left-pad-5">Location/Village:</th>
+        <td><%= p@member.immovable_property.try(:house_location)  %></td>
+      </tr>
+      <tr >
+        <th class="left-pad-5">Present Market Value:</th>
+        <td><%= @member.immovable_property.try(:house_market_value)  %></td>
+      </tr>
+ 
+      <tr>
+        <th >c) Non-Agriculture Land </th>
+        <td><%= @member.immovable_property.try(:non_agri_land)  %></td>
+      </tr>
+      <tr>
+        <th class="left-pad-5">S. No. / R.S. No.:</th>
+        <td><%= @member.immovable_property.try(:land_survey_no)  %></td>
+      </tr>
+      <tr>
+        <th class="left-pad-5">Area (Sq. Ft.):</th>
+        <td><%= @member.immovable_property.try(:land_area)  %></td>
+      </tr>
+      <tr>
+        <th class="left-pad-5">Location/Village:</th>
+        <td><%= @member.immovable_property.try(:land_location)  %></td>
+      </tr>
+      <tr>
+        <th class="left-pad-5">Present Market Value:</th>
+        <td><%= @member.immovable_property.try(:land_market_value)  %></td>
+      </tr>
+    
+      <tr>
+        <th>d) Existing Liabilities (if any):</th>
+        <td><%=@member.immovable_property.try(:existing_liabilities)  %></td>
+      </tr>
+     
+      <tr class='no-top-border'>
+        <th>e) Annual Income</th>
+        <td><%= @member.immovable_property.try(:annual_income)  %></td>
+      </tr>
+    </table>
+ 
+    <table class="table fixed-width-label">
+      <tr>
+        <th><h6>VI. Indirect Liabilities</h6> Co-obligant/Guarantor:</th>
+        <td><%= @member.indirect_liability.try(:co_obligant_guarantor) %></td>
+      </tr>
+    </table>
+   
+
+  <h3></h3>
+   
+    <table class="table fixed-width-label">
+      <tr>
+        <th><h6>VII. Whether Income Tax Assessee?:</h6></th>
+        <td><%= @member.tax_detail.try(:income_tax_assessee)  ? "Yes": "No" %> </td>
+      </tr>
+      <tr>
+        <th>Is GST Registration Holder:</th>
+        <td><%= @member.tax_detail.try(:gst_registration_holder)  ? "Yes": "No" %></td>
+      </tr>
+      <tr>
+        <th>GST No. (if applicable):</th>
+        <td><%= @member.tax_detail.try(:gst_number) %></td>
+      </tr>
+    </table>
+   
+
+ </div>
+
+    <div class="declaration-box">
+      <center> <h4>DECLARATION BY THE APPLICANT</h4> </center>
+      <p style="margin-bottom: 80px">Above information is true and correct to the best of my knowledge and belief.</p>
+      
+      <table>
+        <tr>
+          <td>Date:</td>
+          <td><%= format_date(@loan_application.declaration_date)  %></td>
+          <td class="signature-label">Signature</td>
+        </tr>
+        <tr>
+          <td>Place:</td>
+          <td><%= @loan_application.declaration_place  %></td>
+          <td class="signature-placeholder">APPLICANT</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Page 6 -->
+    <div class="page-break"> </div>
+    
+    <% @loan_application.loan_application_co_applicants.each do |coapp| %>
+        <% member = coapp.member %>
+        <h6><strong>Details Of Co-Applicant <%= member.name %></strong></h6>
+        <div data-coapplicant-id="<%= member.id %>" class="mb-4">
+
+          <table class="table table-bordered">
+            <tr>
+              <td style="width: 280px">Membership No</td>
+              <td><%= member.member_no %></td>
+              <td rowspan="3" style="text-align:center; vertical-align:top; width: 160px">Photo</td>
+            </tr>
+            <tr>
+              <td>Name</td>
+              <td><%= member.name %></td>
+            </tr>
+            <tr>
+              <td>Age</td>
+              <td><%= member.age %></td>
+            </tr>
+            <tr>
+              <td>Address</td>
+              <td colspan="2"><%= member.address %></td>
+            </tr>
+            <tr>
+              <td>Phone /Mobile No</td>
+              <td colspan="2"><%= member.mobile_number %></td>
+            </tr>
+            <tr>
+              <td>Aadhar No</td>
+              <td colspan="2"><%= member.aadhaar_number %></td>
+            </tr>
+            <tr>
+              <td>PAN No</td>
+              <td colspan="2"><%= member.pan_card %></td>
+            </tr>
+
+            <tr>
+              <td>Details Of Business/Profession</td>
+              <td colspan="2">
+                <%= simple_format(coapp.business_details  ) %>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="3"><strong>Particulars Of Income & Expenditure</strong></td>
+            </tr>
+            <tr>
+              <th>Sources Of Income</th>
+              <th>Income</th>
+              <th>Expenditure</th>
+            </tr>
+
+            <% income_sources = ["Salary", "Profession", "Business", "Other Sources(If any)"] %>
+            <% saved_data = member.income_and_expenditures.index_by(&:source) %>
+            <% coapp_income = 0 %>
+            <% coapp_expense = 0 %>
+            <% income_sources.each do |src| %>
+              <% row_data = saved_data[src] || IncomeAndExpenditure.new(source: src) %>
+              <% coapp_income = coapp_income + row_data.income.to_i %>
+              <%- coapp_expense = coapp_expense + row_data.expenditure.to_i %>
+              <tr>
+                <td><%= src %></td>
+                <td> <%= "₹ #{row_data.income}" unless row_data.income.blank? %></td>
+                <td> <%="₹ #{row_data.expenditure}" unless row_data.expenditure.blank? %></td>
+              </tr>
+            <% end %>
+
+            <tr>
+              <td>Total</td>
+              <td>₹ <%= coapp_income %> </td>
+              <td>₹ <%= coapp_expense %> </td>
+            </tr>
+
+            <tr>
+              <td>Details Of Loan with Sahakari</td>
+              <td colspan="2">
+                <%= simple_format(coapp.deatils_of_sahakari_loan.presence) %>
+              </td>
+            </tr>
+
+            <tr>
+              <td>Details Of Immovable Property (Owned)</td>
+              <td colspan="2">
+                <%= simple_format(coapp.details_of_immovable_property.presence) %>
+              </td>
+            </tr>
+
+            <tr>
+              <td>Other Movable Property</td>
+              <td colspan="2">
+                <%= simple_format(coapp.details_of_movable_property.presence) %>
+              </td>
+            </tr>
+
+           
+          </table>
+
+          <div class="declaration-box">
+      <center> <h4>DECLARATION BY THE CO-APPLICANT</h4> </center>
+      <p style="margin-bottom: 50px">Above information is true and correct to the best of my knowledge and belief.</p>
+      
+      <table>
+        <tr>
+          <td>Date:</td>
+          <td><%= format_date(coapp.date_signed)  %></td>
+          <td class="signature-label">Signature</td>
+        </tr>
+        <tr>
+          <td>Place:</td>
+          <td><%= coapp.place_signed  %></td>
+          <td class="signature-placeholder">CO-APPLICANT</td>
+        </tr>
+      </table>
+    </div>
+        </div>
+        <div class="page-break"> </div>
+    <% end %>
+
+
+    
+    <div class="form-group">
+      <% if @loan_application.co_obligants.present? %>
+        <% @loan_application.co_obligants.each_with_index do |co_ob, i| %>
+         
+            
+            <h5 class="section-header-top"><%= "#{i+9}) Details of Co-obligant/Guarantor(#{i+1})" %></h5>
+            <div class="section-wrapper">
+                <table class="table table-bordered fixed-width-label guarantor">
+                  <tr>
+                    <th>Member No.</th>
+                    <td><%= co_ob.member.member_no  %></td>
+                  </tr>
+                  <tr>
+                    <th>Name</th>
+                    <td><%= co_ob.member.name  %></td>
+                  </tr>
+                  <tr>
+                    <th>Age</th>
+                    <td><%= co_ob.member.age  %></td>
+                  </tr>
+                  <tr>
+                    <th>Father/Husband</th>
+                    <td><%= co_ob.member.father_or_husband_name  %></td>
+                  </tr>
+                  <tr>
+                    <th>Address</th>
+                    <td><%= co_ob.member.address  %></td>
+                  </tr>
+                  <tr>
+                    <th>Phone/Mobile</th>
+                    <td><%= co_ob.member.mobile_number  %></td>
+                  </tr>
+                  <tr>
+                    <th>Aadhar No</th>
+                    <td><%= co_ob.member.aadhaar_number  %></td>
+                  </tr>
+                  <tr>
+                    <th> PAN No</th>
+                    <td><%= co_ob.member.pan_card  %></td>
+                  </tr>
+                  <tr>
+                    <th>Details of Business/Profession</th>
+                    <td><%= co_ob.business_details  %></td>
+                  </tr>
+                  <tr>
+                    <th>Whether Income Tax Assessee?</th>
+                    <td><%= co_ob.tax_assessee ? "Yes": "No" %> </td>
+                  </tr>
+                  <tr>
+                    <th>Is GST Registration Holder?</th>
+                    <td><%= co_ob.gst_holder ? "Yes": "No"%> </td>
+                  </tr>
+                  <tr>
+                    <th>If Yes, Mention GST No.</th>
+                    <td><%= co_ob.gst_number  %></td>
+                  </tr>
+                  <tr>
+                    <th>Details of Loans with Sahakari</th>
+                    <td><%= co_ob.loan_details  %></td>
+                  </tr>
+                  <tr>
+                    <th>Details of Immovable Property (Owned)</th>
+                    <td><%= co_ob.immovable_property  %></td>
+                  </tr>
+                  <tr>
+                    <th>Other Movable Property</th>
+                    <td><%= co_ob.movable_property  %></td>
+                  </tr>
+                </table>
+                <div class="absolute-box"></div>
+            </div>
+   
+            <div class="declaration-box guarantor">
+              <center> <h4>DECLARATION BY THE CO-OBLIGANT/GUARANTOR</h4> </center>
+              <p>Above information is true and correct to the best of my knowledge and belief & is furnished as an indication of my willingness to be guarantor/co-obligant to any credit facilities to be granted to:
+              <%= @loan_application.applicant_names %></p>
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <table>
+                <tr>
+                  <td>Date:</td>
+                  <td><%= format_date(co_ob.declaration_date) %></td>
+                  <td class="signature-label" style="padding-right: 25px">Signature</td>
+                </tr>
+               <tr>
+                   <td>Place:</td>
+                  <td><%= co_ob.declaration_place %></td>
+                  <td class="signature-placeholder"> Co-obligant (<%= i + 1 %>)/Guarntor(<%= i + 1 %>) </td>
+               </tr>
+              </table>
+            </div>
+            <div class="page-break"> </div>
+          <%end%>
+        <%else%>
+           <% 2.times do |i| %>
+             <h5 class="section-header-top"><%= "#{i+9}) Details of Co-obligant/Guarantor(#{i+1})" %></h5>
+             <div class="section-wrapper">
+                <table class="table table-bordered fixed-width-label guarantor">
+                  <tr>
+                    <th>Member No.</th>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <th>Name</th>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <th>Age</th>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <th>Father/Husband</th>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <th>Address</th>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <th>Phone/Mobile</th>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <th>Aadhar No./PAN No.</th>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <th>Details of Business/Profession</th>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <th>Whether Income Tax Assessee?</th>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <th>Is GST Registration Holder?</th>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <th>If Yes, Mention GST No.</th>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <th>Details of Loans with Sahakari</th>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <th>Details of Immovable Property (Owned)</th>
+                    <td> </td>
+                  </tr>
+                  <tr>
+                    <th>Other Movable Property</th>
+                    <td> </td>
+                  </tr>
+                </table>
+                <div class="absolute-box"></div>
+            </div>
+     
+
+            <div class="declaration-box guarantor">
+              <center> <h4>DECLARATION BY THE CO-OBLIGANT/GUARANTOR</h4> </center>
+              <p>Above information is true and correct to the best of my knowledge and belief & is furnished as an indication of my willingness to be guarantor/co-obligant to any credit facilities to be granted to:
+               </p>
+              <br />
+              <br />
+              <br />
+              <br />
+              <br />
+              <table>
+                <tr>
+                  <td>Date:</td>
+                  <td> </td>
+                  <td class="signature-label" style="padding-right: 25px">Signature</td>
+                </tr>
+               <tr>
+                   <td>Place:</td>
+                  <td>  </td>
+                  <td class="signature-placeholder"> Co-obligant (<%= i + 1 %>) </td>
+               </tr>
+              </table>
+            </div>
+            <div class="page-break"> </div>
+         <%end%>
+      <% end %>
+     </div>
+     <div class="page-break"> </div>
+
+     <table border="1" class="table report_table">
+        <tr class="no-border">
+            <td colspan="4" class="header"><h4><center>REPORT BY BRANCH SECTION INCHARGE/CLERK</center></h4></td>
+        </tr>
+        <tr class="no-border">
+            <td colspan="4" style="height: 560px; vertical-align: top;"><%= @loan_application.branch_incharge_report %></td>
+        </tr>
+         
+        <tr class="no-border">
+            <td colspan="4" style="text-align: right; padding-right: 10px;">Section Incharge/Clerk</td>
+        </tr>
+    </table>
+
+    <br>
+    <table border="1" class="report_table table">
+        <tr class="no-border">
+            <td colspan="2" class="header"><h4><center>BRANCH MANAGER REPORT/RECOMMENDATION</center></hd></th>
+        </tr>
+        <tr class="no-border">
+            <td colspan="2" style="height: 200px; vertical-align: top;"><%= @loan_application.branch_manager_report %></td>
+        </tr>
+        <tr class="no-top-border">
+            <td  colspan="2" style="border-bottom: 0px">
+              <table class="table" style="width: 100%">
+                <tr>
+                  <th>Purpose</th>
+                  <th>Loan Amount</th>
+                  <th>Term</th>
+                  <th>Security</th>
+                 </tr>
+
+                 <tr>
+                    <td><%= @loan_application.loan_purpose  %></td>
+                    <td><%= number_to_indian_currency(@loan_application.loan_amount)  %></td>
+                    <td><%= @loan_application.term_bm  %></td>
+                    <td><%= @loan_application.security_bm  %></td>
+                 </tr>
+              </table>
+            </td>
+        </tr>
+        <tr class="no-border">
+            <td colspan="2" style="height: 20px;"></td>
+        </tr>
+        <tr class="no-border">
+            <td colspan="2"> Date:  <%= format_date(@loan_application.date_bm) %></td>
+           
+        </tr>
+        <tr class="no-border">
+            <td style="border-right: 0px"> Place:  <%= @loan_application.place_bm  %></td>
+            <td style="text-align: right; padding-right: 10px;  border-left: 0px"> <b>Branch Manager</b></td>
+        </tr>
+    </table>
+ 
+     
+    
+   <div class="page-break"> </div>  
+   <div class="declaration-box">
+      <center> <h4>HEAD OFFICE SECTION</h4> 
+      <h5> VERIFICATION AND RECOMMENDATION REPORT</h5></center>
+       
+      <table>
+         <tr>
+            <td colspan="4" style="height: 90px; vertical-align: top;"><%= @loan_application.head_office_report %></td>
+        </tr>
+        <tr>
+          <td>Date:</td>
+          <td><%= format_date(@loan_application.date_ho)  %></td>
+          <td class="signature-label"> </td>
+        </tr>
+       <tr>
+           <td>Place:</td>
+          <td> <%= @loan_application.place_ho  %></td>
+          <td class="signature-placeholder"> Section Incharge / <br >Loan Section Head </td>
+       </tr>
+      </table>
+    </div>
+
+  
+  <br />
+  <div class="section">
+    <h4><center>SANCTION ORDER/RECOMMENDATIONS BY MD/CEO</center></h4>
+    <p>On the basis of recommendation by the Branch Manager and scrutiny by the authorized officer in Head Office; it is ordered/recommended for a Loan Amount of Rs.
+      <%= @loan_application.sanction_amount %> (Rupees <%= number_to_currency_words(@loan_application.sanction_amount)  %>)</p>
+   
+
+    <h6 style="margin-top: 5px"><u>Sanction Order</u></h6>
+   
+     <table  class="report_table">
+        <tr>
+          <td style="width: 180px">Sanction Order No:</td>
+          <td><%= @loan_application.sanction_order_no  %> </td>
+          <td class="signature-label"> </td>
+        </tr>
+       <tr>
+           <td style="width: 180px">Sanction Order Date:</td>
+          <td> <%= format_date(@loan_application.sanction_order_date) %></td>
+          <td class="signature-placeholder"> CEO/Managing Director </td>
+       </tr>
+         
+        
+    </table>
+
+    
+  </div>
+   <br />
+  <div class="sanction-section section">
+    <h4><center>BOARD RESOLUTION</center></h4>
+     
+    <div class="sanction-content" style="margin-top:10px">
+      <p>Loan sanctioned/approved on <%= format_date(@loan_application.date_bo)  %> by loan committee/Board of Directors meeting held at H.O.</p>
+      <p>Sanctioned limit: <%= @loan_application.limit_bo  %></p>
+      <p>Resolution No./L.C.O No: <%= @loan_application.resolution_no_bo  %></p>
+    </div>
+  </div>
+  <br />
+
+  <div class="section">
+         <center> <h4>INSPECTION REVIEW</h4> </center>
+          
+              
+          <table>
+                <tr>
+                   <td colspan="4" style="height: 100px; vertical-align: top;"><%= @loan_application.inspection_review %></td>
+                </tr>
+                <tr>
+                  <td>Date:</td>
+                  <td><%= format_date(@loan_application.date_inspection) %></td>
+                  <td class="signature-label"> </td>
+                </tr>
+               <tr>
+                   <td>Place:</td>
+                  <td><%= @loan_application.place_inspection %></td>
+                  <td class="signature-placeholder"> Ins. Officer </td>
+               </tr>
+          </table>
+  </div>
+  <br />
+
+  <table border="1" class="report_table table">
+        <tr class="no-border">
+            <td colspan="4"><center><h4 style="margin-bottom: 0px;">DETAILS OF LOAN DISBURSEMENT</h4></center></th>
+        </tr>
+        
+        <tr class="no-top-border">
+            <td style="border-bottom: 0px">
+              <table class="disbursement-table table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Account No.</th>
+                    <th>Term</th>
+                    <th>Loan Amount</th>
+                    <th>RoI</th>
+                    <th>TERM</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><%= format_date(@loan_application.loan_disbursement_date) %></td>
+                    <td><%= @loan_application.account_no %></td>
+                    <td><%= @loan_application.loan_term %></td>
+                    <td><%= number_to_indian_currency(@loan_application.loan_amount_disbursed) %></td>
+                    <td><%= @loan_application.rate_of_interest  %></td>
+                    <td><%= @loan_application.loan_term %></td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+        </tr>
+ 
+       
+        <tr class="no-border">
+            <td style="padding: 0;">
+              <table class="table">
+                <tr class="no-border">
+                  <td style="border: 0px">Date:</td>
+                  <td style="border: 0px"><%= format_date(@loan_application.date_disbursement) %></td>
+                  <td style="border: 0px" class="signature-label"> </td>
+                </tr>
+               <tr class="no-border">
+                   <td style="border: 0px">Place:</td>
+                  <td style="border: 0px"> <%= @loan_application.place_disbursement %></td>
+                  <td style="border: 0px; text-align: right" class="signature-placeholder"> Branch Manager </td>
+               </tr>
+              </table>
+               </td>
+        </tr>
+    </table>
+
+    
+  
+ 
+  </div>
+</div>

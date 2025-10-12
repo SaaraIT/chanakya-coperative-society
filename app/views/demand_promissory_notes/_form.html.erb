@@ -1,0 +1,128 @@
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      
+      text-align: justify;
+    }
+    
+    
+
+    h1, h2, h3 {
+      text-align: center;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .signature-box {
+      
+      margin-top: 20px;
+    }
+
+    .underline {
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            text-underline-offset: 0.2em;
+        }
+
+    .signature-box div {
+      border: 1px solid black;
+      width: 100px;
+      height:100px;
+      text-align: center;
+      line-height: 50px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    td {
+      padding: 8px;
+    }
+
+    .right-align {
+      text-align: right;
+    }
+  </style>
+
+<%= form_with model: [@member, @loan_application, @demand_promissory_note] do |f| %>
+ 
+  <div class="container">
+   
+    
+    <table>
+      <tr>
+        <td><strong>Branch:</strong> <%= Current.branch.try(:name)%></td>
+        <td class="right-align"><strong>Loan No.:</strong> <%= f.text_field :loan_no , value: @loan_application.id %></td>
+      </tr>
+    </table>
+
+    <h3><u>DEMAND PROMISSORY NOTE</u></h3>
+
+    <table style="margin-top: 40px">
+      <tr>
+        <td><strong>Rs.</strong> <%= f.number_field :amount, step: "0.01", value: @loan_application.sanction_amount %></td>
+        <td class="right-align"><strong>Date:</strong> <%= f.date_field :date, value: Date.today %></td>
+      </tr>
+    </table>
+
+ 
+
+    <p><span style="font-size: 24px; font-weight: bold"> On Demand I/We </span> &nbsp; &nbsp; <strong>1) Borrower's Name and Address in Full:</strong></p>
+      <%= f.text_area :borrower_name, rows: 4, cols: 80, value: @loan_application.applicant_names_and_addresses, readonly: true %>
+    
+    <div class="witness-section">
+        <% @loan_application.co_obligants.each_with_index do |co_obligant, index| %>
+            <p><strong><%= index + 2 %>) Surety's Name and Address in Full:</strong></p>
+            <textarea id=<%= "surety_" + index.to_s %> name=<%= "surety_" + index.to_s %> rows="3" cols="100"  readonly="readonly"><%= "#{co_obligant.member.name_and_address(false)}" %>
+            </textarea>
+        <% end %>
+    </div>
+    <br />
+
+    <p><strong>Jointly and severally promise to pay MATHRUBHOOMI SOUHARDHA SAHAKARI SANGHA LTD. Branch or order the sum of Rs.</strong> <%= f.number_field :sum, step: "0.01", value: (@demand_promissory_note.sum.blank? ? @loan_application.sanction_amount :  @demand_promissory_note.sum) %>  (Rupees ___ only)</p>
+
+    <p>with interest at <%= f.number_field :interest_rate, step: "0.01", value: (@demand_promissory_note.interest_rate.blank? ? @loan_application.int_rate :  @demand_promissory_note.interest_rate) %>% and penal at <%= f.number_field :penal_rate, step: "0.01", value: 3 %>% per annum from this day till date of payment for valuable consideration received in full by way of Loan advanced on the Security of standing to my credit in the books of the said society.</p>
+
+    <hr>
+    <table style="width: 100%" class="signature-box">
+       <tr>  <td> Specimen Signature </td> </tr>
+        <tr>
+            <td style="padding-left: 45px"> (1)</td>
+            <% @loan_application.co_obligants.each_with_index do |co_obligant, index| %>
+              <td style="padding-left: 45px"> (<%= index + 2 %>)</td>
+            <%end%>
+          </tr>
+          <tr>
+            <td > <div> &nbsp; </div></td>
+            <% @loan_application.co_obligants.each_with_index do |co_obligant, index| %>
+              <td> <div> &nbsp; </div></td>
+            <%end%>
+          </tr>
+       
+       <tr>
+           <td>Signature:</td>
+           <td colspan=3> Signature on Thumb Impressions of the Borrower’s and Guarantor’s </td>
+       </tr>
+    </table>
+
+    <hr />
+
+    <table>
+       <% @loan_application.co_obligants.each_with_index do |co_obligant, index| %>
+          <tr>
+            <td> Witness (<%= index + 1 %>):  <%= f.text_field :witness1, value:  co_obligant.member.name %></td>
+          </tr>
+       <%end%>
+    </table>
+    <hr />
+
+    <div style=" margin-top: 20px;">
+      <%= f.submit "Save", class: "btn btn-primary" %>
+    </div>
+    <br />
+  </div>
+<% end %>

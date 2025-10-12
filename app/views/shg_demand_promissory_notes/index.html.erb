@@ -1,0 +1,44 @@
+<h5>Demand Promissory Notes</h5>
+ <br />
+ <%= search_form_for @q do |f| %>
+
+ <table class='table table-bordered search-table' >
+   <tr>
+      <th> <%= f.label :member_name_cont %>:
+       <%= f.search_field :member_name_cont %> </th>
+      <th> <%= f.label :member_mobile_number_cont %>:
+       <%= f.search_field :member_mobile_number_cont %> </th>
+      <th> <%= f.label :member_aadhaar_number_cont %>:
+       <%= f.search_field :member_aadhaar_number_cont %> </th>
+      <th rowspan="2">  <%= f.submit "Search", class: 'btn btn-secondary btn-sm' %> </th>
+   </tr>
+ 
+<% end %>
+<table class="table list-table table-bordered" border="1" width="100%" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Loan No.</th>
+      <th>Amount (Rs.)</th>
+      <th>Date</th>
+      <th>Borrower</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @demand_promissory_notes.each do |note| %>
+      <tr>
+        <td><%= note.loan_no %></td>
+        <td><%= number_to_currency(note.amount, unit: "₹") %></td>
+        <td><%= note.date.strftime("%d-%m-%Y") %></td>
+        <td><%= note.member.name %></td>
+        <td>
+          <%= link_to "Print", member_loan_application_demand_promissory_note_path(note.member, note.loan_application, note, format: :pdf), class: 'btn btn-primary  btn-sm'  %> 
+          <%= link_to "Edit", edit_member_loan_application_demand_promissory_note_path(note.member, note.loan_application, note), class: 'btn btn-sm btn-warning' %>  
+          <%= link_to "Loan App",  member_loan_application_path(note.member, note.loan_application), class: "btn btn-secondary  btn-sm" %>
+          <%= link_to "Member",   note.member, class: "btn btn-secondary  btn-sm" %></td>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+ 

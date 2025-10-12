@@ -1,0 +1,124 @@
+<%= form_with model: @shg_loan_application, local: true do |f| %>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .section-title {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      font-size: 16px;
+      border-bottom: 1px solid #000;
+      display: inline-block;
+      padding-bottom: 3px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #000;
+      padding: 6px;
+      text-align: center;
+      font-size: 13px;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .report-table td {
+      text-align: left;
+    }
+    .declaration p {
+      margin: 10px 0;
+      text-align: justify;
+      font-size: 13px;
+    }
+  </style>
+
+  <h2 class="section-title">SHG LOAN APPLICATION</h2>
+  <table>
+    <tr><td>Membership No</td><td><%= f.text_field :membership_number %></td></tr>
+    <tr><td>Name of the SHG</td><td><%= f.text_field :shg_name %></td></tr>
+    <tr><td>Address</td><td><%= f.text_area :address %></td></tr>
+  </table>
+
+  <h2 class="section-title">DETAILS OF MEMBERS APPLYING FOR A LOAN</h2>
+  <table>
+    <tr><th>Si.No</th><th>Name</th><th>Aadhar No</th><th>Demand</th><th>Purpose</th></tr>
+    <%= f.fields_for :loan_applicants do |a| %>
+      <tr>
+        <td>#</td>
+        <td><%= a.text_field :name %></td>
+        <td><%= a.text_field :aadhar_number %></td>
+        <td><%= a.number_field :demand %></td>
+        <td><%= a.text_field :purpose %></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <h2 class="section-title">REPORT</h2>
+  <table class="report-table">
+    <tr><td>Date Of commencement</td><td><%= f.date_field :commencement_date %></td></tr>
+    <tr><td>Total Savings</td><td><%= f.number_field :total_savings %></td></tr>
+    <tr><td>Total Members</td><td><%= f.number_field :total_members %></td></tr>
+    <tr><td>Previous Loan Date</td><td><%= f.date_field :previous_loan_date %></td></tr>
+    <tr><td>Previous Loan Amount</td><td><%= f.number_field :previous_loan_amount %></td></tr>
+    <tr><td>Internal Loan Outstanding</td><td><%= f.number_field :internal_loan_outstanding %></td></tr>
+    <tr><td>Deposit Amount</td><td><%= f.number_field :deposit_amount %></td></tr>
+    <tr><td>Weekly Meetings Held?</td><td><%= f.check_box :weekly_meetings %></td></tr>
+    <tr><td>Records Maintained?</td><td><%= f.check_box :records_maintained %></td></tr>
+  </table>
+
+  <h2 class="section-title">SHG MEMBERS (DECLARATION)</h2>
+  <table>
+    <tr><th>Si.No</th><th>Name & Address</th><th>Aadhar</th><th>Mobile</th><th>Signature</th></tr>
+    <%= f.fields_for :shg_members do |m| %>
+      <tr>
+        <td>#</td>
+        <td><%= m.text_field :name %><br><%= m.text_area :address %></td>
+        <td><%= m.text_field :aadhar_number %></td>
+        <td><%= m.text_field :mobile %></td>
+        <td><%= m.text_field :signature %></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <h2 class="section-title">SUPERVISOR/INSPECTOR REPORT</h2>
+  <table class="report-table">
+    <tr><td>Meeting Date</td><td><%= f.date_field :supervisor_meeting_date %></td></tr>
+    <tr><td>Sanctionable Amount</td><td><%= f.number_field :supervisor_sanctionable_amount %></td></tr>
+    <tr><td>Comments</td><td><%= f.text_area :supervisor_comments %></td></tr>
+    <tr><td>Unanimous?</td><td><%= f.check_box :supervisor_unanimous %></td></tr>
+    <tr><td>Productive &gt; Non-Productive?</td><td><%= f.check_box :supervisor_productive_more_than_nonproductive %></td></tr>
+  </table>
+
+  <h2 class="section-title">BRANCH MANAGER REPORT</h2>
+  <table>
+    <tr><td>Purpose</td><td><%= f.text_field :bm_purpose %></td></tr>
+    <tr><td>Amount</td><td><%= f.number_field :bm_amount %></td></tr>
+    <tr><td>Term</td><td><%= f.text_field :bm_term %></td></tr>
+    <tr><td>Security</td><td><%= f.text_field :bm_security %></td></tr>
+    <tr><td>Date</td><td><%= f.date_field :bm_date %></td></tr>
+    <tr><td>Place</td><td><%= f.text_field :bm_place %></td></tr>
+  </table>
+
+  <h2 class="section-title">HEAD OFFICE SECTION</h2>
+  <table>
+    <tr><td>Sanction Order No</td><td><%= f.text_field :sanction_order_no %></td></tr>
+    <tr><td>Sanction Order Date</td><td><%= f.date_field :sanction_order_date %></td></tr>
+    <tr><td>Sanction Amount</td><td><%= f.number_field :sanction_amount %></td></tr>
+    <tr><td>Resolution Limit</td><td><%= f.number_field :resolution_limit %></td></tr>
+    <tr><td>Resolution No</td><td><%= f.text_field :resolution_number %></td></tr>
+    <tr><td>Inspection Date</td><td><%= f.date_field :inspection_date %></td></tr>
+    <tr><td>Inspection Place</td><td><%= f.text_field :inspection_place %></td></tr>
+    <tr><td>Account No</td><td><%= f.text_field :account_no %></td></tr>
+    <tr><td>Term</td><td><%= f.text_field :account_term %></td></tr>
+    <tr><td>Loan Amount</td><td><%= f.number_field :account_amount %></td></tr>
+    <tr><td>ROI</td><td><%= f.number_field :account_roi %></td></tr>
+  </table>
+
+  <br>
+  <%= f.submit %>
+<% end %>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      body {
+        font-size: 15px;
+        font-weight: bold;
+        text-align: center;
+        margin: 0;
+      }
+      .page-number {
+        margin-bottom: 10px;
+      }
+    </style>
+    <script type="text/javascript">
+      function substitutePdfVariables() {
+        var vars = {};
+        var query = window.location.search.substring(1).split('&');
+        for (var i = 0; i < query.length; i++) {
+          var pair = query[i].split('=', 2);
+          vars[pair[0]] = decodeURIComponent(pair[1]);
+        }
+
+        var keys = ['frompage', 'topage', 'page', 'webpage', 'section', 'subsection', 'subsubsection'];
+        keys.forEach(function(key) {
+          var elements = document.getElementsByClassName(key);
+          for (var j = 0; j < elements.length; ++j) {
+            elements[j].textContent = vars[key];
+          }
+        });
+      }
+    </script>
+  </head>
+  <body onload="substitutePdfVariables()">
+    <div class="page-number">
+      Page <span class="page">?</span> of <span class="topage">?</span>
+    </div>
+ 
+  </body>
+</html>

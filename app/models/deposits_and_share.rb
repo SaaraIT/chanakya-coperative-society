@@ -1,0 +1,2 @@
+class DepositsAndShare < ApplicationRecord
+end
