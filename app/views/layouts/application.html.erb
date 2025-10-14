@@ -15,6 +15,110 @@
 
   <link href="https://cdn.jsdelivr.net/npm/slim-select@2.8.1/dist/slimselect.css" rel="stylesheet" />
 
+  <style>
+    /* Prevent horizontal overflow */
+    html, body {
+      overflow-x: hidden;
+      max-width: 100vw;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Prevent page jumping during navigation */
+    html {
+      scroll-behavior: auto !important;
+      overflow-y: scroll; /* Force scrollbar to prevent layout shift */
+    }
+
+    /* Smooth page transitions */
+    main {
+      opacity: 1;
+      transition: none;
+      position: relative;
+      will-change: auto;
+    }
+
+    /* Prevent flash of unstyled content */
+    body.loading main {
+      opacity: 1;
+    }
+
+    /* Prevent content shift on load */
+    body {
+      position: relative;
+    }
+
+    /* Force consistent scrollbar */
+    html {
+      overflow-y: scroll;
+    }
+
+    /* Mobile responsive styles */
+    @media screen and (max-width: 768px) {
+      main {
+        margin-left: 0 !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        padding: 10px !important;
+        padding-top: 64px !important;
+        box-sizing: border-box;
+        overflow-x: hidden;
+      }
+
+      /* Hide sidebar on mobile by default */
+      nav.sidenav {
+        transform: translateX(-100%);
+      }
+
+      /* Prevent cards from overflowing */
+      .card {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+        overflow-x: hidden;
+      }
+
+      .card-content {
+        padding: 10px !important;
+        overflow-x: hidden;
+      }
+
+      /* Fix table overflow */
+      .table-responsive,
+      table {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: auto !important;
+        display: block !important;
+      }
+
+      /* Fix row overflow */
+      .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      .col, [class*="col-"], [class*="col s"], [class*="col m"], [class*="col l"] {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+    }
+
+    @media screen and (min-width: 769px) and (max-width: 1024px) {
+      main {
+        margin-left: 200px !important;
+        width: calc(100vw - 200px) !important;
+      }
+    }
+  </style>
+
   <%= javascript_importmap_tags %>
 
   <!-- Material Design JavaScript -->

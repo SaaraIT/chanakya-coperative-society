@@ -80,6 +80,17 @@
 
 <!-- Mobile Sidebar -->
 <ul id="mobile-sidebar" class="sidenav">
+  <li>
+    <div class="user-view" style="padding: 20px; background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);">
+      <%= image_tag "logo.png", class: "circle", style: "width: 64px; height: 64px; background: white; padding: 5px;" %>
+      <span class="white-text name" style="display: block; margin-top: 10px; font-weight: 500;">
+        <%= Current.user&.email || "User" %>
+      </span>
+      <span class="white-text" style="display: block; font-size: 12px; opacity: 0.9;">
+        <%= Current.branch&.name || "Branch" %>
+      </span>
+    </div>
+  </li>
   <li><a href="<%= members_path %>" class="waves-effect"><i class="material-icons">people</i>A Class Memberships</a></li>
   <li style="display: none;"><a href="<%= additional_shares_applications_path %>" class="waves-effect"><i class="material-icons">note_add</i>Additional Shares</a></li>
   <li style="display: none;"><a href="<%= self_help_groups_path %>" class="waves-effect"><i class="material-icons">groups</i>Self Help Groups</a></li>
@@ -96,6 +107,17 @@
   <li style="display: none;"><a href="<%= income_declarations_path %>" class="waves-effect"><i class="material-icons">attach_money</i>Income Declaration</a></li>
   <li style="display: none;"><a href="<%= demand_promissory_notes_path %>" class="waves-effect"><i class="material-icons">receipt</i>Demand Pro Note</a></li>
   <li style="display: none;"><a href="<%= pro_notes_path %>" class="waves-effect"><i class="material-icons">note</i>Pro Notes</a></li>
+  <li><div class="divider"></div></li>
+  <li>
+    <%= link_to edit_cooperative_branch_path(Current.branch), class: "waves-effect" do %>
+      <i class="material-icons">business</i>Branch Details
+    <% end %>
+  </li>
+  <li>
+    <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "waves-effect" do %>
+      <i class="material-icons">exit_to_app</i>Sign out
+    <% end %>
+  </li>
 </ul>
 
 <script>

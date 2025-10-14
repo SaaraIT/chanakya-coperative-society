@@ -16,32 +16,354 @@
 
 <div class="card" style="margin-bottom: 20px;">
   <div class="card-content">
- 
-    <%= search_form_for @q do |f| %>
-      <div class="row" style="margin-bottom: 0; display: flex; align-items: flex-end; flex-wrap: nowrap;">
-        <div class="input-field col s12 m3 l3">
-          <%= f.search_field :name_cont, class: "validate" %>
-          <%= f.label :name_cont, "Name" %>
+    <!-- Mobile: Collapsible Search Button -->
+    <div class="mobile-search-toggle hide-on-med-and-up">
+      <a class="btn white grey-text text-darken-3 waves-effect" onclick="toggleSearchForm()" style="width: 100%; border: 1px solid #ddd;">
+        <i class="material-icons left">search</i>
+        Search Filters
+        <i class="material-icons right" id="search-toggle-icon">expand_more</i>
+      </a>
+    </div>
+
+    <!-- Search Form -->
+    <div id="search-form-container" class="search-form-container">
+      <%= search_form_for @q, data: { turbo: false } do |f| %>
+        <div class="row search-row" style="margin-bottom: 0;">
+          <div class="input-field col s12 m3 l3">
+            <%= f.search_field :name_cont, class: "validate" %>
+            <%= f.label :name_cont, "Name" %>
+          </div>
+          <div class="input-field col s12 m3 l3">
+            <%= f.search_field :mobile_number_cont, class: "validate" %>
+            <%= f.label :mobile_number_cont, "Mobile Number" %>
+          </div>
+          <div class="input-field col s12 m3 l3">
+            <%= f.search_field :aadhaar_number_cont, class: "validate" %>
+            <%= f.label :aadhaar_number_cont, "Aadhaar Number" %>
+          </div>
+          <div class="col s12 m3 l3 search-buttons" style="padding-top: 10px;">
+            <%= f.submit "Search", class: 'btn blue white-text waves-effect', style: "width: 100%; margin-bottom: 5px;" %>
+            <%= link_to "Clear", members_path, class: 'btn white grey-text text-darken-3 waves-effect', style: "width: 100%; border: 1px solid #ddd;" %>
+          </div>
         </div>
-        <div class="input-field col s12 m3 l3">
-          <%= f.search_field :mobile_number_cont, class: "validate" %>
-          <%= f.label :mobile_number_cont, "Mobile Number" %>
-        </div>
-        <div class="input-field col s12 m3 l3">
-          <%= f.search_field :aadhaar_number_cont, class: "validate" %>
-          <%= f.label :aadhaar_number_cont, "Aadhaar Number" %>
-        </div>
-        <div class="col s12 m3 l3" style="padding-top: 10px;">
-          <%= f.submit "Search", class: 'btn white grey-text text-darken-3 waves-effect', style: "border: 1px solid #ddd;" %>
-          <%= link_to "Clear", members_path, class: 'btn white grey-text text-darken-3 waves-effect', style: "margin-left: 5px; border: 1px solid #ddd;" %>
-        </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
 
+<style>
+  /* Prevent layout shift and jumping */
+  body {
+    scroll-behavior: auto !important;
+  }
+
+  /* Stabilize layout on load */
+  .row {
+    opacity: 1;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  .card {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  /* Fix minimum height to prevent jumping */
+  table.striped {
+    min-height: 300px;
+    display: table;
+    table-layout: fixed;
+  }
+
+  /* Prevent content shift during load */
+  .pagination-wrapper {
+    min-height: 50px;
+    display: block;
+  }
+
+  .page-info {
+    min-height: 50px;
+    display: block;
+  }
+
+  /* Prevent flash and shift */
+  main > * {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  /* Disable animations that cause shift */
+  * {
+    -webkit-animation-duration: 0s !important;
+    animation-duration: 0s !important;
+    -webkit-transition-duration: 0s !important;
+    transition-duration: 0s !important;
+  }
+
+  /* Re-enable specific animations we want */
+  .waves-effect,
+  .btn,
+  .tooltipped {
+    -webkit-animation-duration: 0.3s !important;
+    animation-duration: 0.3s !important;
+    -webkit-transition-duration: 0.3s !important;
+    transition-duration: 0.3s !important;
+  }
+
+  /* Pagination styling - Override Materialize */
+  .pagination {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 20px 0 !important;
+    gap: 8px !important;
+  }
+
+  .pagination li {
+    display: inline-block !important;
+  }
+
+  .pagination li a,
+  .pagination li span {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 40px !important;
+    height: 40px !important;
+    padding: 0 12px !important;
+    border-radius: 50% !important;
+    background-color: white !important;
+    color: #666 !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    border: 1px solid #e0e0e0 !important;
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+  }
+
+  .pagination li a:hover {
+    background-color: #e3f2fd !important;
+    color: #2196F3 !important;
+    border-color: #2196F3 !important;
+    box-shadow: 0 2px 4px rgba(33, 150, 243, 0.2) !important;
+  }
+
+  .pagination li.active,
+  .pagination li.active:hover {
+    background-color: transparent !important;
+  }
+
+  .pagination li.active a,
+  .pagination li.active span,
+  .pagination li.active:hover a,
+  .pagination li.active:hover span {
+    background-color: #2196F3 !important;
+    color: white !important;
+    border-color: #2196F3 !important;
+    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.4) !important;
+  }
+
+  .pagination li.disabled span {
+    background-color: #f5f5f5;
+    color: #ccc;
+    border-color: #e0e0e0;
+    cursor: not-allowed;
+  }
+
+  .pagination li.disabled a {
+    pointer-events: none;
+    background-color: #f5f5f5;
+    color: #ccc;
+    border-color: #e0e0e0;
+  }
+
+  /* First, Last, Prev, Next buttons */
+  .pagination li.first a,
+  .pagination li.last a,
+  .pagination li.prev a,
+  .pagination li.next a {
+    background-color: #f5f5f5;
+  }
+
+  .pagination li.first a:hover,
+  .pagination li.last a:hover,
+  .pagination li.prev a:hover,
+  .pagination li.next a:hover {
+    background-color: #2196F3;
+    color: white;
+  }
+
+  .pagination li.first a i,
+  .pagination li.last a i,
+  .pagination li.prev a i,
+  .pagination li.next a i {
+    font-size: 20px;
+  }
+
+  /* Gap (ellipsis) */
+  .pagination li.gap span {
+    background-color: transparent;
+    border: none;
+    color: #999;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: default;
+  }
+
+  /* Desktop: show form, hide toggle button */
+  @media screen and (min-width: 769px) {
+    .mobile-search-toggle {
+      display: none !important;
+    }
+
+    .search-form-container {
+      display: block !important;
+    }
+
+    .search-row {
+      display: flex !important;
+      align-items: flex-end !important;
+      flex-wrap: nowrap !important;
+    }
+
+    .search-buttons {
+      display: flex !important;
+      gap: 5px;
+    }
+
+    .search-buttons .btn {
+      width: auto !important;
+      margin-bottom: 0 !important;
+    }
+  }
+
+  /* Mobile: show toggle button, form starts collapsed */
+  @media screen and (max-width: 768px) {
+    .mobile-search-toggle {
+      display: block !important;
+      margin-bottom: 15px;
+    }
+
+    .search-form-container {
+      display: none;
+      margin-top: 15px;
+    }
+
+    .search-form-container.active {
+      display: block !important;
+    }
+
+    .search-row {
+      display: block !important;
+    }
+
+    .search-row .col {
+      width: 100% !important;
+      margin-left: 0 !important;
+      padding: 0 !important;
+    }
+
+    .input-field {
+      margin-bottom: 20px !important;
+    }
+
+    .search-buttons {
+      padding-top: 0 !important;
+    }
+
+    .search-buttons .btn {
+      width: 100% !important;
+      margin-left: 0 !important;
+    }
+
+    /* Mobile table fixes */
+    .card {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      min-width: 100%;
+      font-size: 12px;
+    }
+
+    table thead {
+      display: none; /* Hide headers on mobile for card-style display */
+    }
+
+    table tbody tr {
+      display: block;
+      margin-bottom: 15px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 10px;
+      background: white;
+    }
+
+    table tbody td {
+      display: block;
+      text-align: left !important;
+      padding: 8px 0 !important;
+      border: none !important;
+    }
+
+    table tbody td:before {
+      content: attr(data-label);
+      font-weight: bold;
+      display: inline-block;
+      width: 120px;
+      color: #666;
+    }
+
+    /* Action buttons stack vertically */
+    table tbody td.center-align {
+      text-align: center !important;
+      margin-top: 10px;
+    }
+
+    .btn-floating {
+      margin: 5px !important;
+    }
+
+    /* Page title */
+    h5 {
+      font-size: 18px !important;
+    }
+
+    h5 i {
+      font-size: 18px !important;
+    }
+
+    /* Page info on mobile */
+    .page-info {
+      padding: 10px !important;
+      font-size: 12px !important;
+      text-align: center;
+    }
+
+    .page-info span {
+      font-size: 12px !important;
+    }
+
+    .page-info i {
+      font-size: 14px !important;
+    }
+  }
+</style>
+
 <div class="card">
   <div class="card-content" style="padding: 0;">
+    <!-- Page Info -->
+    <div class="page-info" style="padding: 15px; background-color: #f5f5f5; border-bottom: 1px solid #e0e0e0;">
+      <span style="color: #666; font-size: 14px;">
+        <i class="material-icons tiny" style="vertical-align: middle;">info</i>
+        Showing <%= @members.offset_value + 1 %>-<%= [@members.offset_value + @members.length, @members.total_count].min %> of <%= @members.total_count %> members
+      </span>
+    </div>
+
     <table class='striped responsive-table highlight'>
       <thead>
         <tr>
@@ -57,26 +379,26 @@
       <tbody>
         <% @members.each do |member| %>
           <tr class="member-row">
-            <td><strong>#<%= member.id %></strong></td>
-            <td>
+            <td data-label="ID"><strong>#<%= member.id %></strong></td>
+            <td data-label="Name">
               <i class="material-icons tiny" style="color: #42a5f5;">person</i>
               <%= member.name %>
             </td>
-            <td>
+            <td data-label="Mobile">
               <i class="material-icons tiny" style="color: #66bb6a;">phone</i>
               <%= member.mobile_number %>
             </td>
-            <td>
+            <td data-label="Aadhaar">
               <i class="material-icons tiny" style="color: #ffa726;">badge</i>
               <%= member.aadhaar_number %>
             </td>
-            <td>
+            <td data-label="Shares">
               <span class="chip">
                 <%= member.memberships.last.number_of_shares %> shares
               </span>
             </td>
-            <td><%= member.cooperative_branch.try(:name) %></td>
-            <td class="center-align" style="white-space: nowrap;">
+            <td data-label="Branch"><%= member.cooperative_branch.try(:name) %></td>
+            <td data-label="Actions" class="center-align" style="white-space: nowrap;">
               <%= link_to member_path(member, format: :pdf), target: "_blank", class: 'btn-floating btn-small blue tooltipped waves-effect waves-light', data: { position: "top", tooltip: "Print PDF" }, style: "display: inline-block; margin: 0 2px;" do %>
                 <i class="material-icons">print</i>
               <% end %>
@@ -96,12 +418,103 @@
   </div>
 </div>
 
+<!-- Pagination -->
+<div class="pagination-wrapper" style="margin-top: 20px; text-align: center;">
+  <%= paginate @members %>
+</div>
+
+<style>
+  /* Mobile pagination adjustments */
+  @media screen and (max-width: 768px) {
+    .pagination-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 10px 0;
+    }
+
+    .pagination {
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pagination li a,
+    .pagination li span {
+      min-width: 36px;
+      height: 36px;
+      font-size: 14px;
+    }
+
+    .pagination li.first a i,
+    .pagination li.last a i,
+    .pagination li.prev a i,
+    .pagination li.next a i {
+      font-size: 18px;
+    }
+
+    /* Hide some page numbers on very small screens */
+    @media screen and (max-width: 480px) {
+      .pagination li.page {
+        display: none;
+      }
+
+      .pagination li.page.active,
+      .pagination li.first,
+      .pagination li.prev,
+      .pagination li.next,
+      .pagination li.last {
+        display: inline-block;
+      }
+    }
+  }
+</style>
+
 <script>
+  function toggleSearchForm() {
+    const container = document.getElementById('search-form-container');
+    const icon = document.getElementById('search-toggle-icon');
+
+    if (container.classList.contains('active')) {
+      container.classList.remove('active');
+      icon.textContent = 'expand_more';
+    } else {
+      container.classList.add('active');
+      icon.textContent = 'expand_less';
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     var tooltips = document.querySelectorAll('.tooltipped');
     M.Tooltip.init(tooltips);
 
     var fab = document.querySelectorAll('.fixed-action-btn');
     M.FloatingActionButton.init(fab);
+
+    // Smooth scroll to top on pagination click
+    document.querySelectorAll('.pagination a').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        // Save scroll position
+        sessionStorage.setItem('scrollPosition', '0');
+
+        // Scroll to top immediately
+        window.scrollTo({
+          top: 0,
+          behavior: 'instant'
+        });
+      });
+    });
+
+    // Restore scroll position if needed (for non-pagination navigation)
+    const scrollPos = sessionStorage.getItem('scrollPosition');
+    if (scrollPos && scrollPos !== '0') {
+      window.scrollTo(0, parseInt(scrollPos));
+      sessionStorage.removeItem('scrollPosition');
+    }
+  });
+
+  // Save scroll position before page unload (for back button)
+  window.addEventListener('beforeunload', function() {
+    if (!document.querySelector('.pagination a:focus')) {
+      sessionStorage.setItem('scrollPosition', window.scrollY);
+    }
   });
 </script>

@@ -34,6 +34,7 @@ gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 gem "devise"
 gem 'ransack'
+gem 'kaminari'
 #gem "vite_rails"
 
 # Reduces boot times through caching; required in config/boot.rb

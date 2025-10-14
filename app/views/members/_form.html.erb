@@ -137,8 +137,12 @@
         .table.zero-margin{margin-bottom: 0px; border-bottom: 0px}
         .small-padding th, .small-padding td {padding: 5px 10px}
         div.no-margin{margin: 0px}
-        .table tbody tr td, .table tbody tr th{background: none}
-        .table thead tr td, .table thead tr th{background: none}
+        .table tbody tr td, .table tbody tr th{background: none !important}
+        .table thead tr td, .table thead tr th{background: none !important}
+        .table tbody tr {background: none !important}
+        .table thead tr {background: none !important}
+        .list-table {background: none !important}
+        .table {background: none !important}
 
         th, td {
           padding: 6px;
@@ -269,24 +273,325 @@ span.text-danger{font-size: 130%}
        .table-bordered th.number{border-right: 0px !important; vertical-align: top}
        .table-bordered thead th.left-align{text-align: left}
        .table-bordered tr td.no-border{border-right: 0 !important; border-left: 0 !important; }
+
+       /* Validation error styling */
+       .field_with_errors {
+         display: inline;
+       }
+
+       .error, .invalid-feedback, .help-block {
+         color: transparent !important;
+         background-color: #e53935;
+         padding: 5px 10px;
+         border-radius: 4px;
+         font-size: 0;
+         margin-top: 5px;
+         display: inline-block;
+         height: 10px;
+       }
+
+       .field_with_errors input,
+       .field_with_errors select,
+       .field_with_errors textarea {
+         border-color: #e53935 !important;
+         background-color: #ffebee !important;
+       }
+
+       /* Mobile responsive styles */
+       @media screen and (max-width: 768px) {
+         body {
+           font-size: 14px;
+         }
+
+         .form-wrapper {
+           padding: 5px !important;
+           max-width: 100vw !important;
+           width: 100% !important;
+           margin: 0 !important;
+           box-sizing: border-box;
+           overflow-x: hidden;
+         }
+
+         .container.report {
+           font-size: 14px;
+           padding: 10px !important;
+           max-width: 100% !important;
+           width: 100% !important;
+           box-sizing: border-box;
+           overflow-x: hidden;
+         }
+
+         .header-table {
+           display: block;
+         }
+
+         .header-table tr {
+           display: block;
+         }
+
+         .header-table td {
+           display: block;
+           width: 100% !important;
+           text-align: center !important;
+           padding: 10px 0;
+         }
+
+         .logo {
+           width: 80px;
+           height: 80px;
+           margin: 0 auto;
+           display: block;
+         }
+
+         .photo-box {
+           width: 120px;
+           height: 140px;
+           margin: 0 auto;
+         }
+
+         .header-text h1 {
+           font-size: 16px;
+         }
+
+         .header-text h2 {
+           font-size: 16px;
+         }
+
+         .header-text h3 {
+           font-size: 14px;
+         }
+
+         .header-text p {
+           font-size: 12px;
+         }
+
+         /* Make table layout responsive */
+         .table-layout {
+           display: block;
+         }
+
+         .table-row {
+           display: block;
+           border-bottom: 1px solid #000;
+           padding: 10px 0;
+         }
+
+         .table-cell {
+           display: block;
+           width: 100% !important;
+           padding: 5px 0;
+         }
+
+         .table-cell.number {
+           display: inline-block;
+           width: auto !important;
+           vertical-align: top;
+         }
+
+         .table-cell.labels {
+           display: inline-block;
+           width: calc(100% - 30px) !important;
+           vertical-align: top;
+         }
+
+         .table-cell.value {
+           display: block;
+           width: 100% !important;
+           margin-left: 20px;
+           padding-left: 0;
+         }
+
+         /* Make tables responsive */
+         .table-bordered,
+         .table {
+           font-size: 12px;
+         }
+
+         .table-bordered th,
+         .table-bordered td,
+         .table th,
+         .table td {
+           padding: 5px;
+           font-size: 12px;
+         }
+
+         /* Stack table cells vertically on mobile */
+         table.table-bordered thead,
+         table.table-bordered tbody,
+         table.table-bordered tr,
+         table.table-bordered td,
+         table.table-bordered th {
+           display: block;
+           width: 100%;
+         }
+
+         table.table-bordered tr {
+           margin-bottom: 15px;
+           border: 1px solid #000;
+         }
+
+         table.table-bordered td,
+         table.table-bordered th {
+           border: none !important;
+           border-bottom: 1px dotted #000 !important;
+           text-align: left !important;
+           padding-left: 10px !important;
+         }
+
+         table.table-bordered td:last-child,
+         table.table-bordered th:last-child {
+           border-bottom: none !important;
+         }
+
+         /* Nested tables in address section */
+         .table-cell.value table {
+           width: 100%;
+         }
+
+         .table-cell.value table tr {
+           display: block;
+         }
+
+         .table-cell.value table td {
+           display: block;
+           width: 100%;
+           margin-bottom: 10px;
+         }
+
+         /* Footer section */
+         .footer {
+           display: block;
+         }
+
+         .footer .left,
+         .footer .right {
+           float: none;
+           width: 100% !important;
+           text-align: left !important;
+           margin-bottom: 20px;
+         }
+
+         /* Form inputs */
+         input[type="text"],
+         input[type="number"],
+         input[type="email"],
+         input[type="tel"],
+         input[type="date"],
+         select,
+         textarea {
+           width: 100% !important;
+           max-width: 100% !important;
+           font-size: 16px !important; /* Prevents zoom on iOS */
+         }
+
+         /* Signatures table */
+         .signatures table tr td {
+           display: table-cell;
+           width: 33.33%;
+         }
+
+         /* Box styling */
+         .box {
+           padding: 10px;
+           font-size: 12px;
+         }
+
+         /* Hide page breaks on mobile */
+         .page-break {
+           page-break-after: auto;
+         }
+
+         /* Adjust padding for mobile */
+         div[style*="padding: 20px"] {
+           padding: 10px !important;
+         }
+
+         span.text-danger {
+           font-size: 100%;
+         }
+
+         /* Make submit button full width */
+         .btn-primary {
+           width: 100%;
+           padding: 15px;
+           font-size: 16px;
+         }
+
+         /* Fix form groups and inputs */
+         .form-group {
+           width: 100% !important;
+           max-width: 100% !important;
+           margin-bottom: 15px;
+         }
+
+         input, select, textarea {
+           max-width: 100% !important;
+           box-sizing: border-box;
+         }
+
+         /* Fix select dropdowns */
+         .select-wrapper {
+           width: 100% !important;
+         }
+
+         .select-wrapper input.select-dropdown {
+           width: 100% !important;
+           max-width: 100% !important;
+         }
+
+         /* Prevent table cell overflow in nested tables */
+         .table-cell.value table td {
+           overflow-x: hidden;
+           max-width: 100%;
+         }
+
+         /* Fix image containers */
+         .photo-box img {
+           max-width: 100%;
+           height: auto;
+         }
+
+         /* Hide horizontal scrollbar while keeping functionality */
+         * {
+           -ms-overflow-style: none;
+           scrollbar-width: none;
+         }
+
+         *::-webkit-scrollbar {
+           display: none;
+         }
+       }
+
+       /* Tablet responsive styles */
+       @media screen and (min-width: 769px) and (max-width: 1024px) {
+         .container.report {
+           font-size: 16px;
+         }
+
+         .header-text h1 {
+           font-size: 20px;
+         }
+
+         .header-text h2 {
+           font-size: 20px;
+         }
+
+         input[type="text"],
+         input[type="number"],
+         input[type="email"],
+         input[type="tel"],
+         input[type="date"],
+         select,
+         textarea {
+           font-size: 14px;
+         }
+       }
     </style>
 
-<%= simple_form_for @member, html: { multipart: true }, local: true do |f| %>
- 
+<div class="form-wrapper" style="padding: 20px; max-width: 1400px; margin: 0 auto;">
 
-  <% if @member.errors.any? %>
-    <div class="error-messages">
-      <h2><%= pluralize(@member.errors.count, "error") %> prohibited this loan application from being saved:</h2>
-      <ul>
-        <% @member.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
- 
+<%= simple_form_for @member, html: { multipart: true, novalidate: true }, local: true, defaults: { error: false } do |f| %>
 
-  
   <div class="container report">
     <!-- Header Section as a Table -->
     <table class="header-table">
@@ -317,7 +622,7 @@ span.text-danger{font-size: 130%}
                     <% end %>
                 </div>
                 <div style="margin-top: 10px;">
-                    <%= f.input :profile_picture, as: :file, label: "Upload Photo" %>
+                    <%= f.input :profile_picture, as: :file, label: "Upload Photo", error: false %>
                 </div>
             </td>
         </tr>
@@ -332,7 +637,7 @@ span.text-danger{font-size: 130%}
           <span class="label-text">Name of the Applicant:</span>
           <span class="label-text">(IN CAPITAL LETTER)</span>
         </div>
-        <div class="table-cell value"><%= f.input :name, label: false %></div>
+        <div class="table-cell value"><%= f.input :name, label: false, error: false %></div>
       </div>
       <div class="table-row">
         <div class="table-cell number">2.</div>
@@ -346,8 +651,10 @@ span.text-danger{font-size: 130%}
             as: :select,
             collection: ['Father', 'Husband'],
             prompt: 'Select Relation',
-            label: false %> </td>
-              <td><%= f.input :father_or_husband_name, label: false %></td>
+            label: false,
+            error: false,
+            input_html: { title: 'Select Father or Husband' } %> </td>
+              <td><%= f.input :father_or_husband_name, label: false, error: false, input_html: { title: 'Enter Father/Husband Name' } %></td>
            </tr></table>
        </div>
       </div>
@@ -357,7 +664,7 @@ span.text-danger{font-size: 130%}
           <span class="label-text">ಮೊಬೈಲ್ ಸಂಖ್ಯೆ:<span class="text-danger">*</span></span>
           <span class="label-text">Mobile No.:</span>
         </div>
-        <div class="table-cell value"><%= f.input :mobile_number, label: false %></div>
+        <div class="table-cell value"><%= f.input :mobile_number, label: false, error: false %></div>
       </div>
     </div>
  
@@ -366,10 +673,10 @@ span.text-danger{font-size: 130%}
   <thead>
     <tr>
       <th class="number">4.</th>
-      <th class="left-align">ಆಧಾರ್ ಸಂಖ್ಯೆ <span class="text-danger">*</span><br> Aadhaar No. <br> <div style="margin-top: 15px; font-weight: bold;"> <%= f.input :aadhaar_number, label: false %></div> </th>
-      <th>ಗುರುತು ಚೀಟಿ ಸಂಖ್ಯೆ <br> Voter ID No <br><div style="margin-top: 15px; font-weight: bold;"><%= f.input :voter_id, label: false %></div> </th>
-      <th>ಪಾನ್ ಕಾರ್ಡ್ ಸಂಖ್ಯೆ <br> Pan card No <br><div style="margin-top: 15px; font-weight: bold;"><%= f.input :pan_card, label: false %></div> </th>
-      <th>ಡ್ರೈವಿಂಗ್ ಲೈಸೆನ್ಸ್ ನಂ <br> D.L.No <br><div style="margin-top: 15px; font-weight: bold;"><%= f.input :driving_license, label: false%></div> </th>
+      <th class="left-align">ಆಧಾರ್ ಸಂಖ್ಯೆ <span class="text-danger">*</span><br> Aadhaar No. <br> <div style="margin-top: 15px; font-weight: bold;"> <%= f.input :aadhaar_number, label: false, error: false %></div> </th>
+      <th>ಗುರುತು ಚೀಟಿ ಸಂಖ್ಯೆ <br> Voter ID No <br><div style="margin-top: 15px; font-weight: bold;"><%= f.input :voter_id, label: false, error: false %></div> </th>
+      <th>ಪಾನ್ ಕಾರ್ಡ್ ಸಂಖ್ಯೆ <br> Pan card No <br><div style="margin-top: 15px; font-weight: bold;"><%= f.input :pan_card, label: false, error: false %></div> </th>
+      <th>ಡ್ರೈವಿಂಗ್ ಲೈಸೆನ್ಸ್ ನಂ <br> D.L.No <br><div style="margin-top: 15px; font-weight: bold;"><%= f.input :driving_license, label: false, error: false %></div> </th>
     </tr>
   </thead>
 </table>
@@ -378,16 +685,16 @@ span.text-danger{font-size: 130%}
     <tr>
         <th rowspan="2" class="number">5.</th>
         <td rowspan="2" style="width: 10%; vertical-align: top" class="left-align">
-                        ವಯಸ್ಸು <span class="text-danger">*</span><br>Age: <br /><div style="margin-top: 15px; font-weight: bold;"> <%= f.input :age, label: false %></div>
+                        ವಯಸ್ಸು <span class="text-danger">*</span><br>Age: <br /><div style="margin-top: 15px; font-weight: bold;"> <%= f.input :age, label: false, error: false %></div>
         </td>
         <td style="width: 85%; padding-left: 10px"  class="with-border left-align">
              <div class="table-row no-border">
                 <div class="table-cell number">6.</div>
                   <div class="table-cell labels">
                      <span class="label-text">  ವಿದ್ಯಾರ್ಹತೆ <span class="text-danger">*</span><br /> Educational qualification</span>
-         
+
                   </div>
-                  <div class="table-cell value"><%= f.input :education, label: false %></div>
+                  <div class="table-cell value"><%= f.input :education, label: false, error: false %></div>
              </div>
         </td>
     </tr>
@@ -397,9 +704,9 @@ span.text-danger{font-size: 130%}
                 <div class="table-cell number">7.</div>
                   <div class="table-cell labels">
                      <span class="label-text">  ಉದ್ಯೋಗ <span class="text-danger">*</span><br /> Occupation</span>
-         
+
                   </div>
-                  <div class="table-cell value"><%= f.input :occupation, label: false %></div>
+                  <div class="table-cell value"><%= f.input :occupation, label: false, error: false %></div>
              </div>
         </td>
     </tr>
@@ -420,28 +727,28 @@ span.text-danger{font-size: 130%}
     </tr>
     <tr>
         <td class='no-border'>H. NO/Building Name:</td>
-        <td> <%= f.input :address_a_building, label: false %></td>
+        <td> <%= f.input :address_a_building, label: false, error: false %></td>
         <td class='no-border' style="padding-left: 10px">H. NO/Building Name:</td>
-        <td><%= f.input :address_b_building, label: false %> </td>
+        <td><%= f.input :address_b_building, label: false, error: false %> </td>
     </tr>
     <tr>
-        
+
         <td class='no-border'>Place, Village & Post:</td>
-        <td> <%= f.input :address_a_village, label: false %> </td>
+        <td> <%= f.input :address_a_village, label: false, error: false %> </td>
         <td class='no-border' style="padding-left: 10px">Place, Village & Post:</td>
-        <td> <%= f.input :address_b_village, label: false %> </td>
+        <td> <%= f.input :address_b_village, label: false, error: false %> </td>
     </tr>
     <tr>
         <td class='no-border'>Taluk/District:</td>
-        <td> <%= f.input :address_a_district, label: false %> </td>
+        <td> <%= f.input :address_a_district, label: false, error: false %> </td>
         <td class='no-border' style="padding-left: 10px">Taluk/District:</td>
-        <td> <%= f.input :address_b_district, label: false %> </td>
+        <td> <%= f.input :address_b_district, label: false, error: false %> </td>
     </tr>
     <tr>
         <td class='no-border'>Pincode:</td>
-        <td> <%= f.input :address_a_pincode, label: false %> </td>
+        <td> <%= f.input :address_a_pincode, label: false, error: false %> </td>
         <td class='no-border' style="padding-left: 10px">Pincode:</td>
-        <td> <%= f.input :address_b_pincode, label: false %> </td>
+        <td> <%= f.input :address_b_pincode, label: false, error: false %> </td>
     </tr>
 </table>
     <div class="separator no-margin"></div>
@@ -469,9 +776,9 @@ span.text-danger{font-size: 130%}
 <table class="table table-bordered  left-align">
     <tr>
         <td  style="width: 392px"> 10. ಪಾಲುಗಳ ಸಂಖ್ಯೆ <span class="text-danger">*</span><div style="padding-left: 25px">Number of shares Required </div> </td>
-        <td style="width:100px; padding-left: 10px"><%= membership_form.input :number_of_shares, label: false %></td>
+        <td style="width:100px; padding-left: 10px"><%= membership_form.input :number_of_shares, label: false, error: false %></td>
         <td style="width: 374px; padding-left: 10px"  class="left-align"> 10ಎ. ಮೊಬಲಗು  <span class="text-danger">*</span><div style="padding-left: 50px">Amount: </div> </td>
-        <td style="min-width:100px; padding-left: 10px"><%= membership_form.input :amount, label: false %></td>
+        <td style="min-width:100px; padding-left: 10px"><%= membership_form.input :amount, label: false, error: false %></td>
     </tr>
 </table>
 <div class="separator no-margin"></div>
@@ -488,12 +795,12 @@ span.text-danger{font-size: 130%}
             
          </td>
          <td>
-            <%= membership_form.input :nominee_name, label: false %> <br />
+            <%= membership_form.input :nominee_name, label: false, error: false %> <br />
             <div>
                 <%= check_box_tag "same_address", "1", false, id: "same_address1" %>
                 <%= label_tag "same_address", "Same as Permanent Address" %>
             </div>
-            <%= membership_form.input :nominee_address, label: false %>
+            <%= membership_form.input :nominee_address, label: false, error: false %>
         </td>
      </tr>
       <tr>
@@ -531,7 +838,7 @@ span.text-danger{font-size: 130%}
                 ], 
                 { prompt: "Select Relationship" } %>
             
-            <br /> <%=membership_form.input :nominee_phone, label: false %></td>
+            <br /> <%=membership_form.input :nominee_phone, label: false, error: false %></td>
     </tr>
 </table>
 <br />
@@ -580,9 +887,9 @@ span.text-danger{font-size: 130%}
     <!-- Information Table -->
     <table class="table" style="width: 100%;">
         <tr>
-            <td style="text-align: left; width: 390px;">ಸದಸ್ಯತ್ವ ಅಂಗೀಕರಿಸಿದ ನಿರ್ಣಯ ನಂಬ್ರ<br>Approved Resolution No: <br /> <%= membership_form.input :resolution_no, label: false %></td>
+            <td style="text-align: left; width: 390px;">ಸದಸ್ಯತ್ವ ಅಂಗೀಕರಿಸಿದ ನಿರ್ಣಯ ನಂಬ್ರ<br>Approved Resolution No: <br /> <%= membership_form.input :resolution_no, label: false, error: false %></td>
             <td>ದಿನಾಂಕ :<br>Date : <br /> <%= membership_form.date_field :resolution_date, label: false %></td>
-            <td style="text-align: right">ಸದಸ್ಯ ನಂಬ್ರ<br>Member No. <br /> <%= f.input :member_no, label: false %></td>
+            <td style="text-align: right">ಸದಸ್ಯ ನಂಬ್ರ<br>Member No. <br /> <%= f.input :member_no, label: false, error: false %></td>
         </tr>
     </table>
     <br />
@@ -590,7 +897,7 @@ span.text-danger{font-size: 130%}
  
 <div class="footer">
     <div class="left" style="width: 400px;">
-        <p>ಸ್ಥಳ: <br /> Place: <%= membership_form.input :md_sign_place, label: false, value: "Gurupura Kaikamba" %></p>
+        <p>ಸ್ಥಳ: <br /> Place: <%= membership_form.input :md_sign_place, label: false, error: false, value: "Gurupura Kaikamba" %></p>
         <p>ದಿನಾಂಕ : <br /> Date: <%= membership_form.date_field :md_signed_date, label: false %></p>
     </div>
     <div class="right" style="width: 400px;  text-align: right;">
@@ -617,7 +924,7 @@ span.text-danger{font-size: 130%}
        <h4>Upload Documents / ದಾಖಲೆಗಳನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ</h4>
 
        <div style="margin-bottom: 15px;">
-         <%= f.input :aadhar_card, as: :file, label: "Aadhar Card / ಆಧಾರ್ ಕಾರ್ಡ್" %>
+         <%= f.input :aadhar_card, as: :file, label: "Aadhar Card / ಆಧಾರ್ ಕಾರ್ಡ್", error: false %>
          <% if @member.aadhar_card.attached? %>
            <div style="margin-top: 10px;">
              <strong>Current Aadhar Card:</strong>
@@ -642,6 +949,7 @@ span.text-danger{font-size: 130%}
   <br />
 <% end %>
 <% end %>
+</div>
 
 <script>
   document.addEventListener("turbo:load", function() {
@@ -689,6 +997,13 @@ span.text-danger{font-size: 130%}
           nomineeAddress.value = "";
         }
       });
+    }
+
+    // Scroll to first field with error if validation fails
+    const firstError = document.querySelector('.field_with_errors input, .field_with_errors select, .field_with_errors textarea');
+    if (firstError) {
+      firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      firstError.focus();
     }
   });
 </script>

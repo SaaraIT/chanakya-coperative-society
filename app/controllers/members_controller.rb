@@ -3,7 +3,11 @@ class MembersController < ApplicationController
 
   def index
     @q = Member.ransack(params[:q])
-    @members = @q.result(distinct: true)
+    @members = @q.result(distinct: true).page(params[:page]).per(5)
+
+    respond_to do |format|
+      format.html
+    end
   end
 
   def new
@@ -19,10 +23,18 @@ class MembersController < ApplicationController
   def create
     @member = Current.branch.members.new(member_params)
     @member.cooperative_branch_id = Current.branch.id
+
+    Rails.logger.info "=== Member Validation Errors: #{@member.errors.full_messages} ===" unless @member.valid?
+
     if @member.save
       redirect_to @member, notice: 'Member was successfully created.'
     else
-      render :new
+      Rails.logger.error "=== Failed to save member: #{@member.errors.full_messages} ==="
+      @member.memberships.each_with_index do |membership, index|
+        Rails.logger.error "=== Membership #{index} errors: #{membership.errors.full_messages} ===" if membership.errors.any?
+      end
+      flash.now[:alert] = "Please correct the errors below"
+      render :new, status: :unprocessable_entity
     end
   end
 

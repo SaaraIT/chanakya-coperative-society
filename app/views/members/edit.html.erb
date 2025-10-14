@@ -1,1 +1,36 @@
+<div class="row" style="margin-bottom: 20px;">
+  <div class="col s12">
+    <h5 style="font-weight: 500; margin: 0; color: #37474f;">
+      <i class="material-icons left" style="font-size: 24px; vertical-align: middle; margin-right: 8px;">edit</i>
+      Edit Member #<%= @member.id %> - <%= @member.name %>
+    </h5>
+    <div style="margin-top: 10px;">
+      <%= link_to members_path, class: "btn white grey-text text-darken-3 waves-effect", style: "border: 1px solid #ddd;" do %>
+        <i class="material-icons left">arrow_back</i>Back to List
+      <% end %>
+      <%= link_to member_path(@member), class: "btn white grey-text text-darken-3 waves-effect", style: "margin-left: 5px; border: 1px solid #ddd;" do %>
+        <i class="material-icons left">visibility</i>View
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<style>
+  @media screen and (max-width: 768px) {
+    .row h5 {
+      font-size: 16px !important;
+    }
+
+    .row h5 i {
+      font-size: 16px !important;
+    }
+
+    .btn {
+      width: 100%;
+      margin-bottom: 5px !important;
+      margin-left: 0 !important;
+    }
+  }
+</style>
+
 <%= render "form" %>
