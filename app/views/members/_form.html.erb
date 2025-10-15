@@ -279,6 +279,85 @@ span.text-danger{font-size: 130%}
          display: inline;
        }
 
+       /* Ensure select fields are visible */
+       .table-cell.value table td {
+         vertical-align: top;
+       }
+
+       .table-cell.value select,
+       .table-cell.value .input,
+       .table-cell.value .select {
+         display: block !important;
+         width: 100% !important;
+         visibility: visible !important;
+         opacity: 1 !important;
+       }
+
+       /* Simple form select wrapper */
+       .input.select {
+         display: block !important;
+       }
+
+       /* Ensure all select elements are visible */
+       select {
+         display: block !important;
+         width: 100% !important;
+         visibility: visible !important;
+         opacity: 1 !important;
+         height: auto !important;
+         min-height: 40px !important;
+         padding: 8px 12px !important;
+         border: 1px solid #e0e0e0 !important;
+         background-color: white !important;
+         color: #333 !important;
+       }
+
+       /* Religion select in table */
+       #member_religion {
+         display: block !important;
+         width: 100% !important;
+         min-width: 200px !important;
+       }
+
+       /* Ensure all checkboxes are visible */
+       .input.boolean {
+         display: inline-block !important;
+         visibility: visible !important;
+         opacity: 1 !important;
+       }
+
+       input[type="checkbox"] {
+         display: inline-block !important;
+         visibility: visible !important;
+         opacity: 1 !important;
+         width: auto !important;
+         height: auto !important;
+         min-width: 18px !important;
+         min-height: 18px !important;
+         margin-right: 8px !important;
+         cursor: pointer !important;
+         position: relative !important;
+         vertical-align: middle !important;
+       }
+
+       .boolean.optional label,
+       label.boolean.optional {
+         display: inline-block !important;
+         visibility: visible !important;
+         opacity: 1 !important;
+         margin-left: 5px !important;
+         cursor: pointer !important;
+         vertical-align: middle !important;
+       }
+
+       /* Specific checkbox styling */
+       #member_caste_category,
+       #member_religion_other {
+         display: inline-block !important;
+         visibility: visible !important;
+         opacity: 1 !important;
+       }
+
        .error, .invalid-feedback, .help-block {
          color: transparent !important;
          background-color: #e53935;
@@ -615,7 +694,7 @@ span.text-danger{font-size: 130%}
             <!-- Right-aligned Photo Box -->
             <td style="width: 100px; text-align: center;">
                 <div class="photo-box">
-                    <% if @member.profile_picture.attached? %>
+                    <% if @member.profile_picture.attached? && @member.profile_picture.persisted? %>
                         <%= image_tag @member.profile_picture, style: "max-width: 150px; max-height: 170px;" %>
                     <% else %>
                         <p>Paste Photo</p>
@@ -928,7 +1007,7 @@ span.text-danger{font-size: 130%}
          <% if @member.aadhar_card.attached? %>
            <div style="margin-top: 10px;">
              <strong>Current Aadhar Card:</strong>
-             <% if @member.aadhar_card.image? %>
+             <% if @member.aadhar_card.attached? && @member.aadhar_card.image? && @member.aadhar_card.persisted? %>
                <%= image_tag @member.aadhar_card, style: "max-width: 300px; margin-top: 10px;" %>
              <% else %>
                <%= link_to "View Aadhar Card", rails_blob_path(@member.aadhar_card, disposition: "attachment"), target: "_blank" %>
