@@ -620,6 +620,34 @@ span.text-danger{font-size: 130%}
            background-color: white !important;
          }
 
+         /* Make all text visible and bold on mobile */
+         .container.report {
+           color: #000 !important;
+         }
+
+         .container.report p,
+         .container.report span,
+         .container.report div {
+           color: #000 !important;
+         }
+
+         /* Header text */
+         .header-text h1, .header-text h2, .header-text h3, .header-text p {
+           color: #000 !important;
+           font-weight: 700 !important;
+         }
+
+         /* All paragraph and span text */
+         p, span, div {
+           color: #000 !important;
+         }
+
+         /* Number labels */
+         .table-cell.number {
+           color: #000 !important;
+           font-weight: 700 !important;
+         }
+
          /* Signatures table */
          .signatures table tr td {
            display: table-cell;
@@ -651,6 +679,22 @@ span.text-danger{font-size: 130%}
            width: 100%;
            padding: 15px;
            font-size: 16px;
+           background-color: #2196F3 !important;
+           color: white !important;
+           border: none !important;
+           border-radius: 4px !important;
+           cursor: pointer !important;
+         }
+
+         /* Fix age field and other number inputs */
+         input[type="number"] {
+           width: 100% !important;
+           min-width: 100px !important;
+         }
+
+         #member_age {
+           width: 100% !important;
+           min-width: 100px !important;
          }
 
          /* Fix form groups and inputs */
