@@ -770,7 +770,7 @@ span.text-danger{font-size: 130%}
 
 <div class="form-wrapper" style="padding: 20px; max-width: 1400px; margin: 0 auto;">
 
-<%= simple_form_for @member, html: { multipart: true, novalidate: true }, local: true, defaults: { error: false } do |f| %>
+<%= simple_form_for @member, html: { multipart: true, novalidate: true, data: { turbo: false } }, defaults: { error: false } do |f| %>
 
   <div class="container report">
     <!-- Header Section as a Table -->
@@ -802,7 +802,16 @@ span.text-danger{font-size: 130%}
                     <% end %>
                 </div>
                 <div style="margin-top: 10px;">
-                    <%= f.input :profile_picture, as: :file, label: "Upload Photo", error: false %>
+                    <%= f.input :profile_picture, as: :file, label: false, error: false, input_html: { accept: 'image/*', id: 'profile_picture_input', style: 'display: none;' } %>
+
+                    <div style="margin-top: 10px;">
+                        <button type="button" class="btn btn-small blue waves-effect" onclick="openCameraModal()" style="margin: 2px;">
+                            <i class="material-icons left">camera_alt</i>Take Photo
+                        </button>
+                        <button type="button" class="btn btn-small grey waves-effect" onclick="document.getElementById('profile_picture_input').click()" style="margin: 2px;">
+                            <i class="material-icons left">upload</i>Upload
+                        </button>
+                    </div>
                 </div>
             </td>
         </tr>
@@ -1104,7 +1113,7 @@ span.text-danger{font-size: 130%}
        <h4>Upload Documents / ದಾಖಲೆಗಳನ್ನು ಅಪ್ಲೋಡ್ ಮಾಡಿ</h4>
 
        <div style="margin-bottom: 15px;">
-         <%= f.input :aadhar_card, as: :file, label: "Aadhar Card / ಆಧಾರ್ ಕಾರ್ಡ್", error: false %>
+         <%= f.input :aadhar_card, as: :file, label: "Aadhar Card / ಆಧಾರ್ ಕಾರ್ಡ್ (Upload or Take Photo)", error: false, input_html: { accept: 'image/*,application/pdf', capture: 'environment' } %>
          <% if @member.aadhar_card.attached? %>
            <div style="margin-top: 10px;">
              <strong>Current Aadhar Card:</strong>
@@ -1186,5 +1195,265 @@ span.text-danger{font-size: 130%}
       firstError.focus();
     }
   });
+
+  // Camera Modal Functions
+  let videoStream = null;
+  let canvas = null;
+  let video = null;
+
+  function openCameraModal() {
+    const modal = document.getElementById('cameraModal');
+    modal.style.display = 'block';
+    startCamera();
+  }
+
+  function closeCameraModal() {
+    const modal = document.getElementById('cameraModal');
+    modal.style.display = 'none';
+    stopCamera();
+  }
+
+  async function startCamera() {
+    try {
+      video = document.getElementById('cameraVideo');
+      canvas = document.getElementById('cameraCanvas');
+
+      // Request camera access with front camera preference for selfies
+      const constraints = {
+        video: {
+          facingMode: 'user', // Front camera for passport photos
+          width: { ideal: 640 },
+          height: { ideal: 480 }
+        }
+      };
+
+      videoStream = await navigator.mediaDevices.getUserMedia(constraints);
+      video.srcObject = videoStream;
+    } catch (error) {
+      alert('Error accessing camera: ' + error.message);
+      closeCameraModal();
+    }
+  }
+
+  function stopCamera() {
+    if (videoStream) {
+      videoStream.getTracks().forEach(track => track.stop());
+      videoStream = null;
+    }
+  }
+
+  function capturePhoto() {
+    const video = document.getElementById('cameraVideo');
+    const canvas = document.getElementById('cameraCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Set canvas dimensions to passport size ratio (3.5cm x 4.5cm = 350 x 450 pixels)
+    const passportWidth = 350;
+    const passportHeight = 450;
+    canvas.width = passportWidth;
+    canvas.height = passportHeight;
+
+    // Calculate crop area to maintain aspect ratio
+    const videoAspect = video.videoWidth / video.videoHeight;
+    const targetAspect = passportWidth / passportHeight;
+
+    let sx, sy, sw, sh;
+
+    if (videoAspect > targetAspect) {
+      // Video is wider, crop sides
+      sh = video.videoHeight;
+      sw = sh * targetAspect;
+      sx = (video.videoWidth - sw) / 2;
+      sy = 0;
+    } else {
+      // Video is taller, crop top/bottom
+      sw = video.videoWidth;
+      sh = sw / targetAspect;
+      sx = 0;
+      sy = (video.videoHeight - sh) / 2;
+    }
+
+    // Draw cropped and resized image
+    ctx.drawImage(video, sx, sy, sw, sh, 0, 0, passportWidth, passportHeight);
+
+    // Hide video, show preview
+    video.style.display = 'none';
+    document.getElementById('videoOverlay').style.display = 'none';
+    document.getElementById('photoPreview').style.display = 'block';
+    document.getElementById('previewImage').src = canvas.toDataURL('image/jpeg', 0.9);
+
+    // Show/hide appropriate buttons
+    document.getElementById('captureBtn').style.display = 'none';
+    document.getElementById('usePhotoBtn').style.display = 'inline-block';
+    document.getElementById('retakeBtn').style.display = 'inline-block';
+  }
+
+  function usePhoto() {
+    const canvas = document.getElementById('cameraCanvas');
+
+    // Show loading state
+    const saveBtn = document.getElementById('usePhotoBtn');
+    saveBtn.innerHTML = '<i class="material-icons left">hourglass_empty</i>Saving...';
+    saveBtn.disabled = true;
+
+    // Convert canvas to blob
+    canvas.toBlob(function(blob) {
+      // Create a File object
+      const file = new File([blob], "passport_photo.jpg", { type: "image/jpeg" });
+
+      // Create a DataTransfer to set the file
+      const dataTransfer = new DataTransfer();
+      dataTransfer.items.add(file);
+
+      // Set the file to the input
+      const fileInput = document.getElementById('profile_picture_input');
+      fileInput.files = dataTransfer.files;
+
+      // Trigger change event to update Rails
+      const event = new Event('change', { bubbles: true });
+      fileInput.dispatchEvent(event);
+
+      // Show preview in photo box
+      const photoBox = document.querySelector('.photo-box');
+      if (photoBox) {
+        const existingImg = photoBox.querySelector('img');
+        if (existingImg) {
+          existingImg.src = canvas.toDataURL('image/jpeg', 0.9);
+        } else {
+          const newImg = document.createElement('img');
+          newImg.src = canvas.toDataURL('image/jpeg', 0.9);
+          newImg.style = 'max-width: 150px; max-height: 170px;';
+          photoBox.innerHTML = '';
+          photoBox.appendChild(newImg);
+        }
+      }
+
+      // Show success message
+      saveBtn.innerHTML = '<i class="material-icons left">check_circle</i>Saved!';
+      saveBtn.style.backgroundColor = '#4CAF50';
+
+      // Close modal after a brief delay
+      setTimeout(function() {
+        closeCameraModal();
+        // Reset button
+        saveBtn.innerHTML = '<i class="material-icons left">check_circle</i>Save Photo';
+        saveBtn.disabled = false;
+        saveBtn.style.backgroundColor = '';
+      }, 800);
+    }, 'image/jpeg', 0.9);
+  }
+
+  function retakePhoto() {
+    const video = document.getElementById('cameraVideo');
+
+    // Hide preview, show video again
+    document.getElementById('photoPreview').style.display = 'none';
+    video.style.display = 'block';
+    document.getElementById('videoOverlay').style.display = 'block';
+
+    // Show/hide appropriate buttons
+    document.getElementById('captureBtn').style.display = 'inline-block';
+    document.getElementById('usePhotoBtn').style.display = 'none';
+    document.getElementById('retakeBtn').style.display = 'none';
+  }
+
+  // Also handle regular file upload to show preview
+  document.addEventListener('turbo:load', function() {
+    const fileInput = document.getElementById('profile_picture_input');
+    if (fileInput) {
+      fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const photoBox = document.querySelector('.photo-box');
+            if (photoBox) {
+              const existingImg = photoBox.querySelector('img');
+              if (existingImg) {
+                existingImg.src = e.target.result;
+              } else {
+                const newImg = document.createElement('img');
+                newImg.src = e.target.result;
+                newImg.style = 'max-width: 150px; max-height: 170px;';
+                photoBox.innerHTML = '';
+                photoBox.appendChild(newImg);
+              }
+            }
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+  });
 </script>
+
+<!-- Camera Modal -->
+<div id="cameraModal" style="display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9);">
+  <div style="position: relative; margin: 20px auto; max-width: 600px; background: white; padding: 20px; border-radius: 8px;">
+    <span onclick="closeCameraModal()" style="position: absolute; top: 10px; right: 20px; font-size: 35px; font-weight: bold; color: #666; cursor: pointer;">&times;</span>
+
+    <h4 style="margin-top: 0; color: #000;">Take Passport Photo</h4>
+
+    <div style="position: relative; width: 100%; max-width: 400px; margin: 0 auto;">
+      <video id="cameraVideo" autoplay playsinline style="width: 100%; border-radius: 8px;"></video>
+      <canvas id="cameraCanvas" style="display: none;"></canvas>
+
+      <!-- Passport size guide overlay -->
+      <div id="videoOverlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 2px dashed #fff; width: 70%; padding-bottom: 90%; pointer-events: none;">
+        <div style="position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px; white-space: nowrap;">
+          Position face in this area
+        </div>
+      </div>
+    </div>
+
+    <div id="photoPreview" style="display: none; margin-top: 20px; text-align: center;">
+      <h5 style="color: #000;">Preview - Click "Save Photo" to use this image</h5>
+      <img id="previewImage" style="max-width: 350px; border: 1px solid #ddd; border-radius: 4px;">
+      <p style="color: #666; margin-top: 10px; font-size: 14px;">
+        <i class="material-icons tiny" style="vertical-align: middle;">info</i>
+        Your photo will be saved when you click the green "Save Photo" button below
+      </p>
+    </div>
+
+    <div style="margin-top: 20px; text-align: center;">
+      <button type="button" class="btn blue waves-effect" onclick="capturePhoto()" id="captureBtn" style="margin: 5px;">
+        <i class="material-icons left">camera</i>Capture Photo
+      </button>
+      <button type="button" class="btn green waves-effect" onclick="usePhoto()" id="usePhotoBtn" style="display: none; margin: 5px;">
+        <i class="material-icons left">check_circle</i>Save Photo
+      </button>
+      <button type="button" class="btn orange waves-effect" onclick="retakePhoto()" id="retakeBtn" style="display: none; margin: 5px;">
+        <i class="material-icons left">refresh</i>Retake
+      </button>
+      <button type="button" class="btn grey waves-effect" onclick="closeCameraModal()" style="margin: 5px;">
+        <i class="material-icons left">close</i>Cancel
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  #cameraModal video {
+    background: #000;
+  }
+
+  #photoPreview {
+    animation: fadeIn 0.3s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Show/hide buttons based on state */
+  #photoPreview:not([style*="display: none"]) ~ div #captureBtn {
+    display: none !important;
+  }
+
+  #photoPreview:not([style*="display: none"]) ~ div #usePhotoBtn,
+  #photoPreview:not([style*="display: none"]) ~ div #retakeBtn {
+    display: inline-block !important;
+  }
+</style>
 
