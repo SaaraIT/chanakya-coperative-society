@@ -1215,6 +1215,13 @@ span.text-danger{font-size: 130%}
 
   async function startCamera() {
     try {
+      // Check if camera API is available
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert('Camera access is not supported in this browser or requires HTTPS.\n\nPlease use the "Upload" button instead to select a photo from your device.');
+        closeCameraModal();
+        return;
+      }
+
       video = document.getElementById('cameraVideo');
       canvas = document.getElementById('cameraCanvas');
 
@@ -1230,7 +1237,30 @@ span.text-danger{font-size: 130%}
       videoStream = await navigator.mediaDevices.getUserMedia(constraints);
       video.srcObject = videoStream;
     } catch (error) {
-      alert('Error accessing camera: ' + error.message);
+      let errorMessage = 'Error accessing camera: ';
+
+      if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+        errorMessage += 'Camera permission was denied. Please allow camera access in your browser settings and try again.';
+      } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
+        errorMessage += 'No camera found on this device. Please use the "Upload" button to select a photo.';
+      } else if (error.name === 'NotReadableError' || error.name === 'TrackStartError') {
+        errorMessage += 'Camera is already in use by another application. Please close other apps using the camera and try again.';
+      } else if (error.name === 'OverconstrainedError') {
+        errorMessage += 'Camera does not support the requested configuration. Trying again...';
+        // Try with simpler constraints
+        try {
+          const simpleConstraints = { video: true };
+          videoStream = await navigator.mediaDevices.getUserMedia(simpleConstraints);
+          video.srcObject = videoStream;
+          return; // Success with fallback
+        } catch (fallbackError) {
+          errorMessage += '\nFallback also failed. Please use the "Upload" button.';
+        }
+      } else {
+        errorMessage += error.message || 'Unknown error. Please use the "Upload" button instead.';
+      }
+
+      alert(errorMessage);
       closeCameraModal();
     }
   }
