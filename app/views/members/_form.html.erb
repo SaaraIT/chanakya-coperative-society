@@ -352,10 +352,14 @@ span.text-danger{font-size: 130%}
 
        /* Specific checkbox styling */
        #member_caste_category,
-       #member_religion_other {
+       #member_religion_other,
+       #same_address,
+       #same_address1 {
          display: inline-block !important;
          visibility: visible !important;
          opacity: 1 !important;
+         pointer-events: auto !important;
+         z-index: 1 !important;
        }
 
        .error, .invalid-feedback, .help-block {
@@ -907,10 +911,10 @@ span.text-danger{font-size: 130%}
     <tr>
         <th rowspan="5" class="number">8. </th>
         <td colspan="2"> ಖಾಯಂ ವಿಳಾಸ <span class="text-danger">*</span><br> Permanent Address </td>
-        <td colspan="2" style="padding-left: 10px"> ಪ್ರಸಕ್ತ ವಿಳಾಸ <span class="text-danger">*</span><br> Present Address: 
-           <div>
-                <%= check_box_tag "same_address", "1", false, id: "same_address" %>
-                <%= label_tag "same_address", "Same as Permanent Address" %>
+        <td colspan="2" style="padding-left: 10px"> ಪ್ರಸಕ್ತ ವಿಳಾಸ <span class="text-danger">*</span><br> Present Address:
+           <div style="margin-top: 5px; display: inline-block;">
+                <%= check_box_tag "same_address", "1", false, id: "same_address", style: "pointer-events: auto !important; cursor: pointer !important;" %>
+                <%= label_tag "same_address", "Same as Permanent Address", style: "cursor: pointer; margin-left: 5px;" %>
            </div>
         </td>
     </tr>
@@ -985,9 +989,9 @@ span.text-danger{font-size: 130%}
          </td>
          <td>
             <%= membership_form.input :nominee_name, label: false, error: false %> <br />
-            <div>
-                <%= check_box_tag "same_address", "1", false, id: "same_address1" %>
-                <%= label_tag "same_address", "Same as Permanent Address" %>
+            <div style="margin-top: 5px; display: inline-block;">
+                <%= check_box_tag "same_address1", "1", false, id: "same_address1", style: "pointer-events: auto !important; cursor: pointer !important;" %>
+                <%= label_tag "same_address1", "Same as Permanent Address", style: "cursor: pointer; margin-left: 5px;" %>
             </div>
             <%= membership_form.input :nominee_address, label: false, error: false %>
         </td>
@@ -1141,49 +1145,101 @@ span.text-danger{font-size: 130%}
 </div>
 
 <script>
-  document.addEventListener("turbo:load", function() {
+  let addressCheckboxesInitialized = false;
+
+  function initializeAddressCheckboxes() {
+    if (addressCheckboxesInitialized) return;
+    addressCheckboxesInitialized = true;
+
     const sameAddress = document.getElementById("same_address");
     const sameAddress1 = document.getElementById("same_address1");
 
     if (sameAddress) {
-      sameAddress.addEventListener("change", function() {
-        const aBuilding = document.getElementById("member_address_a_building");
-        const aVillage = document.getElementById("member_address_a_village");
-        const aDistrict = document.getElementById("member_address_a_district");
-        const aPincode = document.getElementById("member_address_a_pincode");
+      const handleSameAddressChange = function() {
+        // Use querySelector as fallback for more robust element selection
+        const aBuilding = document.getElementById("member_address_a_building") || document.querySelector('input[name="member[address_a_building]"]');
+        const aVillage = document.getElementById("member_address_a_village") || document.querySelector('input[name="member[address_a_village]"]');
+        const aDistrict = document.getElementById("member_address_a_district") || document.querySelector('input[name="member[address_a_district]"]');
+        const aPincode = document.getElementById("member_address_a_pincode") || document.querySelector('input[name="member[address_a_pincode]"]');
 
-        const bBuilding = document.getElementById("member_address_b_building");
-        const bVillage = document.getElementById("member_address_b_village");
-        const bDistrict = document.getElementById("member_address_b_district");
-        const bPincode = document.getElementById("member_address_b_pincode");
+        const bBuilding = document.getElementById("member_address_b_building") || document.querySelector('input[name="member[address_b_building]"]');
+        const bVillage = document.getElementById("member_address_b_village") || document.querySelector('input[name="member[address_b_village]"]');
+        const bDistrict = document.getElementById("member_address_b_district") || document.querySelector('input[name="member[address_b_district]"]');
+        const bPincode = document.getElementById("member_address_b_pincode") || document.querySelector('input[name="member[address_b_pincode]"]');
 
-        if (this.checked) {
-          bBuilding.value = aBuilding.value;
-          bVillage.value = aVillage.value;
-          bDistrict.value = aDistrict.value;
-          bPincode.value = aPincode.value;
+        if (sameAddress.checked) {
+          if (aBuilding && bBuilding) bBuilding.value = aBuilding.value;
+          if (aVillage && bVillage) bVillage.value = aVillage.value;
+          if (aDistrict && bDistrict) bDistrict.value = aDistrict.value;
+          if (aPincode && bPincode) bPincode.value = aPincode.value;
         } else {
-          bBuilding.value = "";
-          bVillage.value = "";
-          bDistrict.value = "";
-          bPincode.value = "";
+          if (bBuilding) bBuilding.value = "";
+          if (bVillage) bVillage.value = "";
+          if (bDistrict) bDistrict.value = "";
+          if (bPincode) bPincode.value = "";
+        }
+      };
+
+      sameAddress.addEventListener("change", handleSameAddressChange);
+      sameAddress.addEventListener("click", handleSameAddressChange);
+
+      // Also listen for changes in permanent address fields to update present address if checkbox is checked
+      const permanentAddressFields = [
+        document.getElementById("member_address_a_building") || document.querySelector('input[name="member[address_a_building]"]'),
+        document.getElementById("member_address_a_village") || document.querySelector('input[name="member[address_a_village]"]'),
+        document.getElementById("member_address_a_district") || document.querySelector('input[name="member[address_a_district]"]'),
+        document.getElementById("member_address_a_pincode") || document.querySelector('input[name="member[address_a_pincode]"]')
+      ];
+
+      permanentAddressFields.forEach(field => {
+        if (field) {
+          field.addEventListener("input", function() {
+            if (sameAddress.checked) {
+              // Call the handler to copy values
+              handleSameAddressChange();
+            }
+          });
         }
       });
     }
 
     if (sameAddress1) {
-      sameAddress1.addEventListener("change", function() {
-        const aBuilding = document.getElementById("member_address_a_building");
-        const aVillage = document.getElementById("member_address_a_village");
-        const aDistrict = document.getElementById("member_address_a_district");
-        const aPincode = document.getElementById("member_address_a_pincode");
+      const handleSameAddress1Change = function() {
+        const aBuilding = document.getElementById("member_address_a_building") || document.querySelector('input[name="member[address_a_building]"]');
+        const aVillage = document.getElementById("member_address_a_village") || document.querySelector('input[name="member[address_a_village]"]');
+        const aDistrict = document.getElementById("member_address_a_district") || document.querySelector('input[name="member[address_a_district]"]');
+        const aPincode = document.getElementById("member_address_a_pincode") || document.querySelector('input[name="member[address_a_pincode]"]');
 
-        const nomineeAddress = document.getElementById("member_memberships_attributes_0_nominee_address");
+        const nomineeAddress = document.getElementById("member_memberships_attributes_0_nominee_address") || document.querySelector('textarea[name="member[memberships_attributes][0][nominee_address]"]');
 
-        if (this.checked) {
-          nomineeAddress.value = `${aBuilding.value}, ${aVillage.value}, ${aDistrict.value}, ${aPincode.value}`;
+        if (sameAddress1.checked) {
+          if (aBuilding && aVillage && aDistrict && aPincode && nomineeAddress) {
+            nomineeAddress.value = `${aBuilding.value}, ${aVillage.value}, ${aDistrict.value}, ${aPincode.value}`;
+          }
         } else {
-          nomineeAddress.value = "";
+          if (nomineeAddress) nomineeAddress.value = "";
+        }
+      };
+
+      sameAddress1.addEventListener("change", handleSameAddress1Change);
+      sameAddress1.addEventListener("click", handleSameAddress1Change);
+
+      // Also listen for changes in permanent address fields to update nominee address if checkbox is checked
+      const permanentAddressFields1 = [
+        document.getElementById("member_address_a_building") || document.querySelector('input[name="member[address_a_building]"]'),
+        document.getElementById("member_address_a_village") || document.querySelector('input[name="member[address_a_village]"]'),
+        document.getElementById("member_address_a_district") || document.querySelector('input[name="member[address_a_district]"]'),
+        document.getElementById("member_address_a_pincode") || document.querySelector('input[name="member[address_a_pincode]"]')
+      ];
+
+      permanentAddressFields1.forEach(field => {
+        if (field) {
+          field.addEventListener("input", function() {
+            if (sameAddress1.checked) {
+              // Call the handler to copy values
+              handleSameAddress1Change();
+            }
+          });
         }
       });
     }
@@ -1194,7 +1250,11 @@ span.text-danger{font-size: 130%}
       firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
       firstError.focus();
     }
-  });
+  }
+
+  // Listen for both turbo:load (when Turbo is enabled) and DOMContentLoaded (when Turbo is disabled)
+  document.addEventListener("turbo:load", initializeAddressCheckboxes);
+  document.addEventListener("DOMContentLoaded", initializeAddressCheckboxes);
 
   // Camera Modal Functions
   let videoStream = null;
@@ -1388,7 +1448,12 @@ span.text-danger{font-size: 130%}
   }
 
   // Also handle regular file upload to show preview
-  document.addEventListener('turbo:load', function() {
+  let fileUploadInitialized = false;
+
+  function initializeFileUpload() {
+    if (fileUploadInitialized) return;
+    fileUploadInitialized = true;
+
     const fileInput = document.getElementById('profile_picture_input');
     if (fileInput) {
       fileInput.addEventListener('change', function(e) {
@@ -1414,7 +1479,10 @@ span.text-danger{font-size: 130%}
         }
       });
     }
-  });
+  }
+
+  document.addEventListener('turbo:load', initializeFileUpload);
+  document.addEventListener('DOMContentLoaded', initializeFileUpload);
 </script>
 
 <!-- Camera Modal -->
