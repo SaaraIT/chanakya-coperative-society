@@ -21,31 +21,49 @@ class MembersController < ApplicationController
 
   # POST /members
   def create
-    @member = Current.branch.members.new(member_params)
-    @member.cooperative_branch_id = Current.branch.id
+  @member = Current.branch.members.new(member_params)
+  @member.cooperative_branch_id = Current.branch.id
 
-    Rails.logger.info "=== Member Validation Errors: #{@member.errors.full_messages} ===" unless @member.valid?
+  Rails.logger.info "=== Member Validation Errors: #{@member.errors.full_messages} ===" unless @member.valid?
 
-    if @member.save
-      redirect_to @member, notice: 'Member was successfully created.'
-    else
-      Rails.logger.error "=== Failed to save member: #{@member.errors.full_messages} ==="
-      @member.memberships.each_with_index do |membership, index|
-        Rails.logger.error "=== Membership #{index} errors: #{membership.errors.full_messages} ===" if membership.errors.any?
+  if @member.save
+    member_number = @member.mobile_number
+
+    message = "Namaste #{@member.name},\n\n" \
+              "A warm welcome to the Chanakya Cooperative Family!\n\n" \
+              "We are thrilled to have you as a partner in our mission to build an Atmanirbhar Bharat.\n\n" \
+              "By becoming a member, you have taken a bold step toward a life of self-respect and collective prosperity. " \
+              "Inspired by the visionary leadership of Hon’ble PM Modi and the strategic concepts of Hon’ble Minister Shri Amit Shah, " \
+              "this organization is more than a cooperative—it is a unique experiment in modern unification through technology.\n\n" \
+              "Your membership officially activates your access to our integrated ecosystem:\n\n" \
+              "What happens next?\n" \
+              "- Access Services: You can now explore our Organic Marts, Health Lounge, and Labour Bank.\n" \
+              "- Stay Informed: We will keep you updated on new schemes and franchise opportunities.\n" \
+              "- Be Vocal for Local: Start prioritizing member-produced goods today!\n\n" \
+              "Together, our goal is as high as the endless sky. Victory is ours!\n\n" \
+              "Warm Regards,\n" \
+              "Team Chanakya Cooperative\n" \
+              "“Sahakar se Samriddhi”"
+
+    if member_number.present?
+      whatsapp_url = "https://web.whatsapp.com/send?phone=91#{member_number}&text=#{URI.encode_www_form_component(message)}"
+      flash[:whatsapp_url] = whatsapp_url
+    end
+
+    redirect_to members_path, notice: 'Member was successfully created.'
+  else
+    Rails.logger.error "=== Failed to save member: #{@member.errors.full_messages} ==="
+
+    @member.memberships.each_with_index do |membership, index|
+      if membership.errors.any?
+        Rails.logger.error "=== Membership #{index} errors: #{membership.errors.full_messages} ==="
       end
-      flash.now[:alert] = "Please correct the errors below"
-      render :new, status: :unprocessable_entity
     end
-  end
 
-  # PATCH/PUT /members/1
-  def update
-    if @member.update(member_params)
-      redirect_to @member, notice: 'Member was successfully updated.'
-    else
-      render :edit
-    end
+    flash.now[:alert] = "Please correct the errors below"
+    render :new, status: :unprocessable_entity
   end
+end
 
   def show
     @membership = @member.memberships.last
@@ -66,7 +84,15 @@ class MembersController < ApplicationController
       end
     end
   end
-
+# PATCH/PUT /members/1
+def update
+  if @member.update(member_params)
+    redirect_to @member, notice: 'Member was successfully updated.'
+  else
+    flash.now[:alert] = "Please correct the errors below"
+    render :edit, status: :unprocessable_entity
+  end
+end
   def search
     query = params[:q].to_s.strip.downcase
     loan_application = Current.branch.loan_applications.find(params[:loan])

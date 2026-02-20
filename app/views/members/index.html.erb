@@ -466,6 +466,50 @@
       }
     }
   }
+  .custom-modal {
+  border-radius: 16px !important;
+  overflow: hidden;
+  max-width: 420px;
+}
+
+.success-icon {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.success-icon i {
+  font-size: 64px;
+  color: #4CAF50;
+}
+
+.modal-title {
+  font-weight: 600;
+  margin-top: 10px;
+  color: #263238;
+}
+
+.modal-subtext {
+  color: #757575;
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+.custom-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+}
+
+.whatsapp-btn {
+  background-color: #25D366 !important;
+  border-radius: 8px;
+  padding: 0 18px;
+  font-weight: 500;
+}
+
+.whatsapp-btn:hover {
+  background-color: #1ebe5d !important;
+}
 </style>
 
 <script>
@@ -518,3 +562,46 @@
     }
   });
 </script>
+<% if flash[:whatsapp_url].present? %>
+
+<!-- WhatsApp Modal -->
+<<div id="whatsappModal" class="modal custom-modal">
+  <div class="modal-content center-align">
+    
+    <!-- Icon -->
+    <div class="success-icon">
+      <i class="material-icons">check_circle</i>
+    </div>
+
+    <!-- Title -->
+    <h5 class="modal-title">Member Created Successfully</h5>
+
+    <!-- Subtitle -->
+    <p class="modal-subtext">
+      Do you want to send a confirmation message via WhatsApp?
+    </p>
+
+  </div>
+
+  <div class="modal-footer custom-footer">
+    <a href="#!" class="modal-close btn-flat grey-text text-darken-2">
+      Cancel
+    </a>
+
+    <a href="<%= flash[:whatsapp_url] %>" target="_blank" class="btn whatsapp-btn waves-effect waves-light">
+      <i class="material-icons left">send</i>
+      Send via WhatsApp
+    </a>
+  </div>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+
+    var modal = M.Modal.getInstance(document.getElementById('whatsappModal'));
+    modal.open();
+  });
+</script>
+
+<% end %>
