@@ -1146,16 +1146,10 @@ span.text-danger{font-size: 130%}
 
 <script>
   let addressCheckboxesInitialized = false;
-  let fileUploadInitialized = false;
-
-  function initializeAll() {
-    initializeAddressCheckboxes();
-    initializeFileUpload();
-  }
 
   function initializeAddressCheckboxes() {
-    
-     addressCheckboxesInitialized = false;
+    if (addressCheckboxesInitialized) return;
+    addressCheckboxesInitialized = true;
 
     const sameAddress = document.getElementById("same_address");
     const sameAddress1 = document.getElementById("same_address1");
@@ -1259,10 +1253,8 @@ span.text-danger{font-size: 130%}
   }
 
   // Listen for both turbo:load (when Turbo is enabled) and DOMContentLoaded (when Turbo is disabled)
-  document.addEventListener("turbo:load", function () {
-  initializeAddressCheckboxes();
-  initializeFileUpload();
-});
+  document.addEventListener("turbo:load", initializeAddressCheckboxes);
+  document.addEventListener("DOMContentLoaded", initializeAddressCheckboxes);
 
   // Camera Modal Functions
   let videoStream = null;
@@ -1489,8 +1481,8 @@ span.text-danger{font-size: 130%}
     }
   }
 
-  document.addEventListener("turbo:load", initializeAll);
-  document.addEventListener("DOMContentLoaded", initializeAll);
+  document.addEventListener('turbo:load', initializeFileUpload);
+  document.addEventListener('DOMContentLoaded', initializeFileUpload);
 </script>
 
 <!-- Camera Modal -->
