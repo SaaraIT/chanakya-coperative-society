@@ -29,21 +29,21 @@ class MembersController < ApplicationController
   if @member.save
     member_number = @member.mobile_number
 
-    message = "Namaste #{@member.name},\n\n" \
-              "A warm welcome to the Chanakya Cooperative Family!\n\n" \
-              "We are thrilled to have you as a partner in our mission to build an Atmanirbhar Bharat.\n\n" \
-              "By becoming a member, you have taken a bold step toward a life of self-respect and collective prosperity. " \
-              "Inspired by the visionary leadership of Hon’ble PM Modi and the strategic concepts of Hon’ble Minister Shri Amit Shah, " \
-              "this organization is more than a cooperative—it is a unique experiment in modern unification through technology.\n\n" \
-              "Your membership officially activates your access to our integrated ecosystem:\n\n" \
-              "What happens next?\n" \
-              "- Access Services: You can now explore our Organic Marts, Health Lounge, and Labour Bank.\n" \
-              "- Stay Informed: We will keep you updated on new schemes and franchise opportunities.\n" \
-              "- Be Vocal for Local: Start prioritizing member-produced goods today!\n\n" \
-              "Together, our goal is as high as the endless sky. Victory is ours!\n\n" \
-              "Warm Regards,\n" \
-              "Team Chanakya Cooperative\n" \
-              "“Sahakar se Samriddhi”"
+   message = "Namaste *#{@member.name}*\n\n" \
+          "A warm welcome to the *Chanakya Cooperative Family!*\n\n" \
+          "We are thrilled to have you as a partner in our mission to build an *Atmanirbhar Bharat*. " \
+          "By becoming a member, you have taken a bold step toward a life of self-respect and collective prosperity. " \
+          "Inspired by the visionary leadership of Hon’ble PM Modi and the strategic concepts of Hon’ble Minister Shri Amit Shah, " \
+          "this organization is more than a cooperative—it is a unique experiment in modern unification through technology.\n\n" \
+          "Your membership officially activates your access to our integrated ecosystem:\n\n" \
+          "*What happens next?*\n\n" \
+          "1. *Access Services:* You can now explore our Organic Marts, Health Lounge, and Labour Bank.\n" \
+          "2. *Stay Informed:* We will keep you updated on new schemes and franchise opportunities.\n" \
+          "3. *Be Vocal for Local:* Start prioritizing member-produced goods today!\n\n" \
+          "Together, our goal is as high as the endless sky. Victory is ours!\n\n" \
+          "Warm Regards,\n" \
+          "*Team Chanakya Cooperative*\n" \
+          "Sahakar se Samriddhi"
 
     if member_number.present?
       whatsapp_url = "https://web.whatsapp.com/send?phone=91#{member_number}&text=#{URI.encode_www_form_component(message)}"
