@@ -40,6 +40,7 @@ class MembersController < ApplicationController
           "1. *Access Services:* You can now explore our Organic Marts, Health Lounge, and Labour Bank.\n" \
           "2. *Stay Informed:* We will keep you updated on new schemes and franchise opportunities.\n" \
           "3. *Be Vocal for Local:* Start prioritizing member-produced goods today!\n\n" \
+          "*Visit our website:* https://chanakyaco-operative.com\n\n" \
           "Together, our goal is as high as the endless sky. Victory is ours!\n\n" \
           "Warm Regards,\n" \
           "*Team Chanakya Cooperative*\n" \
